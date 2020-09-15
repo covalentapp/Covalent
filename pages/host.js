@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "../styles/GamesMenu.module.css";
 import SimpleButton from "../components/SimpleButton";
-import { TimelineMax, Power1, Linear } from "gsap/all";
+import { TimelineMax, Power1, Linear } from "gsap/dist/gsap";
 
 
 //remaining tasks for GamesMenu: add in the information + formatting for each of the individual games
