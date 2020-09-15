@@ -1,0 +1,74 @@
+.simpleButton {
+    outline: 0 !important;
+    border: 1px solid #000000;
+    border-radius: 24px;
+    background-color: white;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: calc(2px + 2.5vmin);
+    width: 20vmin;
+    height: 5vmin;
+    /*
+        Edits are good. Can't tell if the buttons are too small on mobile or not 
+    */
+    min-width: 80px;
+    max-width: 160px;
+    min-height: 20px;
+    max-height: 40px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 1vmin;
+    cursor: pointer;
+}
+
+@media all and (max-height: 400px) {
+    .simpleButton {
+        font-size: 12px;
+    }
+}
+
+@media all and (max-width: 400px) {
+    .simpleButton {
+        font-size: 12px;
+    }
+}
+.simpleButton:hover {
+    background-color: lightgray;
+    outline: none;
+}
+
+.simpleButton:active {
+    background-color: gray;
+    outline: none;
+}
+
+.join {
+    background-color: #80FFDB;
+    border: 0px;
+}
+
+.join:hover {
+    background-color: #00DB9D;
+    color: white;
+}
+
+.join:active {
+    background-color: #019a6e;
+    color: white;
+}
+
+.host {
+    background-color: #48BFE3;
+    border: 0px;
+}
+
+.host:hover {
+    background-color: #1D95BA;
+    color: white;
+}
+
+.host:active {
+    background-color: #13637c;
+    color: white;
+}

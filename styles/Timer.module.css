@@ -1,0 +1,47 @@
+.box {
+    position: absolute;
+    right: auto;
+    top: 40%;
+    width: 143px;
+    height: 52px;
+    background: #80FFDB;
+    border-radius: 24px;
+}
+
+/*
+
+The "top" CSS margin for time and submitted can depend on where the timer is put.
+Make sure to appropriately edit them for the game view!
+
+*/
+
+.time {
+    position: absolute;
+    left: 22px;
+    top: -30px;
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    color: #000000;
+}
+
+.submitted {
+    position: absolute;
+    left: 20px;
+    top: 20px;  
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    text-align: center;
+    color: #000000;
+}
+
+.clock {
+    position: absolute;
+    left: 98px;
+    top: 7px;
+    height: 38px;
+}
