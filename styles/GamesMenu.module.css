@@ -1,0 +1,157 @@
+.gamesMenuContainer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.gamesMenuContainer .overlay {
+    position: absolute;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    cursor: pointer;
+}
+
+.gamesMenu {
+    position: absolute;
+    top: 10vh;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-self: center;
+    align-items: flex-start;
+    flex-direction: column;
+    background: #FFFFFF;
+    border-radius: 20px 20px 0px 0px;   
+}
+
+.gamesMenu header {
+    width: 100%;
+    height: 12%;
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-bottom: 4px solid #E1E1E1;
+}
+
+.gamesMenu header h1 {
+    padding-top: 3vh;
+    text-align: center;
+    font-size: calc(6px + 3vmin);
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    color: #000000;
+
+}
+
+.gamesMenu header button {
+    position: absolute;
+    top: 3vh;
+    right: 2.5vw;
+    border: 0;
+    background-color: transparent;;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 2vmin);
+    text-align: center;
+    letter-spacing: 0.1em;
+
+    color: #6930C3;
+}
+
+.gamesMenu header button:hover {
+    color: #9293DD;
+
+}
+
+.gamesMenu header .logo {
+    position: absolute;
+    top: 1.5vh;
+    left: 2.5vw;
+}
+
+.gamesMenu header .logo .logoImg {
+    width: 8vmin;
+    height: 8vmin;
+}
+
+.gamesMnu header .logo p {
+    position: absolute;
+    top: 2.5vh;
+    left: 9vmin;
+
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(2px + 2vmin);
+    letter-spacing: 0.05em;
+
+    color: #5A4FCF;
+}
+
+.gamesBackground {
+    position: relative;
+    width: 100%;
+    height: 88%;
+    background: linear-gradient(180deg, rgba(128, 255, 219, 0.75) 0%, rgba(72, 191, 227, 0.75) 75%);
+}
+
+.gamesFrame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.gamesFrame .transparent {
+    position: absolute;
+    top: 1vh;
+    left: 0.5vw;
+    width: 99vw;
+    height: 76vh;
+    box-shadow: 0 0 0 1000px #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.gamesFrame .scrolling-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 88.5%; /* this is hacky - i don't know how to actually properly make this height but 88.5% looks right*/
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.games {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: center;
+    padding-top: 1vh;
+    height: auto;
+}
+
+.games .game {
+    position: relative;
+    width: 100vw;
+    height: 19vh;
+    min-height: 80px;
+    overflow: hidden;
+}
+
+.game .gameTransparent {
+    position: absolute;
+    left: 0.5%;
+    top: 5%;
+    width: 99%;
+    height: 90%;
+    box-shadow: 0 0 0 10vmin #fff;
+    border-radius: 5px;
+}

@@ -49,10 +49,10 @@ export default function Settings() {
                 </textarea>
                 <br></br>
                 <b><label>Code:
-                    <input className={styles.settingsInput + " " + styles.code} type="text" value="ABCDEF" id="code" />
+                    <input className={styles.settingsInput + " " + styles.code} type="text" value="ABCDEF" id="code" readOnly />
                 </label></b>
                 <b><label>Link:
-                     <input className={styles.settingsInput + " " + styles.link} type="text" value="covalent.app/join/abcdef" id="link" />
+                     <input className={styles.settingsInput + " " + styles.link} type="text" value="covalent.app/join/abcdef" id="link" readOnly />
                 </label></b>
                 {/* TODO: 
                     - Write code to Code, Link, and Copy button

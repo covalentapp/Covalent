@@ -26,14 +26,6 @@ export default class Menu extends Component {
     render() {
         return (
             <div className={styles.Menu}>
-                <style jsx global>{`
-                body {
-                    width: 100vw;
-                    height: 100vh;
-                    background-image: linear-gradient(#80ffdb, #48bfe3);
-                    overflow: hidden;
-                }
-                `}</style>
                 <Head>
                     <meta charSet="utf-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,6 +39,14 @@ export default class Menu extends Component {
                     <link rel="icon" href="/favicon.ico" />
                     <title>Covalent</title>
                 </Head>
+                <style jsx global>{`
+                body {
+                    width: 100vw;
+                    height: 100vh;
+                    background-image: linear-gradient(#80ffdb, #48bfe3);
+                    overflow: hidden;
+                }
+                `}</style>
                 <div className={styles.MenuBody}>
                     {/*<div className={styles.white}>*/}
                     <img
