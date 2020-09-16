@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import Head from 'next/head'
 import styles from "../styles/GamesMenu.module.css";
-import SimpleButton from "../components/SimpleButton";
 import { TimelineMax, Power1, Linear } from "gsap/dist/gsap";
 
 
@@ -11,7 +11,7 @@ class GamesMenu extends Component {
     constructor(props) {
         super(props);
         this.timeline = new TimelineMax({ paused: true });
-        this.state = { width: window.innerWidth, height: window.innerHeight };
+        this.state = { width: null, height: null };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -61,6 +61,19 @@ class GamesMenu extends Component {
     render() {
         return (
             <div className={styles.gamesMenuContainer}>
+            <Head>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="theme-color" content="#000000" />
+                <meta
+                name="description"
+                content="Remote team-building made super simple"
+                />
+                <link rel="apple-touch-icon" href="/images/logo192.png" />
+                <link rel="manifest" href="/manifest.json" />
+                <link rel="icon" href="/favicon.ico" />
+                <title>Covalent | Select Game</title>
+            </Head>
                 <div
                     className={styles.overlay}
                     ref={(div) => (this.overlay = div)}
@@ -70,15 +83,15 @@ class GamesMenu extends Component {
                     <header>
                         <div className={styles.logo}>
                             <img
-                                src="images/logos.svg"
+                                src="images/logo.svg"
                                 className={styles.logoImg}
                                 alt="Covalent Logo"
                             ></img>
                             <p>COVALENT</p>
                         </div>
                         <h1>FIND THE PERFECT ICEBREAKER FOR YOU!</h1>
-                        <div className={styles.exit}>
-                            <button onClick={(e) => this.changePage(e, "/")}>
+                        <div>
+                            <button className={styles.exit} onClick={(e) => this.changePage(e, "/")}>
                                 Exit
                             </button>
                         </div>
