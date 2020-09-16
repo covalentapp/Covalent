@@ -82,9 +82,9 @@
     height: 8vmin;
 }
 
-.gamesMnu header .logo p {
+.gamesMenu header .logo p {
     position: absolute;
-    top: 2.5vh;
+    top: 1vh;
     left: 9vmin;
 
     font-family: Roboto Slab;
@@ -94,6 +94,15 @@
     letter-spacing: 0.05em;
 
     color: #5A4FCF;
+}
+
+@media all and (max-width: 1000px) {
+    .gamesMenu header h1 {
+        font-size: 15px;
+    }
+    .gamesMenu header .logo p {
+        display: none;
+    }
 }
 
 .gamesBackground {
@@ -154,4 +163,8 @@
     height: 90%;
     box-shadow: 0 0 0 10vmin #fff;
     border-radius: 5px;
+}
+
+.exit {
+    cursor: pointer;
 }
