@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "aws-amplify": "^3.3.1",
     "framer-motion": "^2.6.13",
     "next": "9.5.3",
     "react": "16.13.1",
