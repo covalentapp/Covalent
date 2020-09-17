@@ -3,7 +3,7 @@ import Head from "next/head";
 import styles from "../styles/Menu.module.css";
 import SimpleButton from "../components/SimpleButton";
 import JoinOptions from "../components/JoinOptions";
-import routingWrapper from "./api/routingWrapper";
+import routingWrapper from "../components/routingWrapper";
 
 //This file is for the Game Selection/Menu/Homepage for Covalent
 //@Michael

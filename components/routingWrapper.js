@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "React";
+import React from "react";
 
 const routingWrapper = (WrappedComponent) => (props) => {
     const router = useRouter();
