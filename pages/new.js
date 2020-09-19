@@ -37,7 +37,7 @@ export default function Settings() {
             <h1>Instructions</h1>
             <p>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie. However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie, so make the truths as interesting as possible!</p>
             <p>As the host, write any additional instructions for all your teammates' introduction videos and choose the settings for your game below:</p>
-            <form className={styles.settingsForm} id="settings-form">
+            <div className={styles.settingsForm} id="settings-form">
                 <b><label htmlFor="time">Time Limit (30-300s): </label></b>
                 <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" />
                 <b><label htmlFor="players">Player Count (2-50): </label></b>
@@ -58,12 +58,11 @@ export default function Settings() {
                 </label></b>
                 {/* TODO: 
                     - Write code to Code, Link, and Copy button
-                    - Stop form from submitting as HTML code and instead as React code
                 */}
                 <button className={styles.settingsButton} onClick={() => { navigator.clipboard.writeText("covalent.app/join/abcdef") }}><b>COPY LINK</b></button>
                 <br></br>
                 <SimpleButton name="start" type="join"></SimpleButton>
-            </form>
+            </div>
             <hr className={styles.line}/>
             <h2>Joined</h2>
             <table className={styles.avatarTable}>
