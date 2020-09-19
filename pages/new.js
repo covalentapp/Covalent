@@ -4,7 +4,7 @@ import Avatar from '../components/Avatar';
 import styles from '../styles/Settings.module.css';
 
 
-/*This file is htmlFor the Settings component htmlFor Covalent
+/*This file is for the Settings component for Covalent
 @Catherine*/
 
 export default function Settings() {
@@ -67,13 +67,15 @@ export default function Settings() {
             <hr className={styles.line}/>
             <h2>Joined</h2>
             <table className={styles.avatarTable}>
+                <tbody>
                 <tr>
-                    <th><Avatar name='FirstNameLastName' /></th>
-                    <th><Avatar name='FirstNameLastName' /></th>
-                    <th><Avatar name='FirstNameLastName' /></th>
-                    <th><Avatar name='FirstNameLastName' /></th>
-                    <th><Avatar name='FirstNameLastName' /></th>
+                    <th><Avatar name='Arek Der-Sarkissian' /></th>
+                    <th><Avatar name='Catherine Hu' /></th>
+                    <th><Avatar name='Daniel Dai' /></th>
+                    <th><Avatar name='Nouf Al Soghyar' /></th>
+                    <th><Avatar name='Michael Shi' /></th>
                 </tr>
+                </tbody>
             </table>
         </div>
     );

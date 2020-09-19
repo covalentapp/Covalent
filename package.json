@@ -10,9 +10,11 @@
   "dependencies": {
     "aws-amplify": "^3.3.1",
     "framer-motion": "^2.6.13",
-    "jdenticon": "^3.0.1",
     "next": "9.5.3",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-jdenticon": "0.0.8",
+    "react-video-recorder": "^3.17.1",
+    "styled-components": "^5.2.0"
   }
 }

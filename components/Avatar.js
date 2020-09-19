@@ -9,10 +9,8 @@ function Avatar(props){
 
         return (
             <div>
-<svg width="15vmin" height="15vmin" className={styles.size} data-jdenticon-value={props.name}>
-</svg>
-<h1 className={styles.name}>{props.name}</h1>
-
+            <Jdenticon size="15vmin" value={props.name} />
+            <h1 className={styles.name}>{props.name}</h1>
             </div>
             );
 }
