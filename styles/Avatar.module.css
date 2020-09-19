@@ -1,17 +1,13 @@
-.avatarPNG{
-    height: 200px;
-    pointer-events: none;
-    margin: 75px 50px 75px; 
-    border-radius: 50%;
-    display: block;
-    margin: auto; 
-    padding: 25px;
-}
 .name{
     font-family: 'Roboto', sans-serif; 
     display: block;
     margin:auto; 
-    font-size:20px; 
+    font-size:15px; 
     padding: 0px; 
     text-align:center;
+    text-decoration: underline;
+}
+
+.size{
+padding:5px; 
 }

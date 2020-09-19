@@ -1,12 +1,14 @@
 import Head from 'next/head'
 import SimpleButton from '../components/SimpleButton';
+import Avatar from '../components/Avatar';
 import styles from '../styles/Settings.module.css';
+
 
 /*This file is htmlFor the Settings component htmlFor Covalent
 @Catherine*/
 
 export default function Settings() {
-        return (    
+    return (
         <div>
             <style jsx global>{`
                 body {
@@ -24,8 +26,8 @@ export default function Settings() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="theme-color" content="#000000" />
                 <meta
-                name="description"
-                content="Remote team-building made super simple"
+                    name="description"
+                    content="Remote team-building made super simple"
                 />
                 <link rel="apple-touch-icon" href="/images/logo192.png" />
                 <link rel="manifest" href="/manifest.json" />
@@ -37,11 +39,11 @@ export default function Settings() {
             <p>As the host, write any additional instructions for all your teammates' introduction videos and choose the settings for your game below:</p>
             <form className={styles.settingsForm} id="settings-form">
                 <b><label htmlFor="time">Time Limit (30-300s): </label></b>
-                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30"/>
+                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" />
                 <b><label htmlFor="players">Player Count (2-50): </label></b>
-                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2"/>
+                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" />
                 <b><label htmlFor="rounds">Number of Rounds (1-10): </label></b>
-                <input className={styles.settingsInput} type="number" min="1" max="10" defaultValue="1"/>
+                <input className={styles.settingsInput} type="number" min="1" max="10" defaultValue="1" />
                 <br></br>
                 <b><label htmlFor="instructions">Instructions For Players:</label></b>
                 <br></br>
@@ -58,10 +60,21 @@ export default function Settings() {
                     - Write code to Code, Link, and Copy button
                     - Stop form from submitting as HTML code and instead as React code
                 */}
-                <button className={styles.settingsButton} onClick={() => {navigator.clipboard.writeText("covalent.app/join/abcdef")}}><b>COPY LINK</b></button>
+                <button className={styles.settingsButton} onClick={() => { navigator.clipboard.writeText("covalent.app/join/abcdef") }}><b>COPY LINK</b></button>
                 <br></br>
                 <SimpleButton name="start" type="join"></SimpleButton>
             </form>
+            <hr className={styles.line}/>
+            <h2>Joined</h2>
+            <table className={styles.avatarTable}>
+                <tr>
+                    <th><Avatar name='FirstNameLastName' /></th>
+                    <th><Avatar name='FirstNameLastName' /></th>
+                    <th><Avatar name='FirstNameLastName' /></th>
+                    <th><Avatar name='FirstNameLastName' /></th>
+                    <th><Avatar name='FirstNameLastName' /></th>
+                </tr>
+            </table>
         </div>
-        );
+    );
 }
