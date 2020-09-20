@@ -11,10 +11,12 @@
     "aws-amplify": "^3.3.1",
     "framer-motion": "^2.6.13",
     "next": "9.5.3",
+    "next-absolute-url": "^1.2.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-jdenticon": "0.0.8",
     "react-video-recorder": "^3.17.1",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "swr": "^0.3.2"
   }
 }

@@ -3,10 +3,12 @@ import SimpleButton from '../components/SimpleButton';
 import Avatar from '../components/Avatar';
 import styles from '../styles/Settings.module.css';
 
+import absoluteUrl from 'next-absolute-url';
+
 /*This file is for the Settings component for Covalent
 @Catherine*/
 
-export default function Settings() {
+export default function Settings({ code }) {
     return (
         <div>
             <style jsx global>{`
@@ -50,15 +52,12 @@ export default function Settings() {
                 </textarea>
                 <br></br>
                 <b><label>Code:
-                    <input className={styles.settingsInput + " " + styles.code} type="text" value="ABCDEF" id="code" readOnly />
+                    <input className={styles.settingsInput + " " + styles.code} type="text" value={code} id="code" readOnly />
                 </label></b>
                 <b><label>Link:
-                     <input className={styles.settingsInput + " " + styles.link} type="text" value="covalent.app/join/abcdef" id="link" readOnly />
+                     <input className={styles.settingsInput + " " + styles.link} type="text" value={"covalent.app/join/" + code} id="link" readOnly />
                 </label></b>
-                {/* TODO: 
-                    - Write code to Code, Link, and Copy button
-                */}
-                <button className={styles.settingsButton} onClick={() => { navigator.clipboard.writeText("covalent.app/join/abcdef") }}><b>COPY LINK</b></button>
+                <button className={styles.settingsButton} onClick={() => { navigator.clipboard.writeText("covalent.app/join/" + code) }}><b>COPY LINK</b></button>
                 <br></br>
                 <SimpleButton name="start" type="join"></SimpleButton>
             </div>
@@ -76,3 +75,38 @@ export default function Settings() {
         </div>
     );
 }
+
+/*
+getServerSideProps, new game: makes a random ID at page request and checks API to see if a game with that ID already exists.
+If it doesn't, it gives the page the new code as a property and adds it to the page
+*/
+
+export async function getServerSideProps({ req }) {
+    let code, res, data;
+    const { origin } = absoluteUrl(req);
+    do {
+        code = makeid(6);
+        res = await fetch(origin + '/api/get/game?code=' + code);
+        data = await res.json();
+    } while (data.game.data.gameByCode.items.length != 0);
+    return {
+        props: {
+            code,
+        },
+    }
+}
+
+/*
+So random
+https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+*/
+
+function makeid(length) {
+    var result = '';
+    var characters = 'abcdefghijklmnopqrstuvwxyz';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
