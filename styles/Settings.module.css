@@ -57,3 +57,18 @@ height:5px;
 color:gray; 
 background-color: gray;
 }
+
+.center{
+    display:flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+@media all and (max-width: 850px) {
+    .center {
+        display:flex; 
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+}
