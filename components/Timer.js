@@ -15,8 +15,8 @@ class Timer extends Component {
     */
 
     state = {
-        minutes: 2,
-        seconds: 0,
+        minutes: 1,
+        seconds: 30,
     }
 
     componentDidMount() {
@@ -48,11 +48,17 @@ class Timer extends Component {
     render() {
         const { minutes, seconds } = this.state
         return (
-                <div className={styles.box}>
-                    <p className={styles.time}>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</p>
-                    <p className={styles.submitted}>0 SUBMITTED</p>
-                    {/* Change number 0 to a dynamic number in state later */}
-                    <div><img src="/images/clock.svg" className={styles.clock} alt="clock"/></div>
+                <div className={styles.timer}>
+                    <div className={styles.timerText}>
+                        <p1>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</p1>
+                        <p2>0 SUBMITTED</p2>
+                        {/* Change number 0 to a dynamic number in state later */}
+                    </div>
+                    <img
+                            src="/images/clock.svg"
+                            className={styles.clockImg}
+                            alt="Clock"
+                    ></img>
                 </div>
         )
     }
