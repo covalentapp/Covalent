@@ -31,8 +31,9 @@
     font-family:'Roboto', sans-serif; 
 }
 
-.link{
+.long{
     width:200px; 
+    margin-right: 10px;
 }
 
 .code{
@@ -45,7 +46,14 @@
     border-width: 1px;
     border-color: black;
     border-radius: 24px;
+    cursor: pointer;
 }
+
+.settingsButton:active{
+    border-color: lightgreen;
+    border-width: 5px;
+}
+
 .avatarTable{
     width:100%; 
     margin-left: auto; 

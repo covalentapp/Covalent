@@ -6,8 +6,6 @@ Enables a game.
 
 Requires:
 - Game ID (gameId)
-- Number of players (playerNum)
-- Seconds for each player (playerSec)
 
 Returns:
 - Game ID
@@ -31,9 +29,7 @@ export default async (req, res) => {
             {
                 input: {
                     id: req.query.gameId,
-                    enabled: true,
-                    playerNum: req.query.playerNum,
-                    playerSeconds: req.query.playerSec
+                    enabled: true
                 }
             }
         ));

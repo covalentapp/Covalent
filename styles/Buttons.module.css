@@ -8,13 +8,13 @@
     color: black;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: calc(2px + 2.5vmin);
+    font-size: calc(4px + 2.5vmin);
     /*
         Edits are good. Can't tell if the buttons are too small on mobile or not 
     */
-    min-width: 80px;
+    min-width: 120px;
 
-    min-height: 20px;
+    min-height: 40px;
 
     text-transform: uppercase;
     text-align: center;

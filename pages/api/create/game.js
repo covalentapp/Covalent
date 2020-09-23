@@ -7,11 +7,12 @@ Creates a new game and links a host player.
 Requires:
 - Game name (gameName)
 - Host ID (gameHost)
-- Game type (gameType)
+- (eventually) Game type (gameType)
+- Number of players (playerNum)
+- Seconds for each player (playerSec)
 
 Returns:
 - Game ID (gameId)
-- Game code (IMPLEMENT - generate non-existing code)
 
 */
 
@@ -32,10 +33,11 @@ export default async (req, res) => {
                 input: {
                     name: req.query.gameName,
                     gameHostId: req.query.gameHost,
-                    type: req.query.gameType,
+                    type: "TWO_TRUTHS_AND_LIE",
+                    playerNum: req.query.playerNum,
+                    playerSeconds: req.query.playerSec,
                     enabled: false,
-                    // generate random code eventually!
-                    code: "random"
+                    code: req.query.code
                 }
             }
         ));
