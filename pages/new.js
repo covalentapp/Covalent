@@ -12,17 +12,17 @@ import absoluteUrl from 'next-absolute-url';
 export default function Settings({ req, code }) {
 
     /*
+    
     I think I'm breaking some javascript rules here with the code I've written below.
 
     This note is a reminder to me (Arek) to go back and fix this eventually.
 
-    Still have to add:
-    - Player can't join until game is enabled
-    - Can't start game if there's only one player (host)
-    - Start the actual game
     */
 
 
+    // MOVE IDS (game and player) TO LOCAL STORAGE
+
+    const [copied, setCopied] = useState(false);
     const [time, setTime] = useState(30);
     const [players, setPlayers] = useState(2);
     const [instructions, setInstructions] = useState('');
@@ -34,8 +34,7 @@ export default function Settings({ req, code }) {
     const [gameId, setId] = useState('');
     const [hostId, selfId] = useState('');
     const [gamePlayers, addPlayers] = useState([]);
-
-    let gameStart = false;
+    const [countdown, setCountdown] = useState(3);
 
     /*
     ENABLE GAME
@@ -57,8 +56,6 @@ export default function Settings({ req, code }) {
             await fetch(origin + '/api/create/game?code=' + code + "&gameHost=" + host + "&gameName=" + instructions + "&playerNum=" + players + "&playerSec=" + time)
             .then(res => res.json())
             .then((data) => game = data.gameId);
-
-            console.log(game); // REMOVE THIS LATER
 
             selfId(host); // game ID
             setId(game); // host ID
@@ -95,8 +92,10 @@ export default function Settings({ req, code }) {
             let res, data;
             let numPlayers = 0;
             let playerList = [];
+            const { origin } = absoluteUrl(req);
 
-            while (!gameStart) {
+            while (searching) {
+                // Implement: only allow to check a certain number of times
                 res = await fetch(origin + '/api/get/game?gameId=' + gameId);
                 data = await res.json();
                 if (data.game.data.getGame.players.items.length > numPlayers + 1) {
@@ -106,7 +105,6 @@ export default function Settings({ req, code }) {
                     numPlayers++;
                 }  
                 await delay(2000);
-                console.log(gameStart); // REMOVE THIS LATER
             }
         }
     }, [searching]);
@@ -116,11 +114,23 @@ export default function Settings({ req, code }) {
     */
 
     useEffect(() => {
+
         if (started) {
-            console.log("This was called"); // REMOVE THIS LATER
-            setOpen(false);
-            gameStart = true;
+            enableGame();
         }
+
+        async function enableGame () {
+            let res, data;
+            const { origin } = absoluteUrl(req);
+            res = await fetch(origin + '/api/enable/game?gameId=' + gameId);
+            data = await res.json();
+            if (!data.gameId) {
+                setStart(false);
+            }
+        }
+
+        // REDIRECT TO GAME PAGE
+
     }, [started]);
 
     /*
@@ -159,15 +169,15 @@ export default function Settings({ req, code }) {
             <p>As the host, write instructions for your teammates and choose the settings for your game below:</p>
             <div className={styles.settingsForm} id="settings-form">
                 <b><label htmlFor="rounds">Your Name: </label></b>
-                <input className={styles.long} type="text" placeholder="John Doe" onChange={event => setName(event.target.value)}/>
+                <input className={styles.long} type="text" placeholder="John Doe" onChange={event => setName(event.target.value)} disabled={enabled}/>
                 <b><label htmlFor="time">Time Limit (30-300s): </label></b>
-                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" onChange={event => setTime(event.target.value)}/>
+                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" onChange={event => setTime(event.target.value)} disabled={enabled}/>
                 <b><label htmlFor="players">Player Count (2-50): </label></b>
-                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" onChange={event => setPlayers(event.target.value)}/>
+                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" onChange={event => setPlayers(event.target.value)} disabled={enabled}/>
                 <br></br>
                 <b><label htmlFor="instructions">Instructions For Players:</label></b>
                 <br></br>
-                <textarea className={styles.instructions} id="instructions" rows="4" cols="50" placeholder="What do you want to tell your players?" onChange={event => setInstructions(event.target.value)}>
+                <textarea className={styles.instructions} id="instructions" rows="4" cols="50" placeholder="What do you want to tell your players?" onChange={event => setInstructions(event.target.value)} disabled={enabled}>
                 </textarea>
                 <br></br>
                 <b><label>Code:
@@ -176,7 +186,13 @@ export default function Settings({ req, code }) {
                 <b><label>Link:
                      <input className={styles.settingsInput + " " + styles.long} type="text" value={"covalent.app/join/" + code} id="link" readOnly />
                 </label></b>
-                <button className={styles.settingsButton} onClick={() => { navigator.clipboard.writeText("covalent.app/join/" + code) }}>COPY LINK</button>
+                <SimpleButton name="copy link" type="small" onClick={() => { 
+                    navigator.clipboard.writeText("covalent.app/join/" + code) 
+                    setCopied(true);
+                }}/>
+                {copied &&
+                <b>Copied!</b>
+                }
                 <br></br>
                 {!enabled &&
                 <SimpleButton name="let's go!" type="join" onClick={() => {
@@ -189,12 +205,15 @@ export default function Settings({ req, code }) {
                 }} />
                 }
 
-                {enabled && 
+                {enabled && !started &&
                 <SimpleButton name="start" type="join" onClick={() => {
                     setStart(true);
                 }}/>
-                // Enable game when button is pressed
                 }
+
+                {started && 
+                <SimpleButton name="starting..." type="join" onClick={() => {}} />
+                }   
                 <p>{error}</p>
             </div>
                 {enabled &&

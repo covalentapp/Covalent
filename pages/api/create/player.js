@@ -22,7 +22,7 @@ import { createPlayer } from "../../../src/graphql/mutations";
 import { getGame } from "../../../src/graphql/queries";
 
 export default async (req, res) => {
-    let data, gamePlayerId;
+    let data;
 
     try {
         if (req.query.gameId) {
@@ -37,6 +37,12 @@ export default async (req, res) => {
             if (data.data.getGame.players.items.length >= data.data.getGame.playerNum + 1) {
                 data = null;
                 throw {errors: [{errorType: "Full game", message: "The game is already full."}]};
+            }
+
+            // Checks if game is already enabled
+            if (data.data.getGame.enabled) {
+                data = null;
+                throw {errors: [{errorType: "Already started", message: "This game has already started."}]};
             }
         }
 

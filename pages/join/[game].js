@@ -9,7 +9,16 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
 
     const [playerName, setName] = useState('');
     const [joined, setJoin] = useState(false);
-    const [addedId, playerId] = useState(''); // HAVE THIS UPDATE WHEN NAME ADDED LOCALLY
+    const [addedId, playerId] = useState(''); 
+    const [addedGameId, gameId] = useState('');
+    const [waiting, gameLoading] = useState(playerCheck);
+    
+
+    // MOVE IDS (game and player) TO LOCAL STORAGE
+    // Remember: if player is specified beforehand, the IDs are not in the hooks!
+
+    // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
+    // Otherwise (no idea how to do this): remove player from game with new API call?
 
     /*
     Updates when player name is set and submitted
@@ -26,12 +35,45 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
             res = await fetch(origin + '/api/create/player?playerName=' + playerName + '&gameId=' + gameCheck.id);
             data = await res.json();
             if (data.playerId) {
-                // playerCheck.id = data.playerId; UPDATE HOOK HERE
+                playerId(data.playerId); 
+                gameId(gameCheck.id);
+                gameLoading(true);
             } else {
                 gameFull = true;
             }
         }
     }, [joined]);
+
+    useEffect(() => {
+        if (waiting) {
+            checkGame();
+        }
+
+        async function checkGame () {
+            /* 
+            Slow down succeeding API calls to check for new players
+
+            https://www.pentarem.com/blog/how-to-use-settimeout-with-async-await-in-javascript/
+            */
+
+            function delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            let res, data;
+            const { origin } = absoluteUrl(req);
+
+            while (waiting) {
+                // Implement: only allow to check a certain number of times
+                res = await fetch(origin + '/api/get/game?gameId=' + addedGameId);
+                data = await res.json();
+                if (data.game.data.getGame.enabled) {
+                    // REDIRECT TO GAME PAGE
+                }  
+                await delay(2000);
+            }
+        }
+    }, [waiting]);
     
     
     return (
@@ -58,16 +100,20 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
 
             {!gameCheck && !error && 
             <div className={styles.join}>
-            <h2>Invalid game code.</h2>
+            <h2>Invalid game code. Make sure your host has enabled the game.</h2>
             </div>
             }
 
-            {!playerCheck && !joined && gameCheck &&
+            {!playerCheck && !joined && !error && !gameFull && gameCheck &&
             <div className={styles.join}>
             <h2>Joining {gameCheck.host}'s game</h2>
             <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
             <input type="text" className={styles.name} placeholder="ENTER YOUR NAME" onChange={event => setName(event.target.value)}></input>
-            <SimpleButton name="join game" type="join" onClick={() => setJoin(true)}/>               
+            <SimpleButton name="join game" type="join" onClick={() => {
+                if (playerName) {
+                    setJoin(true);
+                }
+            }}/>               
             </div>
             }
 
@@ -79,7 +125,7 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
 
             {gameFull &&
             <div className={styles.join}>
-            <h2>This game is full!</h2>
+            <h2>This game is full, or the host has already started it. Go join another game!</h2>
             </div>
             }
         
@@ -105,10 +151,11 @@ export async function getServerSideProps({ req, params, query }) {
             gameCheck.host = data.game.data.gameByCode.items[0].host.name;
             gameCheck.name = data.game.data.gameByCode.items[0].name;
             gameCheck.id = data.game.data.gameByCode.items[0].id;
-            // Check if game is already full
+            // Check if game is already full / enabled
             res = await fetch(origin + '/api/get/game?gameId=' + gameCheck.id);
             data = await res.json();
-            if (data.game.data.getGame.players.items.length >= data.game.data.getGame.playerNum + 1) {
+            if (data.game.data.getGame.players.items.length >= data.game.data.getGame.playerNum + 1 || data.game.data.getGame.enabled) {
+                playerCheck = null;
                 gameFull = true;
             } else {
                 // Make new player

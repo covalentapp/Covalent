@@ -9,13 +9,8 @@
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: calc(4px + 2.5vmin);
-    /*
-        Edits are good. Can't tell if the buttons are too small on mobile or not 
-    */
     min-width: 120px;
-
     min-height: 40px;
-
     text-transform: uppercase;
     text-align: center;
     margin: 1vmin;
@@ -46,6 +41,14 @@
 .simpleButton:active {
     background-color: gray;
     outline: none;
+}
+
+.small {
+    width: 10vmin;
+    height: 1vmin;
+    min-width: 100px;
+    min-height: 30px;
+    font-size: 15px;
 }
 
 .join {

@@ -17,41 +17,38 @@
 }
 
 .settingsInput{
+    border-width: 1px;
+    border-radius: 24px;
     width: 100px;
+    height: 30px;
     padding: 0px 10px; 
     margin: 5px 5px;
     box-sizing: border-box;
 }
 
 .instructions{
+    font-family:'Roboto', sans-serif; 
+    padding-left: 10px;
+    border-radius: 5px;
     width:50%; 
 }
 
-.instructions::placeholder{
-    font-family:'Roboto', sans-serif; 
-}
-
-.long{
-    width:200px; 
-    margin-right: 10px;
-}
-
-.code{
-    width:90px; 
-    text-transform: uppercase;
-}
-
-.settingsButton{
-    background-color: transparent;
+.long {
     border-width: 1px;
-    border-color: black;
+    padding-left: 10px;
     border-radius: 24px;
-    cursor: pointer;
+    width:200px; 
+    height: 30px;
+    margin: 5px 5px;
 }
 
-.settingsButton:active{
-    border-color: lightgreen;
-    border-width: 5px;
+.code {
+    border-width: 1px;
+    border-radius: 24px;
+    width:90px; 
+    height: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .avatarTable{
@@ -81,7 +78,7 @@ background-color: gray;
 }
 
 .center:empty:before{
-    content: "Give your players the game code. Once everyone show up here and you're ready to start the game, press start!";
+    content: "Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!";
 }
 
 @media all and (max-width: 850px) {
