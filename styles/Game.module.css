@@ -1,0 +1,103 @@
+.gameBody {
+    position: absolute;
+    left: 0%;
+    width: calc(75% - 2px);
+    height: 100%;
+    display: flex;
+}
+
+.gameBody .gameBar {
+    width: 100%;
+    height: 5vmin;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #FFFFFF;
+}
+
+.gameBar .gameLogo {
+    display: flex;
+    flex-direction: row;
+}
+
+.gameLogo .logoImg {
+    height: 4vmin;
+    min-height: 16px;
+}
+
+.gameLogo .logoText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 0.4vw;
+}
+
+.gameLogo p1 {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 1vmin);
+    letter-spacing: 0.05em;
+    color: #5A4FCF;
+}
+
+.gameLogo p2 {
+    font-family: Roboto Condensed;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(3px + 1vmin);
+    letter-spacing: 0.05em;
+    color: #000000;
+}
+
+.gameBar .centerText {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+}
+
+.centerText p1 {
+    font-size: 14px;
+    line-height: 15px;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.centerText p2 {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 31px;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.gameBar .gameTimer {
+
+}
+
+.gameBody .gameMain {
+    position: absolute;
+    top: calc(5vmin + 4px);
+    padding-top: 2em;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #FFFFFF;
+}
+
+.gameSide {
+    position: absolute;
+    right: 0%;
+    width: calc(25% - 2px);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background: #ffffff;
+    font-family: Roboto;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+}

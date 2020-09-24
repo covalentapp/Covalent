@@ -17,32 +17,74 @@
 }
 
 .settingsInput{
+    border-width: 1px;
+    border-radius: 24px;
     width: 100px;
+    height: 30px;
     padding: 0px 10px; 
     margin: 5px 5px;
     box-sizing: border-box;
 }
 
 .instructions{
+    font-family:'Roboto', sans-serif; 
+    padding-left: 10px;
+    border-radius: 5px;
     width:50%; 
 }
 
-.instructions::placeholder{
-    font-family:'Roboto', sans-serif; 
-}
-
-.link{
-    width:200px; 
-}
-
-.code{
-    width:90px; 
-}
-
-.settingsButton{
-    background-color: transparent;
+.long {
     border-width: 1px;
-    border-color: black;
+    padding-left: 10px;
     border-radius: 24px;
+    width:200px; 
+    height: 30px;
+    margin: 5px 5px;
 }
 
+.code {
+    border-width: 1px;
+    border-radius: 24px;
+    width:90px; 
+    height: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.avatarTable{
+    width:100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.line{
+width:100%; 
+height:5px; 
+color:gray; 
+background-color: gray;
+}
+
+.center{
+    display:flex; 
+    align-items: center;
+    justify-content: space-between;
+    flex-direction:row;
+    overflow-x: auto;
+}
+
+.center:empty{
+    display: block;
+    text-align: center;
+}
+
+.center:empty:before{
+    content: "Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!";
+}
+
+@media all and (max-width: 850px) {
+    .center {
+        display:flex; 
+        align-items: center;
+        flex-direction: column;
+    }
+}

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import styles from '../styles/Selection.module.css';
 
 class Selection extends Component {
-    constructor() {
+    constructor(props) {
         super(props);
-        this.player = "Daniel";
-        this.choice1 = "I enjoy using Figma.";
-        this.choice2 = "I like pineapple pizza.";
-        this.choice3 = "I think BruinLabs is very cool.";
+        this.player = this.props.player;
+        this.choice1 = this.props.choice1;
+        this.choice2 = this.props.choice2;
+        this.choice3 = this.props.choice3;
     }
 
     choose(statement) {
@@ -18,9 +18,9 @@ class Selection extends Component {
         return (
             <div className={styles.statements}>
                 <p>Choose <b>{this.player}'s</b> lie.</p>
-                <button class={styles.statement-button} onClick={() => { this.choose(1) }}>{this.choice1}</button>
-                <button class={styles.statement-button} onClick={() => { this.choose(2) }}>{this.choice2}</button>
-                <button class={styles.statement-button} onClick={() => { this.choose(3) }}>{this.choice3}</button>
+                <button className={styles.statementButton} onClick={() => { this.choose(1) }}>{this.choice1}</button>
+                <button className={styles.statementButton} onClick={() => { this.choose(2) }}>{this.choice2}</button>
+                <button className={styles.statementButton} onClick={() => { this.choose(3) }}>{this.choice3}</button>
             </div>
         );
     }

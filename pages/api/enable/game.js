@@ -6,8 +6,6 @@ Enables a game.
 
 Requires:
 - Game ID (gameId)
-- Number of players (playerNum)
-- Seconds for each player (playerSec)
 
 Returns:
 - Game ID
@@ -20,23 +18,36 @@ import config from "../../../src/aws-exports.js";
 Amplify.configure({ ...config, ssr: true });
 
 import { updateGame } from "../../../src/graphql/mutations";
+import { getGame } from "../../../src/graphql/queries";
 
 export default async (req, res) => {
     let data;
 
     try {
 
+        // Check if there are players
         data = await API.graphql(graphqlOperation(
-            updateGame,
+            getGame,
             {
-                input: {
-                    id: req.query.gameId,
-                    enabled: true,
-                    playerNum: req.query.playerNum,
-                    playerSeconds: req.query.playerSec
-                }
+                id: req.query.gameId
             }
         ));
+
+        if (data.data.getGame.players.items.length > 1) {
+            data = await API.graphql(graphqlOperation(
+                updateGame,
+                {
+                    input: {
+                        id: req.query.gameId,
+                        enabled: true
+                    }
+                }
+            ));
+        } else {
+            data = null;
+            throw {errors: [{errorType: "No players", message: "There are no players in this game"}]};
+        }
+        
 
     } catch (err) {
         console.log("Unable to start game: " + err.errors[0].errorType);

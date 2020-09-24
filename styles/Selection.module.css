@@ -6,10 +6,10 @@
     font-weight: normal;
     font-size: 28px;
     text-align: center;
-    max-width: 768px;
+    min-width: 50%;
 }
 
-.statement-button {
+.statementButton {
     margin: 8px;
     background-color: #E1E1E1;
     border: 0px;
@@ -23,11 +23,11 @@
     color: black;
 }
 
-.statement-button:hover {
+.statementButton:hover {
     background-color: #80FFDB;
 }
 
-.statement-button:active {
+.statementButton:active {
     background-color: #00DB9D;
     color: white;
 }

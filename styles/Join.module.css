@@ -1,0 +1,34 @@
+.join {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.name {
+    width: calc(100px + 20vmin);
+    min-width: 72px;
+    height: calc(20px + 2.5vmin);
+    min-height: 18px;
+    border-radius: 24px;
+    border: 1px solid #000000;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 5px;
+    font-family: "Roboto";
+    font-weight: bold;
+    font-size: calc(var(--font-size) - 2px);
+    letter-spacing: 0.1em;
+    color: #000000;
+    outline: none;
+}
+
+.instructions {
+    padding-bottom: 20px;
+}

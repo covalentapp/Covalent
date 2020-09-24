@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from '../styles/Avatar.module.css';
+import Jdenticon from 'react-jdenticon';
 
 /*This file is for the Avatar component for Covalent
 @Catherine*/
 
-class Avatar extends Component {
+function Avatar(props){
 
-    render() {
         return (
             <div>
-                <img src={this.props.img || "/images/avatar.png"} className={styles.avatarPNG} alt="Avatar" />
-                <h1 className={styles.name}>{this.props.name}</h1>
+            <Jdenticon size="15vmin" value={props.name} />
+            <h1 className={styles.name}>{props.name}</h1>
             </div>
             );
-    }
 }
 
 export default Avatar;
+
