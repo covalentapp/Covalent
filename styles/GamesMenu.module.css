@@ -38,7 +38,7 @@
 }
 
 .gamesMenu header h1 {
-    padding-top: 3vh;
+    padding-top: 2vh;
     text-align: center;
     font-size: calc(6px + 3vmin);
     font-family: Roboto;
@@ -96,12 +96,28 @@
     color: #5A4FCF;
 }
 
-@media all and (max-width: 1000px) {
+@media all and (max-width: 1250px) {
+    .gamesMenu header .logo p {
+        display: none;
+    }
+}
+
+@media all and (max-width: 900px) {
     .gamesMenu header h1 {
         font-size: 15px;
     }
-    .gamesMenu header .logo p {
-        display: none;
+}
+
+@media all and (max-width: 600px) {
+    .gamesMenu header {
+        height: 7%;
+    }
+    .game .gameTransparent {
+        flex-direction: column;
+        vertical-align: center;
+    }
+    .game .gameTransparent .text {
+        top: 50%;
     }
 }
 
@@ -156,6 +172,8 @@
 }
 
 .game .gameTransparent {
+    display: flex;
+    flex-direction: row;
     position: absolute;
     left: 0.5%;
     top: 5%;
@@ -163,7 +181,46 @@
     height: 90%;
     box-shadow: 0 0 0 10vmin #fff;
     border-radius: 5px;
+    padding: 30px;
+    cursor: pointer;
 }
+
+.game .gameTransparent .text {
+    font-size: calc(7px + 1.5vmin);
+    width: 60%;
+    max-width: 1000px;
+}
+
+.game .gameTransparent .panel {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    width: 30%;
+    padding-right: 5px;
+}
+
+.game .gameTransparent .title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 2vmin);
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+
+.game .gameTransparent .link {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 2vmin);
+    text-align: center;
+    letter-spacing: 0.1em;
+
+    color: #6930C3;
+}
+
 
 .exit {
     cursor: pointer;

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Head from "next/head";
 import styles from "../styles/Menu.module.css";
 import SimpleButton from "../components/SimpleButton";
-import JoinOptions from "../components/JoinOptions";
 import routingWrapper from "../components/routingWrapper";
 
 //This file is for the Game Selection/Menu/Homepage for Covalent
@@ -11,19 +10,27 @@ import routingWrapper from "../components/routingWrapper";
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.join = React.createRef();
-        this.host = React.createRef();
-        this.overlay = React.createRef();
-        this.handleHostClick = this.handleHostClick.bind(this);
+        this.state = {
+            code: "",
+            error: false
+        }
     }
 
     handleJoinClick = (event) => {
-        this.join.current.handleSubmit(event); //change to interact with backend to bring to join-instructions page
+        if (this.state.code != "" && (this.state.code.length == 6)) {
+            this.props.router.push("join/" + this.state.code);
+        } else {
+            this.setState({code: this.state.code, error: true});
+        }
     };
 
     handleHostClick = (e) => {
         e.preventDefault();
         this.props.router.push("menu/host");
+    };
+
+    handleChange = (event) => {
+        this.setState({code: event.target.value, error: false});
     };
 
     render() {
@@ -64,12 +71,23 @@ class Menu extends Component {
                     {/*</div> div no longer needed without join button animation*/}
                     <div className={styles.MenuButtons}>
                         <div className={styles.joinOptions}>
-                            <JoinOptions ref={this.join} />
+                            <label className={styles.joinCodeLabel}>
+                            CODE:
+                            <input
+                                placeholder="ABCDEF"
+                                className={styles.codeInput + " " + (this.state.error && styles.codeInputError)}
+                                type="text"
+                                maxLength="6"
+                                value={this.state.code}
+                                onChange={this.handleChange}
+                            />
+                        </label>
                         </div>
                         <div className={styles.defaultButton}>
                             <SimpleButton
                                 name="JOIN"
                                 type="join"
+                                onClick={this.handleJoinClick}
                             ></SimpleButton>
                         </div>
                         <div className={styles.defaultButton}>

@@ -3,9 +3,9 @@ import styles from '../../styles/Join.module.css';
 import Head from 'next/head';
 import SimpleButton from '../../components/SimpleButton.js';
 
-import absoluteUrl from 'next-absolute-url';
+const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull }) {
+export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
 
     const [playerName, setName] = useState('');
     const [joined, setJoin] = useState(false);
@@ -20,6 +20,8 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
     // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
     // Otherwise (no idea how to do this): remove player from game with new API call?
 
+    // Also: maybe implement framer motion for the new player avatars to make it look nicer
+
     /*
     Updates when player name is set and submitted
     */
@@ -30,7 +32,6 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
         }
 
         async function addPlayer() {
-            const { origin } = absoluteUrl(req);
             let res, data;
             res = await fetch(origin + '/api/create/player?playerName=' + playerName + '&gameId=' + gameCheck.id);
             data = await res.json();
@@ -61,7 +62,6 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
             }
 
             let res, data;
-            const { origin } = absoluteUrl(req);
 
             while (waiting) {
                 // Implement: only allow to check a certain number of times
@@ -133,14 +133,13 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
     );
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
     let res, data, error = null;
     let gameCheck = {};
     let playerCheck = {};
     let gameFull = false;
     let lowerCaseCode = params.game.toLowerCase();
     try {
-        const { origin } = absoluteUrl(req);
         res = await fetch(origin + '/api/get/game?code=' + lowerCaseCode);
         data = await res.json();
         // Game doesn't exist
@@ -173,8 +172,9 @@ export async function getServerSideProps({ req, params, query }) {
             }
             
         }
-    } catch {
+    } catch (err) {
         error = true;
+        console.log(err);
     }
 
     return {

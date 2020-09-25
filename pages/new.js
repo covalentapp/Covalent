@@ -4,12 +4,12 @@ import SimpleButton from '../components/SimpleButton';
 import Avatar from '../components/Avatar';
 import styles from '../styles/Settings.module.css';
 
-import absoluteUrl from 'next-absolute-url';
-
 /*This file is for the Settings component for Covalent
 @Catherine*/
 
-export default function Settings({ req, code }) {
+const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
+
+export default function Settings({ code }) {
 
     /*
     
@@ -47,7 +47,6 @@ export default function Settings({ req, code }) {
 
         async function createGame() {
             let host, game;
-            const { origin } = absoluteUrl(req);
 
             await fetch(origin + '/api/create/player?playerName=' + name)
             .then(res => res.json())
@@ -92,7 +91,6 @@ export default function Settings({ req, code }) {
             let res, data;
             let numPlayers = 0;
             let playerList = [];
-            const { origin } = absoluteUrl(req);
 
             while (searching) {
                 // Implement: only allow to check a certain number of times
@@ -121,7 +119,6 @@ export default function Settings({ req, code }) {
 
         async function enableGame () {
             let res, data;
-            const { origin } = absoluteUrl(req);
             res = await fetch(origin + '/api/enable/game?gameId=' + gameId);
             data = await res.json();
             if (!data.gameId) {
@@ -235,17 +232,21 @@ getServerSideProps, new game: makes a random ID at page request and checks API t
 If it doesn't, it gives the page the new code as a property and adds it to the page
 */
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps() {
     let code, res, data;
-    const { origin } = absoluteUrl(req);
-    do {
-        code = makeid(6);
-        res = await fetch(origin + '/api/get/game?code=' + code);
-        data = await res.json();
-    } while (data.game.data.gameByCode.items.length != 0);
+    try {
+        do {
+            code = makeid(6);
+            res = await fetch(origin + '/api/get/game?code=' + code);
+            data = await res.json();
+        } while (data.game.data.gameByCode.items.length != 0);
+    } catch (err) {
+        code = "error"; // THIS IS TEMPORARY. ERROR NEEDS TO BE REFLECTED ACROSS WHOLE PAGE
+        console.log(err);
+    }
     return {
         props: {
-            code,
+            code
         },
     }
 }
