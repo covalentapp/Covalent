@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import Connect from '../components/Connect'
+import Sharing from '../components/Sharing'
 
 export default function Home() {
   return (
@@ -17,7 +19,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <title>Covalent</title>
       </Head>
-      <div>
+      <div className={styles.landingPage}>
+        {/*<div className={styles.connect}><Connect /></div>
+        <div className={styles.sharing}><Sharing /></div>*/}
         <p>The landing page will be here.</p>
       </div>
     </div>

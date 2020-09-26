@@ -1,0 +1,91 @@
+.connect {
+}
+
+.connect h {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #000000;
+    font-size: calc(18px + 3vmin);
+}
+
+.connect h span {
+    color: #5A4FCF;
+}
+
+.connect p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.connect .description {
+    font-size: calc(9px + 1.5vmin);
+}
+
+.connect .tellEmail {
+    font-size: calc(3px + 1.5vmin);
+}
+
+.emailForm {
+    display: flex;
+    align-items: center;
+}
+
+.emailInput {
+    width: 20vw;
+    height: 5vh;
+    border: 2px solid #444444;
+    border-radius: 5vh;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(2px + 3vmin);
+    text-align: center;
+    outline: 0 !important;
+}
+
+.emailSubmit {
+    outline: 0 !important;
+    width: auto;
+    height: auto;
+    margin-top: 0.3em;
+    margin-left: 0.5em;
+    border: 0px;
+    color: #80FFDB;
+    background: none;
+    cursor: pointer;
+}
+
+.emailSubmit:hover {
+    color: #00DB9D;
+}
+
+.emailSubmit:active {
+    color: #019a6e;
+}
+
+.emailSubmit .submitIcon {
+    width: calc(10px + 5vmin);
+    height: calc(10px + 5vmin);
+    stroke: #444444;
+    stroke-width: 16px;
+}
+
+@media all and (max-height: 400px), (max-width: 400px) {
+    .connect h {
+        font-size: 30px;
+    }
+
+    .connect .description {
+        font-size: 15px;
+    }
+
+    .connect .tellEmail {
+        font-size: 9px;
+    }
+
+    .emailInput {
+        font-size: 14px;
+    }
+}
