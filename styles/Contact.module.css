@@ -1,0 +1,51 @@
+.contactBody {
+    background-color: #5A4FCF;
+    color: #FFFFFF;
+    padding-top: 6em;
+    padding-bottom: 10em;
+    text-align: center;
+}
+
+.contactBody h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+}
+
+.contactBody p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    padding-bottom: 1em;
+}
+
+.emailForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emailInput {
+    width: 37.5vmin;
+    height: 5vmin;
+    border: 0px;
+    border-radius: 2.5vmin;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    text-align: center;
+}
+
+.emailSubmit {
+    width: 5vmin;
+    height: 5vmin;
+    margin-left: 0.5em;
+    border: 0px;
+    border-radius: 2.5vmin;
+    background-color: #80FFDB;
+    font-size: 36px;
+    color: #5A4FCF;
+}
