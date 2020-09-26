@@ -1,0 +1,64 @@
+.truth {
+    outline: 0 !important;
+    margin: .8vmin 0;
+    width: 72vmin;
+    height: 4.5vmin;
+    background: #80FFDB;
+    border: 0;
+    border-radius: 5vmin;
+    font-family: Roboto Condensed;
+    font-size: 28px;
+    text-align: center;
+}
+
+.truth:focus::placeholder {
+    color: transparent;
+}
+
+.truth::placeholder {
+    font-weight: bold;
+    letter-spacing: .4em;
+    text-indent: .4em;
+    color:#acacac;
+}
+
+.lie {
+    outline: 0 !important;
+    margin: .8vmin 0;
+    width: 72vmin;
+    height: 4.5vmin;
+    background: #FF8680;
+    border: 0;
+    border-radius: 5vmin;
+    font-family: Roboto Condensed;
+    font-size: 28px;
+    text-align: center;
+}
+
+.lie:focus::placeholder {
+    color: transparent;
+}
+
+.lie::placeholder {
+    font-weight: bold;
+    letter-spacing: .4em;
+    text-indent: .4em;
+    color:#ebebeb;
+}
+
+.submitButton {
+    outline: 0 !important;
+    margin-top: 3vmin;
+    margin-left: 29vmin;
+    width: 14vmin;
+    height: 5vmin;
+    background: #48BFE3;
+    border: 0;
+    border-radius: 5vmin;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 28px;
+    letter-spacing: .1em;
+    text-indent: .1em;
+    text-align: center;
+}
