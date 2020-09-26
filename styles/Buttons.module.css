@@ -81,6 +81,21 @@
     color: white;
 }
 
+.purple {
+    background-color: #5A4FCF;
+    color: white;
+    border: 0px;
+    text-transform: none;
+}
+
+.purple:hover {
+    background-color: #4f2692;
+}
+
+.purple:active {
+    background-color: #3d1d72;
+}
+
 #autoWidth {
     width: auto;
     padding: 0 1.5vw;
