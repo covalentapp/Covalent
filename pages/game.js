@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Head from "next/head";
 import styles from "../styles/Game.module.css";
+import PreviousBonds from "../components/PreviousBonds";
 import Selection from "../components/Selection";
 import Timer from "../components/Timer";
 import routingWrapper from "../components/routingWrapper";
@@ -28,7 +30,7 @@ class Game extends Component {
                     <link rel="icon" href="/favicon.ico" />
                     <title>Covalent</title>
                 </Head>
-                
+
                 <style jsx global>{`
                     body {
                         width: 100vw;
@@ -39,7 +41,7 @@ class Game extends Component {
                 `}</style>
 
                 <div className={styles.gameBody}>
-                    
+
                     <div className={styles.gameBar}>
                         <div className={styles.gameLogo}>
                             <img
@@ -79,7 +81,12 @@ class Game extends Component {
                 </div>
 
                 <div className={styles.gameSide}>
-                    <p>PREVIOUS BONDS</p>
+                    <div className={styles.scoreBox}>
+                        <p>1</p>
+                        {/* Replace 1 with actual score. */}
+                        <FontAwesomeIcon icon="check-circle" className={styles.scoreIcon} />
+                    </div>
+                    <PreviousBonds />
                 </div>
             </div>
         );

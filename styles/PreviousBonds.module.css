@@ -1,0 +1,54 @@
+.bondUl {
+    list-style: none;
+    padding-right: 2.5em;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.prevText {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1vmin);
+    letter-spacing: .3em;
+    text-indent: .3em;
+    color: #888888;
+}
+
+.bondDivider {
+    margin: 1em 0;
+    border-top: 2px solid #e1e1e1;
+}
+
+.bondName {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 1.5vmin);;
+}
+
+.bondIcon {
+    width: 24px;
+    padding-right: .25em;
+}
+
+.bondTruth {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1vmin);
+    margin: .5em;
+}
+
+.bondLie {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1vmin);
+    color: #FF5249;
+}

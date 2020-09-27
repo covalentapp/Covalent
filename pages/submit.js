@@ -79,20 +79,22 @@ class Submit extends Component {
                 </div>
 
                 <div className={styles.gameSide}>
-                    <p>hello</p>
-                    <p>hello</p>
-                    <p>hello</p>
-                    {/* <div className={styles.permissions}>
-                        <p2>To use Covalent, please allow access to your camera. Covalent cannot take videos without this permission.</p2>
-                        <p2>Your videos are only stored on our servers for the duration of the game, and are deleted immediately after.</p2>
+                    <div>
+                        <p><i>To use Covalent, please allow access to your camera. Covalent cannot take videos without this permission.</i></p>
+                        <p><i>Your videos are only stored on our servers for the duration of the game, and are deleted immediately after.</i></p>
                     </div>
-                    <divider></divider>
-                    <div className={styles.instructions}>
+                    <divider />
+                    <div>
                         <h1>INSTRUCTIONS</h1>
                         <p>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie.</p>
                         <p>However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie. So make the truths as interesting as possible!</p>
                         <p>For the video, please follow your host instructions below, and introduce your 2 truths and a lie as well.</p>
-                    </div> */}
+                    </div>
+                    <divider />
+                    <div>
+                        <h1>FROM YOUR HOST</h1>
+                        <p>Hi everyone! Welcome to Covalent! When you’re “recording,” please say your name, your graduation year, your major, and your favorite color. Please also introduce your 2 truths and a lie!</p>
+                    </div>
                 </div>
             </div>
         );

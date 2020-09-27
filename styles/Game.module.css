@@ -6,7 +6,9 @@
     display: flex;
 }
 
-.gameBody .gameBar {
+/* ===== TOP ===== */
+
+.gameBar {
     width: 100%;
     height: 5vmin;
     display: flex;
@@ -15,17 +17,17 @@
     background: #FFFFFF;
 }
 
-.gameBar .gameLogo {
+.gameLogo {
     display: flex;
     flex-direction: row;
 }
 
-.gameLogo .logoImg {
+.logoImg {
     height: 4vmin;
     min-height: 16px;
 }
 
-.gameLogo .logoText {
+.logoText {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -51,32 +53,30 @@
     color: #000000;
 }
 
-.gameBar .centerText {
+.centerText {
     display: flex;
     flex-direction: column;
     justify-self: center;
 }
 
 .centerText p1 {
-    font-size: 14px;
-    line-height: 15px;
+    font-size: calc(3px + .75vmin);
+    line-height: 110%;
     text-align: center;
     letter-spacing: 0.05em;
 }
 
 .centerText p2 {
     font-weight: bold;
-    font-size: 30px;
-    line-height: 31px;
+    font-size: calc(10px + 1.5vmin);
+    line-height: 110%;
     text-align: center;
     letter-spacing: 0.05em;
 }
 
-.gameBar .gameTimer {
+/* ===== MAIN ===== */
 
-}
-
-.gameBody .gameMain {
+.gameMain {
     position: absolute;
     top: calc(5vmin + 4px);
     padding-top: 2em;
@@ -88,16 +88,43 @@
     background: #FFFFFF;
 }
 
+.videoImg {
+    height: 50vmin;
+}
+
+/* ===== SIDE ===== */
+
 .gameSide {
     position: absolute;
     right: 0%;
     width: calc(25% - 2px);
     height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     background: #ffffff;
+}
+
+.scoreBox {
+    margin-top: 2vmin;
+    height: 6vmin;
+    border-radius: 6vmin;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: #48BFE3;
+}
+
+.scoreBox p {
     font-family: Roboto;
-    font-size: 12px;
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(12px + 3vmin);
+    padding-left: 1vmin;
+}
+
+.scoreIcon {
+    height: 3.5vmin;
+    padding: 1vmin;
 }
