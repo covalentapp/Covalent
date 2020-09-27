@@ -1,41 +1,18 @@
+import React, { Component } from "react";
 import styles from "../styles/SubmitForm.module.css";
 
-class SubmitForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            truth1: "",
-            truth2: "",
-            lie: ""
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({
-            ...this.state,
-            [event.target.name]: event.target.value
-        });
-    }
-
-    handleSubmit(event) {
-        alert('Truth 1: ' + this.state.truth1 + ' / Truth 2: ' + this.state.truth2 + ' / Lie: ' + this.state.lie);
-        event.preventDefault();
-    }
-
+class SubmitForm extends Component {
     render() {
         return (
-            <form className={styles.submitForm} onSubmit={this.handleSubmit}>
+            <div className={styles.submitForm}>
                 <label>
                     <input
                         name="truth1"
                         className={styles.truth}
                         placeholder="TRUTH"
                         type="text"
-                        value={this.state.truth1}
-                        onChange={this.handleChange}
+                        onChange={this.props.onTruthOneChange}
+                        autoComplete="off"
                     />
                 </label>
                 <br />
@@ -45,8 +22,8 @@ class SubmitForm extends React.Component {
                         className={styles.truth}
                         placeholder="TRUTH"
                         type="text"
-                        value={this.state.truth2}
-                        onChange={this.handleChange}
+                        onChange={this.props.onTruthTwoChange}
+                        autoComplete="off"
                     />
                 </label>
                 <br />
@@ -56,17 +33,17 @@ class SubmitForm extends React.Component {
                         className={styles.lie}
                         placeholder="LIE"
                         type="text"
-                        value={this.state.lie}
-                        onChange={this.handleChange}
+                        onChange={this.props.onLieChange}
+                        autoComplete="off"
                     />
                 </label>
                 <br />
-                <input
+                <button
                     type="submit"
                     className={styles.submitButton}
-                    value="SUBMIT"
-                />
-            </form>
+                    onClick={this.props.onSubmit}
+                >SUBMIT</button>
+            </div>
         );
     }
 }

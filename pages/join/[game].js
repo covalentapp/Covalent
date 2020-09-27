@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Join.module.css';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router'
+import { setCookie } from 'nookies'
 import SimpleButton from '../../components/SimpleButton.js';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
@@ -9,18 +12,36 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
 
     const [playerName, setName] = useState('');
     const [joined, setJoin] = useState(false);
-    const [addedId, playerId] = useState(''); 
-    const [addedGameId, gameId] = useState('');
+    const [addedId, playerId] = useState(playerCheck ? playerCheck.id : null); 
+    const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
+    const [code, gameCode] = useState(gameCheck ? gameCheck.code : null);
     const [waiting, gameLoading] = useState(playerCheck);
-    
 
-    // MOVE IDS (game and player) TO LOCAL STORAGE
+    const router = useRouter();
+    
     // Remember: if player is specified beforehand, the IDs are not in the hooks!
 
     // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
-    // Otherwise (no idea how to do this): remove player from game with new API call?
 
     // Also: maybe implement framer motion for the new player avatars to make it look nicer
+
+    /* 
+    Puts IDs into local storage
+    */
+
+    useEffect(() => {
+        if (addedId && addedGameId && code) {
+            setCookie(null, 'gameID', addedGameId, {
+                maxAge: 24 * 60 * 60,
+            });
+            setCookie(null, 'playerID', addedId, {
+                maxAge: 24 * 60 * 60,
+            });
+            setCookie(null, 'gameCode', code, {
+                maxAge: 24 * 60 * 60,
+            });
+        }
+    }, [addedId, addedGameId, code]);
 
     /*
     Updates when player name is set and submitted
@@ -45,6 +66,10 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
         }
     }, [joined]);
 
+    /*
+    Checks if game has started
+    */
+
     useEffect(() => {
         if (waiting) {
             checkGame();
@@ -68,7 +93,8 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
                 res = await fetch(origin + '/api/get/game?gameId=' + addedGameId);
                 data = await res.json();
                 if (data.game.data.getGame.enabled) {
-                    // REDIRECT TO GAME PAGE
+                    router.push("/submit");
+                    break;
                 }  
                 await delay(2000);
             }
@@ -93,40 +119,40 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
             </Head>     
             
             {error && 
-            <div className={styles.join}>
-            <h2>An internal error occurred. We're sorry for the inconvenience.</h2>
-            </div>
+                <div className={styles.join}>
+                    <h2>An internal error occurred. We're sorry for the inconvenience.</h2>
+                </div>
             }
 
             {!gameCheck && !error && 
-            <div className={styles.join}>
-            <h2>Invalid game code. Make sure your host has enabled the game.</h2>
-            </div>
+                <div className={styles.join}>
+                    <h2>Invalid game code. Make sure your host has enabled the game (<Link href="/menu">or join another game</Link>).</h2>
+                </div>
             }
 
             {!playerCheck && !joined && !error && !gameFull && gameCheck &&
-            <div className={styles.join}>
-            <h2>Joining {gameCheck.host}'s game</h2>
-            <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
-            <input type="text" className={styles.name} placeholder="ENTER YOUR NAME" onChange={event => setName(event.target.value)}></input>
-            <SimpleButton name="join game" type="join" onClick={() => {
-                if (playerName) {
-                    setJoin(true);
-                }
-            }}/>               
-            </div>
+                <div className={styles.join}>
+                    <h2>Joining {gameCheck.host}'s game</h2>
+                    <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
+                    <input type="text" className={styles.name} placeholder="ENTER YOUR NAME" onChange={event => setName(event.target.value)}></input>
+                    <SimpleButton name="join game" type="join" onClick={() => {
+                        if (playerName) {
+                            setJoin(true);
+                        }
+                    }}/>               
+                </div>
             }
 
             {(playerCheck || joined) && !gameFull && !error &&
-            <div className={styles.join}>
-                <h2>Waiting on {gameCheck.host} to start the game</h2>
-            </div>
+                <div className={styles.join}>
+                    <h2>Waiting on {gameCheck.host} to start the game</h2>
+                </div>
             }
 
             {gameFull &&
-            <div className={styles.join}>
-            <h2>This game is full, or the host has already started it. Go join another game!</h2>
-            </div>
+                <div className={styles.join}>
+                    <h2>This game is full, or the host has already started it. <Link href="/menu">Go join another game!</Link></h2>
+                </div>
             }
         
         </div>
@@ -147,6 +173,7 @@ export async function getServerSideProps({ params, query }) {
             gameCheck = null;
             playerCheck = null;
         } else {
+            gameCheck.code = params.game.toLowerCase();
             gameCheck.host = data.game.data.gameByCode.items[0].host.name;
             gameCheck.name = data.game.data.gameByCode.items[0].name;
             gameCheck.id = data.game.data.gameByCode.items[0].id;

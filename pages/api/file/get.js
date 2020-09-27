@@ -12,22 +12,33 @@ Returns:
 
 */
 
-import Amplify, { Storage } from "aws-amplify";
-import config from "../../../src/aws-exports.js";
+import AWS from 'aws-sdk';
 
-Amplify.configure({ ...config, ssr: true });
+AWS.config.update({
+    region: 'us-east-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    maxRetries: 3
+});
+
+const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 export default async (req, res) => {
-    let data;
-    try {
-        data = await Storage.get(req.query.name);
-    } catch (err) {
-        console.log("Unable to get file: " + err.errors[0].errorType);
-        console.log(err.errors[0].message);
-    }
 
-    res.statusCode = 200
-    res.json({ 
-        file: data ? data : null
-    })
+    let params = {Bucket: 'covalent-user-videos', Key: req.query.name};
+    s3.getObject(params, function(err, data) {
+        let error;
+
+        if (err) {
+            console.log(err, data);
+            error = err;
+        } 
+
+        res.statusCode = 200
+        res.json({ 
+            video: error ? null : data.Body
+        })
+    });
+
+    
 }

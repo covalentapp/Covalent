@@ -7,8 +7,7 @@ Creates a new set of facts.
 Requires:
 - Game ID (gameId)
 - Player ID (playerId)
-- Three facts (fact1, fact2, fact3)
-- Three statuses (status1, status2, status3)
+- Three facts (fact1, fact2, lie)
 
 Returns:
 - Facts ID
@@ -36,15 +35,15 @@ export default async (req, res) => {
                     facts: 
                         [{
                             name: req.query.fact1,
-                            valid: req.query.status1,
+                            valid: true,
                         },
                         {
                             name: req.query.fact2,
-                            valid: req.query.status2,
+                            valid: true,
                         },
                         {
-                            name: req.query.fact3,
-                            valid: req.query.status3
+                            name: req.query.lie,
+                            valid: false
                         }]
                 }
             }

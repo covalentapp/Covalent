@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { setCookie } from 'nookies'
 import SimpleButton from '../components/SimpleButton';
 import Avatar from '../components/Avatar';
 import styles from '../styles/Settings.module.css';
@@ -10,17 +12,6 @@ import styles from '../styles/Settings.module.css';
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
 export default function Settings({ code }) {
-
-    /*
-    
-    I think I'm breaking some javascript rules here with the code I've written below.
-
-    This note is a reminder to me (Arek) to go back and fix this eventually.
-
-    */
-
-
-    // MOVE IDS (game and player) TO LOCAL STORAGE
 
     const [copied, setCopied] = useState(false);
     const [time, setTime] = useState(30);
@@ -34,7 +25,37 @@ export default function Settings({ code }) {
     const [gameId, setId] = useState('');
     const [hostId, selfId] = useState('');
     const [gamePlayers, addPlayers] = useState([]);
-    const [countdown, setCountdown] = useState(3);
+
+
+    const router = useRouter();
+
+    /* 
+    Slow down succeeding API calls to check for new players
+
+    https://www.pentarem.com/blog/how-to-use-settimeout-with-async-await-in-javascript/
+    */
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    /*
+    LOCAL STORAGE
+    */
+
+    useEffect(() => { 
+        if (gameId && hostId) {
+            setCookie(null, 'gameID', gameId, {
+                maxAge: 24 * 60 * 60,
+            });
+            setCookie(null, 'playerID', hostId, {
+                maxAge: 24 * 60 * 60,
+            });
+            setCookie(null, 'gameCode', code, {
+                maxAge: 24 * 60 * 60,
+            });
+        }
+    }, [gameId, hostId]);
 
     /*
     ENABLE GAME
@@ -72,15 +93,6 @@ export default function Settings({ code }) {
         }
 
         async function searchPlayers () {
-                /* 
-                Slow down succeeding API calls to check for new players
-
-                https://www.pentarem.com/blog/how-to-use-settimeout-with-async-await-in-javascript/
-                */
-
-            function delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
 
             function appendPlayer(player, index) {
                 if (player.id != hostId) {
@@ -101,7 +113,9 @@ export default function Settings({ code }) {
                     addPlayers(playerList);
                     playerList = [];
                     numPlayers++;
-                }  
+                } else if (data.game.data.getGame.enabled) {
+                    break;
+                }
                 await delay(2000);
             }
         }
@@ -114,6 +128,7 @@ export default function Settings({ code }) {
     useEffect(() => {
 
         if (started) {
+            setError('');
             enableGame();
         }
 
@@ -123,17 +138,14 @@ export default function Settings({ code }) {
             data = await res.json();
             if (!data.gameId) {
                 setStart(false);
+                setError("There are no players in this game!");
+            } else {
+                await delay(1000);
+                router.push("/submit");
             }
         }
 
-        // REDIRECT TO GAME PAGE
-
     }, [started]);
-
-    /*
-    Possible flow if I can't get the loop to stop: just do all the start stuff and redirect to the game page
-    */
-    
 
     return (
         <div>
@@ -166,17 +178,17 @@ export default function Settings({ code }) {
             <p>As the host, write instructions for your teammates and choose the settings for your game below:</p>
             <div className={styles.settingsForm} id="settings-form">
                 <b><label htmlFor="rounds">Your Name: </label></b>
-                <input className={styles.long} type="text" placeholder="John Doe" onChange={event => setName(event.target.value)} disabled={enabled}/>
+                <input className={styles.long} type="text" placeholder="John Doe" onChange={event => setName(event.target.value)} readOnly={enabled}/>
                 <b><label htmlFor="time">Time Limit (30-300s): </label></b>
-                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" onChange={event => setTime(event.target.value)} disabled={enabled}/>
+                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" onChange={event => setTime(event.target.value)} readOnly={enabled}/>
                 <b><label htmlFor="players">Player Count (2-50): </label></b>
-                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" onChange={event => setPlayers(event.target.value)} disabled={enabled}/>
-                <br></br>
+                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" onChange={event => setPlayers(event.target.value)} readOnly={enabled}/>
+                <br/>
                 <b><label htmlFor="instructions">Instructions For Players:</label></b>
-                <br></br>
-                <textarea className={styles.instructions} id="instructions" rows="4" cols="50" placeholder="What do you want to tell your players?" onChange={event => setInstructions(event.target.value)} disabled={enabled}>
+                <br/>
+                <textarea className={styles.instructions} id="instructions" rows="4" cols="50" placeholder="What do you want to tell your players?" onChange={event => setInstructions(event.target.value)} readOnly={enabled}>
                 </textarea>
-                <br></br>
+                <br/>
                 <b><label>Code:
                     <input className={styles.settingsInput + " " + styles.code} type="text" value={code} id="code" readOnly />
                 </label></b>
@@ -190,38 +202,38 @@ export default function Settings({ code }) {
                 {copied &&
                 <b>Copied!</b>
                 }
-                <br></br>
+                <br/>
                 {!enabled &&
-                <SimpleButton name="let's go!" type="join" onClick={() => {
-                    setError('');
-                    if (instructions == '' || name == '' || players > 50 || players < 2 || time > 300 || time < 30) {
-                        setError("Please fill in all the fields correctly.")
-                    } else {
-                        setEnabled(true);
-                    }
-                }} />
+                    <SimpleButton name="let's go!" type="join" onClick={() => {
+                        setError('');
+                        if (instructions == '' || name == '' || players > 50 || players < 2 || time > 300 || time < 30) {
+                            setError("Please fill in all the fields correctly.")
+                        } else {
+                            setEnabled(true);
+                        }
+                    }} />
                 }
 
                 {enabled && !started &&
-                <SimpleButton name="start" type="join" onClick={() => {
-                    setStart(true);
-                }}/>
+                    <SimpleButton name="start" type="join" onClick={() => {
+                        setStart(true);
+                    }}/>
                 }
 
                 {started && 
-                <SimpleButton name="starting..." type="join" onClick={() => {}} />
+                    <SimpleButton name="starting..." type="join" />
                 }   
                 <p>{error}</p>
             </div>
                 {enabled &&
-                <div>
-                <hr className={styles.line}/>
-                <h2>Joined</h2>
+                    <div>
+                        <hr className={styles.line}/>
+                        <h2>Joined</h2>
 
-                <div id="players" className={styles.center}>  
-                {gamePlayers}
-                </div>
-                </div>
+                        <div id="players" className={styles.center}>  
+                            {gamePlayers}
+                        </div>
+                    </div>
                 }
         </div>
     );

@@ -1,16 +1,62 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { parseCookies } from "nookies";
 import Head from "next/head";
 import styles from "../styles/Submit.module.css";
-import Selection from "../components/Selection";
 import SubmitForm from "../components/SubmitForm";
 import Timer from "../components/Timer";
-import routingWrapper from "../components/routingWrapper";
+import { GameVideoRecorder } from "../components/VideoLib";
 
 // This file is for the 2 Truths & A Lie game
 // @Daniel
 
-class Submit extends Component {
-    render() {
+const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
+
+export default function Submit ({ cookies }) {
+
+    const [video, setVideo] = useState(null);
+    const [truth1, setFirstTruth] = useState(null);
+    const [truth2, setSecondTruth] = useState(null);
+    const [lie, setLie] = useState(null);
+    const [submitted, setSubmit] = useState(false);
+
+    useEffect(() => {
+        if (submitted) {
+            if (video && truth1 && truth2 && lie) {
+                addFacts();
+            } else {
+                setSubmit(false);
+            }
+
+            async function addFacts() {
+                let res, data, upload, uploadData;
+                res = await fetch(origin + '/api/create/facts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie);
+                data = await res.json();
+
+                const formData = new FormData();
+                formData.append('file', video);
+
+                upload = await fetch(origin + '/api/file/upload?name=' + cookies.playerID + '.webm', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                uploadData = await upload.json();
+                if (data.factsId && uploadData) {
+                    // go to game once everyone has submitted their facts
+                } else {
+                    // something bad happened!  
+
+                }
+            }
+        }
+    },[submitted]);
+
+    /* 
+    For some reason, p1 and p2 are not showing up as valid HTML tags.
+    This is a reminder to fix that.
+    */
+
         return (
             <div className={styles.Game}>
                 <Head>
@@ -39,42 +85,48 @@ class Submit extends Component {
                     }
                 `}</style>
 
-                <div className={styles.gameBody}>
+                {cookies.gameID &&
+                <div>
+                    <div className={styles.gameBody}>
 
-                    <div className={styles.gameBar}>
-                        <div className={styles.gameLogo}>
-                            <img
-                                src="/images/logo.svg"
-                                className={styles.logoImg}
-                                alt="Covalent Logo"
-                            ></img>
-                            <div className={styles.logoText}>
-                                <p1>COVALENT</p1>
-                                <p2>2 TRUTHS &#38; A LIE</p2>
+                        <div className={styles.gameBar}>
+                            <div className={styles.gameLogo}>
+                                <img
+                                    src="/images/logo.svg"
+                                    className={styles.logoImg}
+                                    alt="Covalent Logo"
+                                ></img>
+                                <div className={styles.logoText}>
+                                    <p1>COVALENT</p1>
+                                    <p2>2 TRUTHS &#38; A LIE</p2>
+                                </div>
                             </div>
-                        </div>
-                        <div className={styles.centerText}>
-                            <p1>GET READY!</p1>
-                            <p2>PLAYER</p2>
-                        </div>
-                        <div className={styles.gameTimer}>
-                            <Timer></Timer>
+                            <div className={styles.centerText}>
+                                <p1>GET READY!</p1>
+                                <p2>PLAYER</p2>
+                            </div>
+                            <div className={styles.gameTimer}>
+                                <Timer></Timer>
                         </div>
                     </div>
 
                     <div className={styles.gameMain}>
                         <div>
-                            <img
-                                src="/images/video.jpg"
-                                className={styles.videoImg}
-                                alt="Video Placeholder"
-                            ></img>
+                            <GameVideoRecorder onRecordingComplete={videoBlob => {
+                                let videoFile = new File([videoBlob], cookies.playerID + '.webm', {type: 'video/webm',});
+                                setVideo(videoFile)
+                            }}/>
                         </div>
                         <div>
                             <p>WRITE YOUR <strong>2 TRUTHS &#38; A LIE</strong></p>
                         </div>
 
-                        <SubmitForm></SubmitForm>
+                        <SubmitForm 
+                            onTruthOneChange={event => setFirstTruth(event.target.value)} 
+                            onTruthTwoChange={event => setSecondTruth(event.target.value)} 
+                            onLieChange={event => setLie(event.target.value)}
+                            onSubmit={() => setSubmit(true)}
+                        />
                     </div>
                 </div>
 
@@ -97,8 +149,16 @@ class Submit extends Component {
                     </div>
                 </div>
             </div>
+            }
+        </div>
         );
-    }
 }
 
-export default routingWrapper(Submit);
+export async function getServerSideProps(ctx) {
+    const cookies = parseCookies(ctx)
+    /* 
+    Implement: don't allow people to join game with old game information
+    Also: don't allow people to join game without the game being enabled
+    */
+    return { props: { cookies } }
+}
