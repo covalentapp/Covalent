@@ -8,6 +8,11 @@ import routingWrapper from "../components/routingWrapper";
 //issues: if viewport height is too small, it'll overflow and things will get hidden
 
 class Results extends Component {
+    handleClick = (e) => {
+        e.preventDefault();
+        this.props.router.push("menu");
+    };
+    
     render() {
         return (
             <div className={styles.Results}>
@@ -64,7 +69,10 @@ class Results extends Component {
                                     ></div>
                                 </div>
                             </div>
-                            <div className={styles.trickster} id={styles.second}>
+                            <div
+                                className={styles.trickster}
+                                id={styles.second}
+                            >
                                 <p>hi</p>
                                 <div className={styles.progressBarBorder}>
                                     <div
@@ -87,22 +95,27 @@ class Results extends Component {
                     <hr />
                     <div className={styles.guessersContainer}>
                         <div className={styles.guessers}>
-                        <h1>TOP GUESSERS</h1>
-                        <div className={styles.guesser} id={styles.first}>
-                            <p>hi</p>
-                        </div>
-                        <div className={styles.guesser} id={styles.second}>
-                            <p>hi</p>
-                        </div>
-                        <div className={styles.guesser} id={styles.third}>
-                            <p>hi</p>
-                        </div>
+                            <h1>TOP GUESSERS</h1>
+                            <div className={styles.guesser} id={styles.first}>
+                                <p>hi</p>
+                            </div>
+                            <div className={styles.guesser} id={styles.second}>
+                                <p>hi</p>
+                            </div>
+                            <div className={styles.guesser} id={styles.third}>
+                                <p>hi</p>
+                            </div>
                         </div>
                     </div>
                     <hr />
                     <div className={styles.exit}>
                         <div>THANKS FOR PLAYING!</div>
-                        <SimpleButton name="EXIT TO MENU" type="host" autoWidth={true}></SimpleButton>
+                        <SimpleButton
+                            name="EXIT TO MENU"
+                            type="host"
+                            style={{ padding: "0 1.5vw" }}
+                            onClick={this.handleClick}
+                        ></SimpleButton>
                     </div>
                 </div>
             </div>

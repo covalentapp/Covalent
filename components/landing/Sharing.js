@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/Sharing.module.css";
+import styles from "../../styles/Sharing.module.css";
 
 export default function Sharing() {
     return (

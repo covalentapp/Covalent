@@ -1,16 +1,18 @@
 .simpleButton {
+    --fontmin: 4;
+    --fontvar: 2.5;
     outline: 0 !important;
-    width: 20vmin;
-    height: 5vmin;
+    width: auto;
+    height: 5vh;
     border: 1px solid #000000;
     border-radius: 24px;
     background-color: white;
     color: black;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: calc(4px + 2.5vmin);
-    min-width: 120px;
-    min-height: 40px;
+    font-size: calc(var(--fontmin) * 1px + var(--fontvar) * 1vmin);
+    min-width: 20vmin;
+    min-height: 20px;
     text-transform: uppercase;
     text-align: center;
     margin: 1vmin;
@@ -18,21 +20,13 @@
     line-height: 0;
 }
 
-.simpleButton div {
-
-}
-
-@media all and (max-height: 400px) {
+@media all and (max-height: 400px), (max-width: 400px) {
     .simpleButton {
-        font-size: 12px;
+        font-size: 14px;
+        min-width: 80px;
     }
 }
 
-@media all and (max-width: 400px) {
-    .simpleButton {
-        font-size: 12px;
-    }
-}
 .simpleButton:hover {
     background-color: lightgray;
     outline: none;
@@ -94,9 +88,4 @@
 
 .purple:active {
     background-color: #3d1d72;
-}
-
-#autoWidth {
-    width: auto;
-    padding: 0 1.5vw;
 }

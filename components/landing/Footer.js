@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import styles from '../styles/Footer.module.css';
+import React from 'react';
+import styles from '../../styles/Footer.module.css';
 
 
-class Footer extends Component {
-    render() {
+export default function Footer(){
+
         return (
             <div className={styles.footer}>
                 <p className={styles.content}>
@@ -12,7 +12,5 @@ class Footer extends Component {
                 </p>
             </div>
         );
-    }
-}
 
-export default Footer;
+}

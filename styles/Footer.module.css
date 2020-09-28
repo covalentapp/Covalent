@@ -1,6 +1,6 @@
 #alignright{
     float:right; 
-    display: flexbox;
+    display: flex;
 }
 
 .footer{
@@ -11,5 +11,5 @@
 }
 
 .footer .content{
-    padding:3vmin 6vmin; 
+    padding:3vh 3vw; 
 }

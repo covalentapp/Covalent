@@ -94,6 +94,7 @@ class Menu extends Component {
                             <SimpleButton
                                 name="HOST"
                                 type="host"
+                                fontmin="0px"
                                 onClick={this.handleHostClick}
                             ></SimpleButton>
                         </div>

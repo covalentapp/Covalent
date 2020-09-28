@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "../styles/Contact.module.css";
+import styles from "../../styles/Contact.module.css";
 
 const spanStyles = {
     color: "#80FFDB"

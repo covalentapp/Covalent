@@ -4,9 +4,9 @@
 </div>
 */
 
-.Features {
+.features {
     /* Adjust padding to fit. */
-    height: calc(100vh - 2em);
+    height: 100%;
     padding-left: 4em;
     padding-right: 4em;
     padding-top: 2em;

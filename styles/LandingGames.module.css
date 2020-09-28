@@ -2,17 +2,22 @@
 .table{
     width: 100%; 
     text-align: center;
+    padding-bottom: 5vh;
 }
+
 .column .text{
-    padding:3vmin; 
     width:30%; 
 }
 
-.landing{
+.landing {
     background: #56cfe1;
     font-family: 'Roboto', sans-serif; 
     letter-spacing: 0.05em; 
-    padding:7vmin 5vmin
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 5vw;
 }
 
 .landing h1{
