@@ -5,6 +5,7 @@ import Head from "next/head";
 import styles from "../styles/Submit.module.css";
 import SubmitForm from "../components/SubmitForm";
 import Timer from "../components/Timer";
+import Error from "../components/Error";
 import { GameVideoRecorder } from "../components/VideoLib";
 
 // This file is for the 2 Truths & A Lie game
@@ -12,7 +13,7 @@ import { GameVideoRecorder } from "../components/VideoLib";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Submit ({ cookies }) {
+export default function Submit ({ cookies, error, instructions }) {
 
     const [video, setVideo] = useState(null);
     const [truth1, setFirstTruth] = useState(null);
@@ -41,6 +42,8 @@ export default function Submit ({ cookies }) {
                     body: formData
                 });
 
+                // put restraints on the uploads (probably S3 related). figure out delete functions
+
                 uploadData = await upload.json();
                 if (data.factsId && uploadData) {
                     // go to game once everyone has submitted their facts
@@ -53,7 +56,7 @@ export default function Submit ({ cookies }) {
     },[submitted]);
 
     /* 
-    For some reason, p1 and p2 are not showing up as valid HTML tags.
+    For some reason, p1 and p2 are not showing up as valid HTML tags in the JS console.
     This is a reminder to fix that.
     */
 
@@ -85,7 +88,11 @@ export default function Submit ({ cookies }) {
                     }
                 `}</style>
 
-                {cookies.gameID &&
+                {error &&
+                    <Error text={error}/>
+                }
+
+                {cookies.gameID && instructions &&
                 <div>
                     <div className={styles.gameBody}>
 
@@ -145,7 +152,7 @@ export default function Submit ({ cookies }) {
                     <divider />
                     <div>
                         <h1>FROM YOUR HOST</h1>
-                        <p>Hi everyone! Welcome to Covalent! When you’re “recording,” please say your name, your graduation year, your major, and your favorite color. Please also introduce your 2 truths and a lie!</p>
+                        <p>{instructions}</p>
                     </div>
                 </div>
             </div>
@@ -156,9 +163,35 @@ export default function Submit ({ cookies }) {
 
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
-    /* 
-    Implement: don't allow people to join game with old game information
-    Also: don't allow people to join game without the game being enabled
-    */
-    return { props: { cookies } }
+
+    let error = null, instructions = null;
+
+    if (cookies.gameID) {
+        let res, data;
+        try {
+            res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID);
+            data = await res.json();
+        } catch (err) {
+            console.log(err);
+        }
+
+        if (!data.game) {
+            error = "Game not found.";
+        } else if (!data.game.data.getGame.enabled) {
+             error = "Your host hasn't enabled this game yet.";
+        } else if (data.game.data.getGame.players.items.filter(obj => { return obj.id === cookies.playerID; })[0].facts) {
+            error = "You've already inputted your facts!";
+        } else {
+            instructions = data.game.data.getGame.name;
+        }
+
+    }
+
+    return { 
+        props: { 
+            cookies, 
+            error, 
+            instructions 
+        } 
+    }
 }

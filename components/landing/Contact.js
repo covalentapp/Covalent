@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import styles from "../../styles/Contact.module.css";
+import styles from "../../styles/landing/Contact.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const spanStyles = {
     color: "#80FFDB"
 }
 
-class Contact extends React.Component {
+class Contact extends Component {
     constructor(props) {
         super(props);
         this.state = { value: '' };
@@ -38,11 +39,9 @@ class Contact extends React.Component {
                             onChange={this.handleChange}
                         />
                     </label>
-                    <input
-                        className={styles.emailSubmit}
-                        type="submit"
-                        value="&#10140;"
-                    />
+                    <button className={styles.emailSubmit} type="submit">
+                        <FontAwesomeIcon icon="arrow-circle-right" className={styles.submitIcon}/>
+                    </button>
                 </form>
             </div>
         );

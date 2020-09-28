@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SimpleButton from "../SimpleButton";
-import styles from "../../styles/NavBar.module.css";
+import styles from "../../styles/landing/NavBar.module.css";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { scrollToTop } from "react-scroll/modules/mixins/animate-scroll";
 

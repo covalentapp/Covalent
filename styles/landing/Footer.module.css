@@ -3,12 +3,13 @@
     display: flex;
 }
 
+
 .footer{
     width:100%;
-    background-color: #e1e1e1;
     font-family: 'Roboto', sans-serif; 
-    letter-spacing: 0.05em; 
+    letter-spacing: 0.05em;
 }
+
 
 .footer .content{
     padding:3vh 3vw; 

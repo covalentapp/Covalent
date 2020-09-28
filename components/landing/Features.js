@@ -1,6 +1,6 @@
 import React from "react";
 import { Fade } from "react-slideshow-image";
-import styles from "../../styles/Features.module.css";
+import styles from "../../styles/landing/Features.module.css";
 
 const properties = {
     duration: 10000,

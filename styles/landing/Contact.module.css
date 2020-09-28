@@ -1,8 +1,8 @@
 .contactBody {
     background-color: #5A4FCF;
     color: #FFFFFF;
-    padding-top: 6em;
-    padding-bottom: 10em;
+    padding-top: 5vmin;
+    padding-bottom: 10vmin;
     text-align: center;
 }
 
@@ -10,14 +10,14 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: 64px;
+    font-size: calc(18px + 3vmin);
 }
 
 .contactBody p {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 28px;
+    font-size: calc(9px + 1.5vmin);
     padding-bottom: 1em;
 }
 
@@ -40,12 +40,29 @@
 }
 
 .emailSubmit {
-    width: 5vmin;
-    height: 5vmin;
+    width: calc(10px + 5vmin);
+    height: calc(10px + 5vmin);
     margin-left: 0.5em;
     border: 0px;
     border-radius: 2.5vmin;
-    background-color: #80FFDB;
-    font-size: 36px;
-    color: #5A4FCF;
+    background-color: #5A4FCF;
+    outline: 0 !important;
+}
+
+.emailSubmit .submitIcon {
+    width: calc(10px + 5vmin);
+    height: calc(10px + 5vmin);
+    margin-right: 1em;
+    border-radius: 2.5vmin;
+    color: #80FFDB;
+    background-color: #5A4FCF;
+    cursor: pointer;
+}
+
+.submitIcon:hover {
+    color: #00DB9D;
+}
+
+.submitIcon:active {
+    color: #019a6e;
 }

@@ -1,4 +1,3 @@
-import { button } from 'aws-amplify';
 import React, { Component } from 'react';
 import styles from '../styles/Buttons.module.css';
 

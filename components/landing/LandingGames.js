@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/LandingGames.module.css";
+import styles from "../../styles/landing/LandingGames.module.css";
 import SimpleButton from "../SimpleButton";
 
 export default function LandingGames() {

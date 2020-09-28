@@ -11,6 +11,8 @@ Requires:
 Returns:
 - Upload success or failure
 
+Note: formidable may fail on the AWS serverless environment.
+
 */
 
 import formidable from 'formidable';

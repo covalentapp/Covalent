@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { setCookie } from 'nookies'
 import SimpleButton from '../components/SimpleButton';
 import Avatar from '../components/Avatar';
+import Error from '../components/Error';
 import styles from '../styles/Settings.module.css';
 
 /*This file is for the Settings component for Covalent
@@ -173,68 +174,75 @@ export default function Settings({ code }) {
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | New Game</title>
             </Head>
-            <h1>Instructions</h1>
-            <i>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie. However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie, so make the truths as interesting as possible!</i>
-            <p>As the host, write instructions for your teammates and choose the settings for your game below:</p>
-            <div className={styles.settingsForm} id="settings-form">
-                <b><label htmlFor="rounds">Your Name: </label></b>
-                <input className={styles.long} type="text" placeholder="John Doe" onChange={event => setName(event.target.value)} readOnly={enabled}/>
-                <b><label htmlFor="time">Time Limit (30-300s): </label></b>
-                <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" onChange={event => setTime(event.target.value)} readOnly={enabled}/>
-                <b><label htmlFor="players">Player Count (2-50): </label></b>
-                <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" onChange={event => setPlayers(event.target.value)} readOnly={enabled}/>
-                <br/>
-                <b><label htmlFor="instructions">Instructions For Players:</label></b>
-                <br/>
-                <textarea className={styles.instructions} id="instructions" rows="4" cols="50" placeholder="What do you want to tell your players?" onChange={event => setInstructions(event.target.value)} readOnly={enabled}>
-                </textarea>
-                <br/>
-                <b><label>Code:
-                    <input className={styles.settingsInput + " " + styles.code} type="text" value={code} id="code" readOnly />
-                </label></b>
-                <b><label>Link:
-                     <input className={styles.settingsInput + " " + styles.long} type="text" value={"covalent.app/join/" + code} id="link" readOnly />
-                </label></b>
-                <SimpleButton name="copy link" type="small" onClick={() => { 
-                    navigator.clipboard.writeText("covalent.app/join/" + code) 
-                    setCopied(true);
-                }}/>
-                {copied &&
-                <b>Copied!</b>
-                }
-                <br/>
-                {!enabled &&
-                    <SimpleButton name="let's go!" type="join" onClick={() => {
-                        setError('');
-                        if (instructions == '' || name == '' || players > 50 || players < 2 || time > 300 || time < 30) {
-                            setError("Please fill in all the fields correctly.")
-                        } else {
-                            setEnabled(true);
-                        }
-                    }} />
-                }
-
-                {enabled && !started &&
-                    <SimpleButton name="start" type="join" onClick={() => {
-                        setStart(true);
+            {(code === "error") &&
+                <Error text="An internal error occurred. We're sorry for the inconvenience." />
+            }
+            {(code != "error") &&
+            <div>
+                <h1>Instructions</h1>
+                <i>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie. However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie, so make the truths as interesting as possible!</i>
+                <p>As the host, write instructions for your teammates and choose the settings for your game below:</p>
+                <div className={styles.settingsForm} id="settings-form">
+                    <b><label htmlFor="rounds">Your Name: </label></b>
+                    <input className={styles.long} type="text" placeholder="John Doe" onChange={event => setName(event.target.value)} readOnly={enabled}/>
+                    <b><label htmlFor="time">Time Limit (30-300s): </label></b>
+                    <input className={styles.settingsInput} type="number" min="30" max="300" step="30" defaultValue="30" onChange={event => setTime(event.target.value)} readOnly={enabled}/>
+                    <b><label htmlFor="players">Player Count (2-50): </label></b>
+                    <input className={styles.settingsInput} type="number" min="2" max="50" defaultValue="2" onChange={event => setPlayers(event.target.value)} readOnly={enabled}/>
+                    <br/>
+                    <b><label htmlFor="instructions">Instructions For Players:</label></b>
+                    <br/>
+                    <textarea className={styles.instructions} id="instructions" rows="4" cols="50" placeholder="What do you want to tell your players?" onChange={event => setInstructions(event.target.value)} readOnly={enabled}>
+                    </textarea>
+                    <br/>
+                    <b><label>Code:
+                        <input className={styles.settingsInput + " " + styles.code} type="text" value={code} id="code" readOnly />
+                    </label></b>
+                    <b><label>Link:
+                        <input className={styles.settingsInput + " " + styles.long} type="text" value={"covalent.app/join/" + code} id="link" readOnly />
+                    </label></b>
+                    <SimpleButton name="copy link" type="small" onClick={() => { 
+                        navigator.clipboard.writeText("covalent.app/join/" + code) 
+                        setCopied(true);
                     }}/>
-                }
+                    {copied &&
+                    <b>Copied!</b>
+                    }
+                    <br/>
+                    {!enabled &&
+                        <SimpleButton name="let's go!" type="join" onClick={() => {
+                            setError('');
+                            if (instructions == '' || name == '' || players > 50 || players < 2 || time > 300 || time < 30) {
+                                setError("Please fill in all the fields correctly.")
+                            } else {
+                                setEnabled(true);
+                            }
+                        }} />
+                    }
 
-                {started && 
-                    <SimpleButton name="starting..." type="join" />
-                }   
-                <p>{error}</p>
-            </div>
-                {enabled &&
-                    <div>
-                        <hr className={styles.line}/>
-                        <h2>Joined</h2>
+                    {enabled && !started &&
+                        <SimpleButton name="start" type="join" onClick={() => {
+                            setStart(true);
+                        }}/>
+                    }
 
-                        <div id="players" className={styles.center}>  
-                            {gamePlayers}
+                    {started && 
+                        <SimpleButton name="starting..." type="join" />
+                    }   
+                    <p>{error}</p>
+                </div>
+                    {enabled &&
+                        <div>
+                            <hr className={styles.line}/>
+                            <h2>Joined</h2>
+
+                            <div id="players" className={styles.center}>  
+                                {gamePlayers}
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+            </div>
+            }
         </div>
     );
 }
@@ -253,7 +261,7 @@ export async function getServerSideProps() {
             data = await res.json();
         } while (data.game.data.gameByCode.items.length != 0);
     } catch (err) {
-        code = "error"; // THIS IS TEMPORARY. ERROR NEEDS TO BE REFLECTED ACROSS WHOLE PAGE
+        code = "error"; 
         console.log(err);
     }
     return {

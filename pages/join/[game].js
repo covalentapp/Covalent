@@ -4,7 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
 import { setCookie } from 'nookies'
-import SimpleButton from '../../components/SimpleButton.js';
+import SimpleButton from '../../components/SimpleButton';
+import Error from '../../components/Error';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
@@ -119,12 +120,11 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
             </Head>     
             
             {error && 
-                <div className={styles.join}>
-                    <h2>An internal error occurred. We're sorry for the inconvenience.</h2>
-                </div>
+                <Error text="An internal error occurred. We're sorry for the inconvenience." />
             }
 
             {!gameCheck && !error && 
+                
                 <div className={styles.join}>
                     <h2>Invalid game code. Make sure your host has enabled the game (<Link href="/menu">or join another game</Link>).</h2>
                 </div>

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
-import styles from "../../styles/Connect.module.css";
+import styles from "../../styles/landing/Connect.module.css";
 
 class Connect extends Component {
     constructor(props) {

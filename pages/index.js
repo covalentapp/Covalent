@@ -5,6 +5,7 @@ import Sharing from "../components/landing/Sharing";
 import NavBar from "../components/landing/NavBar";
 import Features from "../components/landing/Features";
 import LandingGames from "../components/landing/LandingGames";
+import Contact from "../components/landing/Contact";
 import Footer from "../components/landing/Footer";
 
 export default function Home() {
@@ -47,6 +48,9 @@ export default function Home() {
                     </div>
                     <div id="games">
                         <LandingGames />
+                    </div>
+                    <div id="contact">
+                        <Contact />
                     </div>
                     <div id="footer">
                         <Footer />
