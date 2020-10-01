@@ -71,3 +71,10 @@
 .submitButton:active {
     background: #b2e8f9;
 }
+
+.submitted {
+    font-family: Roboto;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: .1em;
+}

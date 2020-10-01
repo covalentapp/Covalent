@@ -25,35 +25,24 @@ class GameVideoRecorder extends Component {
 }
 
 class VideoPlayback extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            file: null,
-        };
-    }
-
-    componentDidMount() {
-        // Get video file from S#
-    }
 
     render () {
-        if (this.state.file) {
+        
             return (
-                <div className={styles.videoContainer}>
-                    <video className={styles.video} autoPlay loop>
-                        <source src={this.state.file} type="video/mp4"></source>
+                <div>
+                {this.props.video &&
+                    <video className={styles.videoContainer} loop autoPlay controls>
+                        <source src={this.props.video} type="video/webm"></source>
                         Your browser does not support the video tag.
                     </video>
+                }
+                {!this.props.video &&
+                    <div className={styles.videoContainer}> 
+                        <h2 className={styles.loadingText}>Loading video...</h2>
+                    </div>
+                }
                 </div>
             )
-        } else {
-            return (
-                <p>Loading...</p>
-            )
-        }
-
-
-
 
     }
 }

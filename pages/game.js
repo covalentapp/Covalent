@@ -1,18 +1,124 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseCookies } from "nookies";
+import { useRouter } from 'next/router'
 import Head from "next/head";
 import styles from "../styles/Game.module.css";
 import PreviousBonds from "../components/PreviousBonds";
 import Selection from "../components/Selection";
 import Timer from "../components/Timer";
-import routingWrapper from "../components/routingWrapper";
+import Error from "../components/Error";
+import { VideoPlayback } from "../components/VideoLib";
 
 // This file is for the 2 Truths & A Lie game
 // @Daniel
 
-class Game extends Component {
-    render() {
+const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
+
+export default function Game ({ cookies, error, facts, time }) {
+
+    const [currentFact, incrementFacts] = useState(0);
+    const [factSet, setFacts] = useState(null);
+    const [fact1, setFact1] = useState({});
+    const [fact2, setFact2] = useState({});
+    const [fact3, setFact3] = useState({});
+    const [name, setName] = useState('');
+    const [video, setVideo] = useState(null);
+    const [gameTime, setTime] = useState(0);
+    const [submitted, setSubmitted] = useState(0);
+    const [selected, setSelected] = useState(false);
+    const [selectedFact, selectFact] = useState(null);
+    const [results, enableResults] = useState(false);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (facts) {
+            if (currentFact < facts.length) {
+                setSelected(null);
+                selectFact(null); 
+                setFact1({});
+                setFact2({});
+                setFact3({});
+                setName('');
+                setVideo(null);
+                enableResults(false);
+                newFacts();
+            } else {
+                router.push("/results");
+            }
+        }
+    
+        async function newFacts() {
+            // Implement: jumble the three facts so they don't end up being the same each time!
+            // Implement: don't show your own facts
+
+            let playerId;
+
+            if (facts[currentFact].player.id == cookies.playerID) {
+                incrementFacts(currentFact + 1);
+            } else {
+                await fetch(origin + '/api/get/facts?factsId=' + facts[currentFact].id)
+                .then(response => response.json())
+                .then(data => {
+                    setFacts(shuffle(data.facts));
+                    setName(data.name);
+                    playerId = data.playerId;
+                });
+
+                await fetch(origin + '/api/file/get?name=' + playerId + '.webm')
+                .then(response => response.json())
+                .then(data => {
+                    setVideo(
+                        URL.createObjectURL(
+                            new File([new Uint8Array(data.video.data)],
+                            facts[currentFact].player.id + '.webm',
+                            {type: 'video/webm'})
+                        )
+                    );
+                });
+            }
+        }
+
+        /* 
+        Shuffle those facts to the beat
+        https://stackoverflow.com/a/6274381
+        */
+
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
+        }
+
+    },[currentFact]);
+
+    useEffect(() => {
+        if (factSet) {
+            setFact1(factSet[0]);
+            setFact2(factSet[1]);
+            setFact3(factSet[2]);
+            setTime(time);
+        }
+    },[factSet])
+
+    useEffect(() => {
+        if (results) {
+            if (selectedFact.valid) {
+                // fact was valid
+            } else {
+                // fact was not valid
+            }
+        }
+    }, [results])
+
         return (
+  
             <div className={styles.Game}>
                 <Head>
                     <meta charSet="utf-8" />
@@ -40,57 +146,128 @@ class Game extends Component {
                     }
                 `}</style>
 
-                <div className={styles.gameBody}>
+                {error &&
+                    <Error text={error} />
+                }
+                
+                
+                {!cookies.gameID &&
+                    <Error text="You're not currently in a game." />
+                }
 
-                    <div className={styles.gameBar}>
-                        <div className={styles.gameLogo}>
-                            <img
-                                src="/images/logo.svg"
-                                className={styles.logoImg}
-                                alt="Covalent Logo"
-                            ></img>
-                            <div className={styles.logoText}>
-                                <p1>COVALENT</p1>
-                                <p2>2 TRUTHS &#38; A LIE</p2>
+                {cookies.gameID && facts &&
+                <div>
+                    <div className={styles.gameBody}>
+
+                        <div className={styles.gameBar}>
+                            <div className={styles.gameLogo}>
+                                <img
+                                    src="/images/logo.svg"
+                                    className={styles.logoImg}
+                                    alt="Covalent Logo"
+                                ></img>
+                                <div className={styles.logoText}>
+                                    <p1>COVALENT</p1>
+                                    <p2>2 TRUTHS &#38; A LIE</p2>
+                                </div>
+                            </div>
+                            <div className={styles.centerText}>
+                                <p1>NOW BONDING WITH</p1>
+                                <p2>{name || "Loading..."}</p2>
+                            </div>
+                            <div className={styles.gameTimer}>
+                                <Timer time={gameTime} submitted={submitted} />
                             </div>
                         </div>
-                        <div className={styles.centerText}>
-                            <p1>NOW BONDING WITH</p1>
-                            <p2>PLAYER</p2>
-                        </div>
-                        <div className={styles.gameTimer}>
-                            <Timer></Timer>
+
+                        <div className={styles.gameMain}>
+                            <div>
+                                <VideoPlayback video={video}/>                         
+                            </div>
+                            <Selection
+                                player={name || "Loading..."}
+                                choice1={fact1.name || "Loading..."}
+                                choice2={fact2.name || "Loading..."}
+                                choice3={fact3.name || "Loading..."}
+                                choice1valid={fact1.valid}
+                                choice2valid={fact2.valid}
+                                choice3valid={fact3.valid}
+                                selected={selected}
+                                onClick1={() => {
+                                    selectFact(fact1);
+                                    setSelected(1);
+                                }}
+                                onClick2={() => {
+                                    selectFact(fact2);
+                                    setSelected(2);
+                                }}
+                                onClick3={() => {
+                                    selectFact(fact3);
+                                    setSelected(3);
+                                }}
+                                onSubmit={() => {
+                                    if (selected) {
+                                        enableResults(true);
+                                    }
+                                }}
+                                continue={() => {
+                                    incrementFacts(currentFact + 1); 
+                                }}
+                                results={results}
+                            ></Selection>
                         </div>
                     </div>
 
-                    <div className={styles.gameMain}>
-                        <div>
-                            <img
-                                src="/images/video.jpg"
-                                className={styles.videoImg}
-                                alt="Video Placeholder"
-                            ></img>
+                    <div className={styles.gameSide}>
+                        <div className={styles.scoreBox}>
+                            <p>1</p>
+                            {/* Replace 1 with actual score. */}
+                            <FontAwesomeIcon icon="check-circle" className={styles.scoreIcon} />
                         </div>
-                        <Selection
-                            player="Player"
-                            choice1="Choice 1"
-                            choice2="Choice 2"
-                            choice3="Choice 3"
-                        ></Selection>
+                        <PreviousBonds />
                     </div>
                 </div>
-
-                <div className={styles.gameSide}>
-                    <div className={styles.scoreBox}>
-                        <p>1</p>
-                        {/* Replace 1 with actual score. */}
-                        <FontAwesomeIcon icon="check-circle" className={styles.scoreIcon} />
-                    </div>
-                    <PreviousBonds />
-                </div>
+                }               
             </div>
-        );
-    }
+                    
+            );
 }
 
-export default routingWrapper(Game);
+export async function getServerSideProps(ctx) {
+    const cookies = parseCookies(ctx)
+
+    let error = null, facts = null, time = null;
+
+    if (cookies.gameID) {
+        let res, data;
+        try {
+            res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID);
+            data = await res.json();
+        } catch (err) {
+            console.log(err);
+        }
+
+        if (!data.game) {
+            error = "Game not found.";
+        } else if (!data.game.data.getGame.enabled) {
+            error = "Your host hasn't enabled this game yet.";
+        } else if (!data.game.data.getGame.facts.items.filter(obj => { return obj.player.id === cookies.playerID; }).length) {
+            error = "You haven't inputted your facts yet.";
+        } else if (data.game.data.getGame.facts.items.length < data.game.data.getGame.players.items.length) { 
+            error = "Not everyone has submitted their facts yet.";
+        } else {
+            facts = data.game.data.getGame.facts.items;
+            time = data.game.data.getGame.playerSeconds;
+        }
+
+    }
+
+    return {
+        props: {
+            cookies,
+            error,
+            facts,
+            time
+        }
+    }
+}

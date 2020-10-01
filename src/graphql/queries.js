@@ -58,6 +58,9 @@ export const getGame = /* GraphQL */ `
       facts {
         items {
           id
+          player {
+            id
+          }
           createdAt
           updatedAt
         }

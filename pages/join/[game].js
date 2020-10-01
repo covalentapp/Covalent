@@ -31,18 +31,21 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
     */
 
     useEffect(() => {
-        if (addedId && addedGameId && code) {
+        if (addedId && addedGameId) {
             setCookie(null, 'gameID', addedGameId, {
                 maxAge: 24 * 60 * 60,
+                path: '/',
             });
             setCookie(null, 'playerID', addedId, {
                 maxAge: 24 * 60 * 60,
+                path: '/',
             });
             setCookie(null, 'gameCode', code, {
                 maxAge: 24 * 60 * 60,
+                path: '/',
             });
         }
-    }, [addedId, addedGameId, code]);
+    }, [addedId, addedGameId]);
 
     /*
     Updates when player name is set and submitted

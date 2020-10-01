@@ -49,7 +49,14 @@ export default async (req, res) => {
             if (err) {
                 console.error(err);
             }
-            let params = {Bucket: 'covalent-user-videos', Key: req.query.name, Body: Buffer.from(data), ContentType: 'video/webm', ContentEncoding: 'base64'};
+
+            let params = {
+                Bucket: 'covalent-user-videos', 
+                Key: req.query.name, 
+                Body: Buffer.from(data), 
+                ContentType: 'video/webm', 
+                ContentEncoding: 'base64'
+            };
             s3.upload(params, function(err, data) {
                 if (err) {
                     console.log(err);

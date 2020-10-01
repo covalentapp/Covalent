@@ -13,6 +13,7 @@ class SubmitForm extends Component {
                         type="text"
                         onChange={this.props.onTruthOneChange}
                         autoComplete="off"
+                        readOnly={this.props.submitted}
                     />
                 </label>
                 <br />
@@ -24,6 +25,7 @@ class SubmitForm extends Component {
                         type="text"
                         onChange={this.props.onTruthTwoChange}
                         autoComplete="off"
+                        readOnly={this.props.submitted}
                     />
                 </label>
                 <br />
@@ -35,14 +37,22 @@ class SubmitForm extends Component {
                         type="text"
                         onChange={this.props.onLieChange}
                         autoComplete="off"
+                        readOnly={this.props.submitted}
                     />
                 </label>
                 <br />
+
+                {!this.props.submitted &&
                 <button
                     type="submit"
                     className={styles.submitButton}
                     onClick={this.props.onSubmit}
                 >SUBMIT</button>
+                }
+
+                {this.props.submitted &&
+                <h1 className={styles.submitted}>SUBMITTED! WAITING ON TEAMMATES...</h1>
+                }
             </div>
         );
     }

@@ -26,19 +26,20 @@ const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 export default async (req, res) => {
 
     let params = {Bucket: 'covalent-user-videos', Key: req.query.name};
-    s3.getObject(params, function(err, data) {
-        let error;
 
-        if (err) {
-            console.log(err, data);
-            error = err;
-        } 
+    let error, response;
+    await s3.getObject(params)
+    .promise()
+    .then(data => {
+        response = data;
+    })
+    .catch(err => {
+        console.log(err);
+        error = err;
+    }); 
 
-        res.statusCode = 200
-        res.json({ 
-            video: error ? null : data.Body
-        })
-    });
-
-    
+    res.statusCode = 200
+    await res.json({ 
+        video: error ? null : response.Body
+    })
 }

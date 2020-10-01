@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { parseCookies } from "nookies";
 import Head from "next/head";
+import { useRouter } from 'next/router'
 import styles from "../styles/Submit.module.css";
 import SubmitForm from "../components/SubmitForm";
 import Timer from "../components/Timer";
@@ -13,17 +13,25 @@ import { GameVideoRecorder } from "../components/VideoLib";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Submit ({ cookies, error, instructions }) {
+export default function Submit ({ cookies, error, instructions, time }) {
 
     const [video, setVideo] = useState(null);
     const [truth1, setFirstTruth] = useState(null);
     const [truth2, setSecondTruth] = useState(null);
     const [lie, setLie] = useState(null);
     const [submitted, setSubmit] = useState(false);
+    const [enabled, setEnabled] = useState(false);
+
+    const router = useRouter();
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     useEffect(() => {
         if (submitted) {
             if (video && truth1 && truth2 && lie) {
+                setEnabled(true);
                 addFacts();
             } else {
                 setSubmit(false);
@@ -46,7 +54,15 @@ export default function Submit ({ cookies, error, instructions }) {
 
                 uploadData = await upload.json();
                 if (data.factsId && uploadData) {
-                    // go to game once everyone has submitted their facts
+                    while (submitted) {
+                        res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID)
+                        data = await res.json();
+                        if (data.game.data.getGame.facts.items.length == data.game.data.getGame.players.items.length) {
+                            router.push("/game");
+                            break;
+                        }
+                        delay(2000);
+                    }
                 } else {
                     // something bad happened!  
 
@@ -92,6 +108,10 @@ export default function Submit ({ cookies, error, instructions }) {
                     <Error text={error}/>
                 }
 
+                {!cookies.gameID &&
+                    <Error text="You're not currently in a game." />
+                }
+
                 {cookies.gameID && instructions &&
                 <div>
                     <div className={styles.gameBody}>
@@ -113,7 +133,7 @@ export default function Submit ({ cookies, error, instructions }) {
                                 <p2>PLAYER</p2>
                             </div>
                             <div className={styles.gameTimer}>
-                                <Timer></Timer>
+                                <Timer time={time} disabled/>
                         </div>
                     </div>
 
@@ -133,14 +153,15 @@ export default function Submit ({ cookies, error, instructions }) {
                             onTruthTwoChange={event => setSecondTruth(event.target.value)} 
                             onLieChange={event => setLie(event.target.value)}
                             onSubmit={() => setSubmit(true)}
+                            submitted={enabled}
                         />
                     </div>
                 </div>
 
                 <div className={styles.gameSide}>
                     <div>
-                        <p><i>To use Covalent, please allow access to your camera. Covalent cannot take videos without this permission.</i></p>
-                        <p><i>Your videos are only stored on our servers for the duration of the game, and are deleted immediately after.</i></p>
+                        <p><i>To use Covalent, please allow access to your camera. Covalent cannot take videos without your permission.</i></p>
+                        <p><i>Your videos are only stored on our servers for the duration of the game, and are deleted shortly afterwards.</i></p>
                     </div>
                     <divider />
                     <div>
@@ -164,7 +185,7 @@ export default function Submit ({ cookies, error, instructions }) {
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
-    let error = null, instructions = null;
+    let error = null, instructions = null, time = null;
 
     if (cookies.gameID) {
         let res, data;
@@ -179,10 +200,11 @@ export async function getServerSideProps(ctx) {
             error = "Game not found.";
         } else if (!data.game.data.getGame.enabled) {
              error = "Your host hasn't enabled this game yet.";
-        } else if (data.game.data.getGame.players.items.filter(obj => { return obj.id === cookies.playerID; })[0].facts) {
+        } else if (data.game.data.getGame.facts.items.filter(obj => { return obj.player.id === cookies.playerID; }).length) {
             error = "You've already inputted your facts!";
         } else {
             instructions = data.game.data.getGame.name;
+            time = data.game.data.getGame.playerSeconds;
         }
 
     }
@@ -191,7 +213,8 @@ export async function getServerSideProps(ctx) {
         props: { 
             cookies, 
             error, 
-            instructions 
+            instructions,
+            time
         } 
     }
 }
