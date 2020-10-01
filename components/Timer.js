@@ -5,7 +5,9 @@ import styles from '../styles/Timer.module.css';
 // https://medium.com/better-programming/building-a-simple-countdown-timer-with-react-4ca32763dda7
 // @Daniel
 
-function Timer ({ time, disabled, submitted }) {
+// All of this absolutely NEEDS to go to the backend before a stable release.
+
+function Timer ({ time, disabled, details, submitted, parentTime }) {
 
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -13,7 +15,7 @@ function Timer ({ time, disabled, submitted }) {
     useEffect(() => {
         setMinutes(Math.floor(time / 60));
         setSeconds(time - (Math.floor((time / 60)) * 60))
-    }, [time]);
+    }, [time, disabled]);
 
     useEffect(() => {
         if (!disabled) {
@@ -29,16 +31,17 @@ function Timer ({ time, disabled, submitted }) {
                         setSeconds(59);
                     }
                 } 
+                parentTime(seconds + (minutes * 60));
             }, 1000)
             return () => clearInterval(interval);
         }
     }, [seconds, minutes])
 
         return (
-                <div className={styles.timer}>
+                <div className={styles.timer + " " + styles[!minutes && seconds && (seconds < 10) && 'timerDanger']}>
                     <div className={styles.timerText}>
                         <p1>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</p1>
-                        <p2>{submitted || "0"} SUBMITTED</p2>
+                        {details && <p2>{submitted || "0"} SUBMITTED</p2>}
                     </div>
                     <img
                             src="/images/clock.svg"

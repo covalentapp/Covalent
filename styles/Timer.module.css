@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.timerDanger {
+    background: #e1644e;
+}
+
 .timer .clockImg {
     height: 3vmin;
     padding-left: 0.4vw;

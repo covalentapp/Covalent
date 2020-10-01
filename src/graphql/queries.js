@@ -52,6 +52,11 @@ export const getGame = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -61,6 +66,14 @@ export const getGame = /* GraphQL */ `
           player {
             id
           }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      previous {
+        items {
+          id
           createdAt
           updatedAt
         }
@@ -100,6 +113,9 @@ export const listGames = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -134,6 +150,9 @@ export const getPlayer = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -158,6 +177,9 @@ export const getPlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          nextToken
+        }
+        previous {
           nextToken
         }
         playerSeconds
@@ -190,6 +212,34 @@ export const getPlayer = /* GraphQL */ `
         facts {
           name
           valid
+        }
+        createdAt
+        updatedAt
+      }
+      previous {
+        id
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          facts
+          correct
         }
         createdAt
         updatedAt
@@ -239,6 +289,11 @@ export const listPlayers = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -267,6 +322,9 @@ export const getFacts = /* GraphQL */ `
           updatedAt
         }
         facts {
+          nextToken
+        }
+        previous {
           nextToken
         }
         playerSeconds
@@ -304,6 +362,11 @@ export const getFacts = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
           id
           createdAt
           updatedAt
@@ -359,6 +422,127 @@ export const listFactss = /* GraphQL */ `
     }
   }
 `;
+export const getPrevious = /* GraphQL */ `
+  query GetPrevious($id: ID!) {
+    getPrevious(id: $id) {
+      id
+      game {
+        id
+        name
+        type
+        enabled
+        code
+        players {
+          nextToken
+        }
+        host {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          nextToken
+        }
+        previous {
+          nextToken
+        }
+        playerSeconds
+        playerNum
+        description
+        createdAt
+        updatedAt
+      }
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      facts {
+        facts
+        correct
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPreviouss = /* GraphQL */ `
+  query ListPreviouss(
+    $filter: ModelPreviousFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPreviouss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          facts
+          correct
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const gameByCode = /* GraphQL */ `
   query GameByCode(
     $code: String
@@ -391,6 +575,9 @@ export const gameByCode = /* GraphQL */ `
           updatedAt
         }
         facts {
+          nextToken
+        }
+        previous {
           nextToken
         }
         playerSeconds

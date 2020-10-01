@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseCookies } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import { useRouter } from 'next/router'
 import Head from "next/head";
 import styles from "../styles/Game.module.css";
@@ -29,6 +29,10 @@ export default function Game ({ cookies, error, facts, time }) {
     const [selected, setSelected] = useState(false);
     const [selectedFact, selectFact] = useState(null);
     const [results, enableResults] = useState(false);
+    const [previousID, setPreviousId] = useState(cookies.previousID);
+    const [connections, setConnections] = useState([]);
+    const [internalTime, setInternalTime] = useState(0);
+    const [disabledTimer, disableTimer] = useState(false);
 
     const router = useRouter();
 
@@ -50,8 +54,6 @@ export default function Game ({ cookies, error, facts, time }) {
         }
     
         async function newFacts() {
-            // Implement: jumble the three facts so they don't end up being the same each time!
-            // Implement: don't show your own facts
 
             let playerId;
 
@@ -104,18 +106,49 @@ export default function Game ({ cookies, error, facts, time }) {
             setFact2(factSet[1]);
             setFact3(factSet[2]);
             setTime(time);
+            disableTimer(false);
         }
     },[factSet])
 
     useEffect(() => {
         if (results) {
-            if (selectedFact.valid) {
-                // fact was valid
+            disableTimer(true);
+            setSubmitted(submitted + 1);
+            addPrevious();
+        }
+
+        async function addPrevious() {
+            let res, data;
+            if (previousID) {
+                res = await fetch(origin + '/api/create/previous?previousId=' + previousID + '&factsId=' + facts[currentFact].id + '&correct=' + !selectedFact.valid);
+                data = await res.json();
             } else {
-                // fact was not valid
+                res = await fetch(origin + '/api/create/previous?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&factsId=' + facts[currentFact].id + '&correct=' + !selectedFact.valid);
+                data = await res.json();
+                setPreviousId(data.previousId);
+                setCookie(null, 'previousID', data.previousId, {
+                    maxAge: 24 * 60 * 60,
+                });
             }
+
+            let newConnection = {
+                id: facts[currentFact].id,
+                facts: factSet,
+                name: name,
+                correct: !selectedFact.valid
+            }
+
+            setConnections(connections => [...connections, newConnection]);
         }
     }, [results])
+
+    useEffect(() => {
+        if (!internalTime && factSet) {
+            setSelected(0);
+            selectFact({valid: false});
+            enableResults(true);
+        }
+    }, [internalTime])
 
         return (
   
@@ -176,7 +209,7 @@ export default function Game ({ cookies, error, facts, time }) {
                                 <p2>{name || "Loading..."}</p2>
                             </div>
                             <div className={styles.gameTimer}>
-                                <Timer time={gameTime} submitted={submitted} />
+                                <Timer time={gameTime} disabled={disabledTimer} submitted={submitted} parentTime={setInternalTime} />
                             </div>
                         </div>
 
@@ -220,11 +253,10 @@ export default function Game ({ cookies, error, facts, time }) {
 
                     <div className={styles.gameSide}>
                         <div className={styles.scoreBox}>
-                            <p>1</p>
-                            {/* Replace 1 with actual score. */}
+                            <p>{connections.length || "0"}</p>
                             <FontAwesomeIcon icon="check-circle" className={styles.scoreIcon} />
                         </div>
-                        <PreviousBonds />
+                        <PreviousBonds connections={connections}/>
                     </div>
                 </div>
                 }               
@@ -232,6 +264,9 @@ export default function Game ({ cookies, error, facts, time }) {
                     
             );
 }
+
+// IMPLEMENT: CHECK IF A PREVIOUS EXISTS
+// ALSO: IF PREVIOUS EXISTS, LOAD UP TO THAT POINT
 
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)

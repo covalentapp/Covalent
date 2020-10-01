@@ -30,18 +30,15 @@ class Selection extends Component {
                     <p>Results</p>
                     <button className={styles.resultsButton + " " + styles[(this.props.selected == "1") && (this.props.choice1valid ? 'wrong' : 'correct')]}>
                         {this.props.choice1}
-                        {this.props.choice1valid && <FontAwesomeIcon icon="check-circle" className={styles.icon} />}
-                        {!this.props.choice1valid && <FontAwesomeIcon icon="times-circle" className={styles.icon} />}
+                        {!this.props.choice1valid && <FontAwesomeIcon icon="check-circle" className={styles.icon} />}
                     </button>
                     <button className={styles.resultsButton + " " + styles[(this.props.selected == "2") && (this.props.choice2valid ? 'wrong' : 'correct')]}>
                         {this.props.choice2}
-                        {this.props.choice2valid && <FontAwesomeIcon icon="check-circle" className={styles.icon} />}
-                        {!this.props.choice2valid && <FontAwesomeIcon icon="times-circle" className={styles.icon} />}
+                        {!this.props.choice2valid && <FontAwesomeIcon icon="check-circle" className={styles.icon} />}
                     </button>
                     <button className={styles.resultsButton + " " + styles[(this.props.selected == "3") && (this.props.choice3valid ? 'wrong' : 'correct')]}>
                         {this.props.choice3}
-                        {this.props.choice3valid && <FontAwesomeIcon icon="check-circle" className={styles.icon} />}
-                        {!this.props.choice3valid && <FontAwesomeIcon icon="times-circle" className={styles.icon} />}
+                        {!this.props.choice3valid && <FontAwesomeIcon icon="check-circle" className={styles.icon} />}
                     </button>
                     <button
                         type="submit"
