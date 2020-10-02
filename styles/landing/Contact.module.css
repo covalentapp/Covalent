@@ -28,32 +28,31 @@
 }
 
 .emailInput {
-    width: 37.5vmin;
-    height: 5vmin;
+    width: calc(150px + 25vmin);
+    height: calc(18px + 3vmin);
     border: 0px;
-    border-radius: 2.5vmin;
+    border-radius: 100vmin;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 28px;
+    font-size: calc(9px + 1.5vmin);
     text-align: center;
 }
 
 .emailSubmit {
-    width: calc(10px + 5vmin);
-    height: calc(10px + 5vmin);
-    margin-left: 0.5em;
+    width: calc(18px + 3vmin);
+    height: calc(18px + 3vmin);
+    margin-left: 1vmin;
     border: 0px;
-    border-radius: 2.5vmin;
+    border-radius: 100vmin;
     background-color: #5A4FCF;
     outline: 0 !important;
 }
 
 .emailSubmit .submitIcon {
-    width: calc(10px + 5vmin);
-    height: calc(10px + 5vmin);
+    height: calc(18px + 3vmin);
     margin-right: 1em;
-    border-radius: 2.5vmin;
+    border-radius: 100vmin;
     color: #80FFDB;
     background-color: #5A4FCF;
     cursor: pointer;
