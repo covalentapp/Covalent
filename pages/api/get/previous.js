@@ -36,6 +36,6 @@ export default async (req, res) => {
 
     res.statusCode = 200
     res.json({ 
-        previous: data ? data : null
+        previous: data ? data.data.getPrevious : null
     })
 }
