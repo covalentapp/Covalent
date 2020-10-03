@@ -42,17 +42,15 @@
 .emailSubmit {
     width: calc(18px + 3vmin);
     height: calc(18px + 3vmin);
-    margin-left: 1vmin;
-    border: 0px;
-    border-radius: 100vmin;
-    background-color: #5A4FCF;
+    margin-left: 2vmin;
+    padding: 0;
+    border: 0;
+    background-color: #FFFFFF;
     outline: 0 !important;
 }
 
-.emailSubmit .submitIcon {
+.submitIcon {
     height: calc(18px + 3vmin);
-    margin-right: 1em;
-    border-radius: 100vmin;
     color: #80FFDB;
     background-color: #5A4FCF;
     cursor: pointer;
