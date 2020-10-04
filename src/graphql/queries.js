@@ -57,6 +57,12 @@ export const getGame = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -244,6 +250,19 @@ export const getPlayer = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      timer {
+        id
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        time
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -291,6 +310,12 @@ export const listPlayers = /* GraphQL */ `
         }
         previous {
           id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
           createdAt
           updatedAt
         }
@@ -368,6 +393,12 @@ export const getFacts = /* GraphQL */ `
         }
         previous {
           id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
           createdAt
           updatedAt
         }
@@ -492,6 +523,12 @@ export const getPrevious = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -543,6 +580,87 @@ export const listPreviouss = /* GraphQL */ `
     }
   }
 `;
+export const getTimer = /* GraphQL */ `
+  query GetTimer($id: ID!) {
+    getTimer(id: $id) {
+      id
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      time
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTimers = /* GraphQL */ `
+  query ListTimers(
+    $filter: ModelTimerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTimers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        time
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const gameByCode = /* GraphQL */ `
   query GameByCode(
     $code: String
@@ -565,6 +683,9 @@ export const gameByCode = /* GraphQL */ `
         enabled
         code
         players {
+          items {
+            id
+          }
           nextToken
         }
         host {

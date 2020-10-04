@@ -12,8 +12,9 @@ import styles from '../styles/Settings.module.css';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Settings({ code }) {
+export default function Settings() {
 
+    const [code, setCode] = useState('');
     const [copied, setCopied] = useState(false);
     const [time, setTime] = useState(30);
     const [players, setPlayers] = useState(2);
@@ -52,9 +53,6 @@ export default function Settings({ code }) {
             setCookie(null, 'playerID', hostId, {
                 maxAge: 24 * 60 * 60,
             });
-            setCookie(null, 'gameCode', code, {
-                maxAge: 24 * 60 * 60,
-            });
         }
     }, [gameId, hostId]);
 
@@ -68,19 +66,19 @@ export default function Settings({ code }) {
         }
 
         async function createGame() {
-            let host, game;
-
-            await fetch(origin + '/api/create/player?playerName=' + name)
+            setCode("loading");
+            await fetch(origin + '/api/new?host=' + name + "&name=" + instructions + "&playerNum=" + players + "&playerSec=" + time)
             .then(res => res.json())
-            .then((data) => host = data.playerId);
-
-            await fetch(origin + '/api/create/game?code=' + code + "&gameHost=" + host + "&gameName=" + instructions + "&playerNum=" + players + "&playerSec=" + time)
-            .then(res => res.json())
-            .then((data) => game = data.gameId);
-
-            selfId(host); // game ID
-            setId(game); // host ID
-            setOpen(true);
+            .then((data) => {
+                if (!data.error) {
+                    selfId(data.playerID);
+                    setId(data.gameID);
+                    setCode(data.code);
+                    setOpen(true);
+                } else {
+                    setError(data.error);
+                }
+            });
         }
     }, [enabled]);
 
@@ -96,9 +94,7 @@ export default function Settings({ code }) {
         async function searchPlayers () {
 
             function appendPlayer(player, index) {
-                if (player.id != hostId) {
-                    playerList.push(<Avatar key={index} name={player.name} />);
-                }
+                playerList.push(<Avatar key={index} name={player} />);
             }
 
             let res, data;
@@ -107,14 +103,14 @@ export default function Settings({ code }) {
 
             while (searching) {
                 // Implement: only allow to check a certain number of times
-                res = await fetch(origin + '/api/get/game?gameId=' + gameId);
+                res = await fetch(origin + '/api/game?id=' + gameId);
                 data = await res.json();
-                if (data.game.data.getGame.players.items.length > numPlayers + 1) {
-                    data.game.data.getGame.players.items.forEach(appendPlayer);
+                if (data.players.length > numPlayers) {
+                    data.players.forEach(appendPlayer);
                     addPlayers(playerList);
                     playerList = [];
                     numPlayers++;
-                } else if (data.game.data.getGame.enabled) {
+                } else if (data.enabled) {
                     break;
                 }
                 await delay(2000);
@@ -135,9 +131,9 @@ export default function Settings({ code }) {
 
         async function enableGame () {
             let res, data;
-            res = await fetch(origin + '/api/enable/game?gameId=' + gameId);
+            res = await fetch(origin + '/api/enable?gameId=' + gameId + '&hostId=' + hostId);
             data = await res.json();
-            if (!data.gameId) {
+            if (!data.enabled) {
                 setStart(false);
                 setError("There are no players in this game!");
             } else {
@@ -174,10 +170,6 @@ export default function Settings({ code }) {
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | New Game</title>
             </Head>
-            {(code === "error") &&
-                <Error text="An internal error occurred. We're sorry for the inconvenience." />
-            }
-            {(code != "error") &&
             <div>
                 <h1>Instructions</h1>
                 <i>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie. However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie, so make the truths as interesting as possible!</i>
@@ -196,15 +188,17 @@ export default function Settings({ code }) {
                     </textarea>
                     <br/>
                     <b><label>Code:
-                        <input className={styles.settingsInput + " " + styles.code} type="text" value={code} id="code" readOnly />
+                        <input className={styles.settingsInput + " " + styles.code} type="text" value={code || "code"} id="code" readOnly />
                     </label></b>
                     <b><label>Link:
-                        <input className={styles.settingsInput + " " + styles.long} type="text" value={"covalent.app/join/" + code} id="link" readOnly />
+                        <input className={styles.settingsInput + " " + styles.long} type="text" value={"covalent.app/join/" + (code || "code")} id="link" readOnly />
                     </label></b>
+                    {searching &&
                     <SimpleButton name="copy link" type="small" onClick={() => { 
                         navigator.clipboard.writeText("covalent.app/join/" + code) 
                         setCopied(true);
                     }}/>
+                    }
                     {copied &&
                     <b>Copied!</b>
                     }
@@ -231,7 +225,7 @@ export default function Settings({ code }) {
                     }   
                     <p>{error}</p>
                 </div>
-                    {enabled &&
+                    {searching &&
                         <div>
                             <hr className={styles.line}/>
                             <h2>Joined</h2>
@@ -242,46 +236,6 @@ export default function Settings({ code }) {
                         </div>
                     }
             </div>
-            }
         </div>
     );
 }
-
-/*
-getServerSideProps, new game: makes a random ID at page request and checks API to see if a game with that ID already exists.
-If it doesn't, it gives the page the new code as a property and adds it to the page
-*/
-
-export async function getServerSideProps() {
-    let code, res, data;
-    try {
-        do {
-            code = makeid(6);
-            res = await fetch(origin + '/api/get/game?code=' + code);
-            data = await res.json();
-        } while (data.game.data.gameByCode.items.length != 0);
-    } catch (err) {
-        code = "error"; 
-        console.log(err);
-    }
-    return {
-        props: {
-            code
-        },
-    }
-}
-
-/*
-So random
-https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-*/
-
-function makeid(length) {
-    var result = '';
-    var characters = 'abcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
- }

@@ -9,18 +9,15 @@ import Error from '../../components/Error';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
+export default function JoinGame({ error, gameCheck, gameFull }) {
 
     const [playerName, setName] = useState('');
     const [joined, setJoin] = useState(false);
-    const [addedId, playerId] = useState(playerCheck ? playerCheck.id : null); 
+    const [addedId, playerId] = useState(null); 
     const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
-    const [code, gameCode] = useState(gameCheck ? gameCheck.code : null);
-    const [waiting, gameLoading] = useState(playerCheck);
+    const [waiting, gameLoading] = useState(null);
 
     const router = useRouter();
-    
-    // Remember: if player is specified beforehand, the IDs are not in the hooks!
 
     // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
 
@@ -40,10 +37,6 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
                 maxAge: 24 * 60 * 60,
                 path: '/',
             });
-            setCookie(null, 'gameCode', code, {
-                maxAge: 24 * 60 * 60,
-                path: '/',
-            });
         }
     }, [addedId, addedGameId]);
 
@@ -53,16 +46,15 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
 
     useEffect(() => {
         if (joined) {
-            addPlayer();
+            joinGame();
         }
 
-        async function addPlayer() {
+        async function joinGame() {
             let res, data;
-            res = await fetch(origin + '/api/create/player?playerName=' + playerName + '&gameId=' + gameCheck.id);
+            res = await fetch(origin + '/api/join?playerName=' + playerName + '&code=' + gameCheck.code);
             data = await res.json();
-            if (data.playerId) {
-                playerId(data.playerId); 
-                gameId(gameCheck.id);
+            if (data.playerID) {
+                playerId(data.playerID); 
                 gameLoading(true);
             } else {
                 gameFull = true;
@@ -94,9 +86,9 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
 
             while (waiting) {
                 // Implement: only allow to check a certain number of times
-                res = await fetch(origin + '/api/get/game?gameId=' + addedGameId);
+                res = await fetch(origin + '/api/game?id=' + addedGameId);
                 data = await res.json();
-                if (data.game.data.getGame.enabled) {
+                if (data.enabled) {
                     router.push("/submit");
                     break;
                 }  
@@ -123,7 +115,7 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
             </Head>     
             
             {error && 
-                <Error text="An internal error occurred. We're sorry for the inconvenience." />
+                <Error text={"An internal error occurred. We're sorry for the inconvenience."} />
             }
 
             {!gameCheck && !error && 
@@ -133,7 +125,7 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
                 </div>
             }
 
-            {!playerCheck && !joined && !error && !gameFull && gameCheck &&
+            {!joined && !error && !gameFull && gameCheck &&
                 <div className={styles.join}>
                     <h2>Joining {gameCheck.host}'s game</h2>
                     <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
@@ -146,7 +138,7 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
                 </div>
             }
 
-            {(playerCheck || joined) && !gameFull && !error &&
+            {joined && !gameFull &&
                 <div className={styles.join}>
                     <h2>Waiting on {gameCheck.host} to start the game</h2>
                 </div>
@@ -162,45 +154,25 @@ export default function JoinGame({ error, gameCheck, playerCheck, gameFull }) {
     );
 }
 
-export async function getServerSideProps({ params, query }) {
+export async function getServerSideProps({ params }) {
     let res, data, error = null;
     let gameCheck = {};
-    let playerCheck = {};
     let gameFull = false;
     let lowerCaseCode = params.game.toLowerCase();
     try {
-        res = await fetch(origin + '/api/get/game?code=' + lowerCaseCode);
+        res = await fetch(origin + '/api/game?code=' + lowerCaseCode);
         data = await res.json();
         // Game doesn't exist
-        if (data.game.data.gameByCode.items.length == 0) {
+        if (!data.id) {
             gameCheck = null;
-            playerCheck = null;
+        // Check if game is already full / enabled
+        } else if (data.full || data.enabled) {
+            gameFull = true;
         } else {
-            gameCheck.code = params.game.toLowerCase();
-            gameCheck.host = data.game.data.gameByCode.items[0].host.name;
-            gameCheck.name = data.game.data.gameByCode.items[0].name;
-            gameCheck.id = data.game.data.gameByCode.items[0].id;
-            // Check if game is already full / enabled
-            res = await fetch(origin + '/api/get/game?gameId=' + gameCheck.id);
-            data = await res.json();
-            if (data.game.data.getGame.players.items.length >= data.game.data.getGame.playerNum + 1 || data.game.data.getGame.enabled) {
-                playerCheck = null;
-                gameFull = true;
-            } else {
-                // Make new player
-                if (query.name) {
-                    res = await fetch(origin + '/api/create/player?playerName=' + query.name + '&gameId=' + gameCheck.id);
-                    data = await res.json();
-                    if (data.playerId) {
-                        playerCheck.id = data.playerId;
-                    } else {
-                        gameFull = true;
-                    }
-                } else {
-                    playerCheck = null;
-                }
-            }
-            
+            gameCheck.code = lowerCaseCode;
+            gameCheck.host = data.host;
+            gameCheck.name = data.name;
+            gameCheck.id = data.id;
         }
     } catch (err) {
         error = true;
@@ -211,7 +183,6 @@ export async function getServerSideProps({ params, query }) {
         props: {
             error,
             gameCheck,
-            playerCheck,
             gameFull
         },
     }
