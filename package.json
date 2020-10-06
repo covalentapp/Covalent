@@ -20,6 +20,7 @@
     "nookies": "^2.4.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hamburger-menu": "^1.2.1",
     "react-jdenticon": "0.0.8",
     "react-scroll": "^1.8.1",
     "react-slideshow-image": "^3.3.0",

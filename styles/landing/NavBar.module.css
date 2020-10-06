@@ -34,12 +34,7 @@
     font-size: calc(2px + 2vmin);
     letter-spacing: 0.05em;
 
-    color: #5A4FCF;
-}
-
-.nav .buttons {
-    display: inline-block;
-    padding-right: 10vw;
+    color: #5a4fcf;
 }
 
 .nav .buttons > button:not(span) {
@@ -62,4 +57,52 @@
 .nav .buttons span {
     margin-left: 1vw;
 }
+
+@media (max-width: 612px) {
+    .temp {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .temp .hMenu {
+        display: inline-block;
+        padding-right: 10vw;
+    }
+    .nav {
+        display: block;
+    }
+    .nav .buttons {
+        display: none;
+    }
+    .nav .buttons#show {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 90vw;
+        height: calc(50px + 8vh);
+    }
+}
+
+@media not all and (max-width: 612px) {
+    .temp {
+        display: contents;
+    }
+    .hamburger {
+        display: contents;
+    }
+    .nav .buttons {
+        display: inline-block;
+        padding-right: 10vw;
+    }
+    .nav .hMenu {
+        display: none;
+    }
+}
+
+.hamburger {
+    align-self: flex-end;
+}
+
+
 

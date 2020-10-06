@@ -24,6 +24,7 @@
 
 .connect .description {
     font-size: calc(9px + 1.5vmin);
+    width: calc(100px + 40vw);
 }
 
 .connect .tellEmail {

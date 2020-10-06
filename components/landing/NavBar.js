@@ -1,17 +1,37 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import SimpleButton from "../SimpleButton";
 import styles from "../../styles/landing/NavBar.module.css";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { scrollToTop } from "react-scroll/modules/mixins/animate-scroll";
+import HamburgerMenu from "react-hamburger-menu";
 
-class NavBar extends Component {
-    scrollToTop = () => {
+export default function NavBar() {
+    const [open, setOpen] = useState(false);
+    const [small, setSmall] = useState(false);
+
+    const scrollToTop = () => {
         scroll.scrollToTop();
     };
 
-    render() {
-        return (
-            <div className={styles.nav}>
+    function handleClick() {
+        setOpen(!open);
+    }
+    useEffect(() => {
+        function handleResize() {
+            if (window.innerWidth < 612) {
+                setSmall(true);
+            } else {
+                setSmall(false);
+                setOpen(false);
+            }
+        }
+
+        window.addEventListener("resize", handleResize);
+    });
+
+    return (
+        <div className={styles.nav}>
+            <div className={styles.temp}>
                 <div className={styles.logo}>
                     <img
                         src="/images/logo.svg"
@@ -20,8 +40,22 @@ class NavBar extends Component {
                     ></img>
                     <p>Covalent</p>
                 </div>
-                <div className={styles.buttons}>
-                    <button onClick={this.scrollToTop}>Home</button>
+                <div className={styles.hMenu}>
+                    <HamburgerMenu
+                        isOpen={open}
+                        menuClicked={handleClick}
+                        width={18}
+                        height={15}
+                    />
+                    {/*eventually replace with my own hamburgermenu for custom sizing*/}
+                </div>
+            </div>
+            <div className={styles.hamburger}>
+                <div
+                    className={styles.buttons}
+                    id={open && small ? styles.show : null}
+                >
+                    <button onClick={scrollToTop}>Home</button>
                     <button>
                         <Link
                             to="features"
@@ -54,8 +88,6 @@ class NavBar extends Component {
                     </span>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-export default NavBar;

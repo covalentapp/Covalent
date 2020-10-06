@@ -28,9 +28,7 @@ class Connect extends Component {
                 </h>
                 <p className={styles.description}>
                     Covalent is a platform designed to connect you with your
-                    peers and teammates
-                    <br />
-                    to enhance your team’s productivity and virtual workplace
+                    peers and teammates to enhance your team’s productivity and virtual workplace
                     environment.
                 </p>
                 <p className={styles.tellEmail}>
