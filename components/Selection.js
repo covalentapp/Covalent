@@ -11,16 +11,18 @@ class Selection extends Component {
                 <button className={styles.statementButton + " " + styles[(this.props.selected == "1") && 'selected']} onClick={this.props.onClick1}>{this.props.choice1}</button>
                 <button className={styles.statementButton + " " + styles[(this.props.selected == "2") && 'selected']} onClick={this.props.onClick2}>{this.props.choice2}</button>
                 <button className={styles.statementButton + " " + styles[(this.props.selected == "3") && 'selected']} onClick={this.props.onClick3}>{this.props.choice3}</button>
-                {this.props.selected &&
+                {this.props.selected && !this.props.submitted &&
                 <button
                     type="submit"
                     className={styles.submitButton}
                     onClick={this.props.onSubmit}
                 >SUBMIT</button>
                 }
-                {
-                !this.props.selected &&
+                {!this.props.selected && !this.props.submitted &&
                 <p>Choose one!</p>
+                }
+                {this.props.submitted &&
+                <p>Submitting...</p>
                 }
             </div>
         );

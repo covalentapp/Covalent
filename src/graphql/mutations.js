@@ -364,6 +364,7 @@ export const createPlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -503,6 +504,7 @@ export const updatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -642,6 +644,7 @@ export const deletePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -777,6 +780,7 @@ export const createFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -868,6 +872,7 @@ export const updateFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -959,6 +964,7 @@ export const deleteFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }

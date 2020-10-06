@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseCookies, setCookie } from "nookies";
+import { parseCookies } from "nookies";
 import { useRouter } from 'next/router'
 import Head from "next/head";
 import styles from "../styles/Game.module.css";
@@ -15,137 +15,96 @@ import { VideoPlayback } from "../components/VideoLib";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Game ({ cookies, error, facts, time }) {
+export default function Game ({ cookies, error, time }) {
 
     const [currentFact, incrementFacts] = useState(0);
-    const [factSet, setFacts] = useState(null);
+    const [factsId, setFacts] = useState(null);
     const [fact1, setFact1] = useState({});
     const [fact2, setFact2] = useState({});
     const [fact3, setFact3] = useState({});
     const [name, setName] = useState('');
     const [video, setVideo] = useState(null);
-    const [gameTime, setTime] = useState(0);
     const [submitted, setSubmitted] = useState(0);
     const [selected, setSelected] = useState(false);
     const [selectedFact, selectFact] = useState(null);
     const [results, enableResults] = useState(false);
-    const [previousID, setPreviousId] = useState(cookies.previousID);
+    const [resultSet, setResults] = useState([]);
     const [connections, setConnections] = useState([]);
     const [internalTime, setInternalTime] = useState(0);
-    const [disabledTimer, disableTimer] = useState(false);
+    const [disabledTimer, disableTimer] = useState(true);
 
     const router = useRouter();
 
     useEffect(() => {
-        if (facts) {
-            if (currentFact < facts.length) {
-                setSelected(null);
-                selectFact(null); 
-                setFact1({});
-                setFact2({});
-                setFact3({});
-                setName('');
-                setVideo(null);
-                enableResults(false);
-                newFacts();
-            } else {
-                router.push("/results");
-            }
+        if (!error) {
+            // Reset all state data
+            setSelected(null);
+            selectFact(null); 
+            setFact1({});
+            setFact2({});
+            setFact3({});
+            setName('');
+            setVideo(null);
+            enableResults(false);
+            setSubmitted(false);
+            setResults([]);
+            newFacts();
         }
     
         async function newFacts() {
-
-            let playerId;
-
-            if (facts[currentFact].player.id == cookies.playerID) {
-                incrementFacts(currentFact + 1);
-            } else {
-                await fetch(origin + '/api/get/facts?factsId=' + facts[currentFact].id)
-                .then(response => response.json())
-                .then(data => {
-                    setFacts(shuffle(data.facts));
+            await fetch(origin + '/api/facts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID)
+            .then(response => response.json())
+            .then(data => {
+                if (data.end) {
+                    router.push("/results");
+                } else {
+                    // Add new data
+                    setFacts(data.id);
+                    setFact1(data.fact1);
+                    setFact2(data.fact2);
+                    setFact3(data.fact3);
                     setName(data.name);
-                    playerId = data.playerId;
-                });
-
-                await fetch(origin + '/api/file/get?name=' + playerId + '.webm')
-                .then(response => response.json())
-                .then(data => {
                     setVideo(
                         URL.createObjectURL(
                             new File([new Uint8Array(data.video.data)],
-                            facts[currentFact].player.id + '.webm',
+                            data.id + '.webm',
                             {type: 'video/webm'})
                         )
                     );
-                });
-            }
-        }
-
-        /* 
-        Shuffle those facts to the beat
-        https://stackoverflow.com/a/6274381
-        */
-
-        function shuffle(a) {
-            var j, x, i;
-            for (i = a.length - 1; i > 0; i--) {
-                j = Math.floor(Math.random() * (i + 1));
-                x = a[i];
-                a[i] = a[j];
-                a[j] = x;
-            }
-            return a;
+                    disableTimer(false);
+                }
+            });
         }
 
     },[currentFact]);
 
     useEffect(() => {
-        if (factSet) {
-            setFact1(factSet[0]);
-            setFact2(factSet[1]);
-            setFact3(factSet[2]);
-            setTime(time);
-            disableTimer(false);
-        }
-    },[factSet])
-
-    useEffect(() => {
         if (results) {
             disableTimer(true);
-            setSubmitted(submitted + 1);
-            addPrevious();
+            setSubmitted(true);
+            submit();
         }
 
-        async function addPrevious() {
-            let res, data;
-            if (previousID) {
-                res = await fetch(origin + '/api/create/previous?previousId=' + previousID + '&factsId=' + facts[currentFact].id + '&correct=' + !selectedFact.valid);
-                data = await res.json();
-            } else {
-                res = await fetch(origin + '/api/create/previous?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&factsId=' + facts[currentFact].id + '&correct=' + !selectedFact.valid);
-                data = await res.json();
-                setPreviousId(data.previousId);
-                setCookie(null, 'previousID', data.previousId, {
-                    maxAge: 24 * 60 * 60,
-                });
-            }
-
-            let newConnection = {
-                id: facts[currentFact].id,
-                facts: factSet,
-                name: name,
-                correct: !selectedFact.valid
-            }
-
-            setConnections(connections => [...connections, newConnection]);
+        async function submit() {
+            await fetch(origin + '/api/facts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&factsId=' + factsId + '&factId=' + selectedFact.id, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                let newConnection = {
+                    id: factsId,
+                    facts: data.facts,
+                    name: name,
+                    correct: data.correct
+                }
+                setResults(data.facts);
+                setConnections(connections => [...connections, newConnection]);
+            });
         }
     }, [results])
 
     useEffect(() => {
-        if (!internalTime && factSet) {
-            setSelected(0);
-            selectFact({valid: false});
+        if (!internalTime && factsId) {
+            selectFact({id: ""});
+            setSelected(null);
             enableResults(true);
         }
     }, [internalTime])
@@ -180,7 +139,7 @@ export default function Game ({ cookies, error, facts, time }) {
                 `}</style>
 
                 {error &&
-                    <Error text={error} />
+                    <Error text={'Error: ' + error} />
                 }
                 
                 
@@ -188,7 +147,7 @@ export default function Game ({ cookies, error, facts, time }) {
                     <Error text="You're not currently in a game." />
                 }
 
-                {cookies.gameID && facts &&
+                {cookies.gameID && !error &&
                 <div>
                     <div className={styles.gameBody}>
 
@@ -209,7 +168,7 @@ export default function Game ({ cookies, error, facts, time }) {
                                 <p2>{name || "Loading..."}</p2>
                             </div>
                             <div className={styles.gameTimer}>
-                                <Timer time={gameTime} disabled={disabledTimer} submitted={submitted} parentTime={setInternalTime} />
+                                <Timer time={time} disabled={disabledTimer} parentTime={setInternalTime} />
                             </div>
                         </div>
 
@@ -222,10 +181,17 @@ export default function Game ({ cookies, error, facts, time }) {
                                 choice1={fact1.name || "Loading..."}
                                 choice2={fact2.name || "Loading..."}
                                 choice3={fact3.name || "Loading..."}
-                                choice1valid={fact1.valid}
-                                choice2valid={fact2.valid}
-                                choice3valid={fact3.valid}
+                                choice1valid={(resultSet.length != 0) ? resultSet.filter(fact => {
+                                    return fact.id == fact1.id;
+                                })[0].valid : null}
+                                choice2valid={(resultSet.length != 0) ? resultSet.filter(fact => {
+                                    return fact.id == fact2.id;
+                                })[0].valid : null}
+                                choice3valid={(resultSet.length != 0) ? resultSet.filter(fact => {
+                                    return fact.id == fact3.id;
+                                })[0].valid : null}
                                 selected={selected}
+                                submitted={submitted}
                                 onClick1={() => {
                                     selectFact(fact1);
                                     setSelected(1);
@@ -246,7 +212,7 @@ export default function Game ({ cookies, error, facts, time }) {
                                 continue={() => {
                                     incrementFacts(currentFact + 1); 
                                 }}
-                                results={results}
+                                results={resultSet.length != 0}
                             ></Selection>
                         </div>
                     </div>
@@ -271,28 +237,21 @@ export default function Game ({ cookies, error, facts, time }) {
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
-    let error = null, facts = null, time = null;
+    let error = null, time = null;
 
     if (cookies.gameID) {
         let res, data;
         try {
-            res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID);
+            res = await fetch(origin + '/api/play?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID);
             data = await res.json();
         } catch (err) {
             console.log(err);
         }
 
-        if (!data.game) {
-            error = "Game not found.";
-        } else if (!data.game.data.getGame.enabled) {
-            error = "Your host hasn't enabled this game yet.";
-        } else if (!data.game.data.getGame.facts.items.filter(obj => { return obj.player.id === cookies.playerID; }).length) {
-            error = "You haven't inputted your facts yet.";
-        } else if (data.game.data.getGame.facts.items.length < data.game.data.getGame.players.items.length) { 
-            error = "Not everyone has submitted their facts yet.";
+        if (!data.start) {
+            error = data.error;
         } else {
-            facts = data.game.data.getGame.facts.items;
-            time = data.game.data.getGame.playerSeconds;
+            time = data.time;
         }
 
     }
@@ -301,7 +260,6 @@ export async function getServerSideProps(ctx) {
         props: {
             cookies,
             error,
-            facts,
             time
         }
     }

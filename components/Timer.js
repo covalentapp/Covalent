@@ -5,8 +5,6 @@ import styles from '../styles/Timer.module.css';
 // https://medium.com/better-programming/building-a-simple-countdown-timer-with-react-4ca32763dda7
 // @Daniel
 
-// All of this absolutely NEEDS to go to the backend before a stable release.
-
 function Timer ({ time, disabled, details, submitted, parentTime }) {
 
     const [seconds, setSeconds] = useState(0);
@@ -35,7 +33,7 @@ function Timer ({ time, disabled, details, submitted, parentTime }) {
             }, 1000)
             return () => clearInterval(interval);
         }
-    }, [seconds, minutes])
+    }, [seconds, minutes, disabled])
 
         return (
                 <div className={styles.timer + " " + styles[!minutes && seconds && (seconds < 10) && 'timerDanger']}>

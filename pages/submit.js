@@ -38,41 +38,40 @@ export default function Submit ({ cookies, error, instructions, time }) {
             }
 
             async function addFacts() {
-                let res, data, upload, uploadData;
-                res = await fetch(origin + '/api/create/facts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie);
-                data = await res.json();
+                let res, data;
 
                 const formData = new FormData();
                 formData.append('file', video);
 
-                upload = await fetch(origin + '/api/file/upload?name=' + cookies.playerID + '.webm', {
+                res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie, {
                     method: 'POST',
                     body: formData
                 });
+                data = await res.json();
 
-                // put restraints on the uploads (probably S3 related). figure out delete functions
-
-                uploadData = await upload.json();
-                if (data.factsId && uploadData) {
+                if (!data.error && data.submit) {
                     while (submitted) {
-                        res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID)
+                        res = await fetch(origin + '/api/game?id=' + cookies.gameID)
                         data = await res.json();
-                        if (data.game.data.getGame.facts.items.length == data.game.data.getGame.players.items.length) {
+                        if (data.ready) {
+                            await delay(2000);
                             router.push("/game");
                             break;
                         }
-                        delay(2000);
+                        await delay(2000);
                     }
                 } else {
-                    // something bad happened!  
-
+                    console.log(data.error);
+                    // Implement: SHOW DATA.ERROR
+                    setEnabled(false);
+                    setSubmit(false);
                 }
             }
         }
     },[submitted]);
 
     /* 
-    For some reason, p1 and p2 are not showing up as valid HTML tags in the JS console.
+    p1 and p2 are not showing up as valid HTML tags in the JS console.
     This is a reminder to fix that.
     */
 
@@ -140,7 +139,7 @@ export default function Submit ({ cookies, error, instructions, time }) {
                     <div className={styles.gameMain}>
                         <div>
                             <GameVideoRecorder onRecordingComplete={videoBlob => {
-                                let videoFile = new File([videoBlob], cookies.playerID + '.webm', {type: 'video/webm',});
+                                let videoFile = new File([videoBlob], "Player Video", {type: 'video/webm',});
                                 setVideo(videoFile)
                             }}/>
                         </div>
@@ -190,21 +189,19 @@ export async function getServerSideProps(ctx) {
     if (cookies.gameID) {
         let res, data;
         try {
-            res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID);
+            res = await fetch(origin + '/api/game?id=' + cookies.gameID);
             data = await res.json();
         } catch (err) {
             console.log(err);
         }
 
-        if (!data.game) {
+        if (!data.id) {
             error = "Game not found.";
-        } else if (!data.game.data.getGame.enabled) {
-             error = "Your host hasn't enabled this game yet.";
-        } else if (data.game.data.getGame.facts.items.filter(obj => { return obj.player.id === cookies.playerID; }).length) {
-            error = "You've already inputted your facts!";
+        } else if (!data.enabled) {
+            error = "Your host hasn't enabled this game yet.";
         } else {
-            instructions = data.game.data.getGame.name;
-            time = data.game.data.getGame.playerSeconds;
+            instructions = data.name;
+            time = data.seconds;
         }
 
     }

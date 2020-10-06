@@ -216,6 +216,7 @@ export const getPlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -406,6 +407,7 @@ export const getFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -443,6 +445,7 @@ export const listFactss = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }

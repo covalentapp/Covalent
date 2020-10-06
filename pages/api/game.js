@@ -50,15 +50,15 @@ export default async (req, res) => {
             ));
 
             if (data.data.getGame) {
+                if (data.data.getGame.facts.items.length >= data.data.getGame.players.items.length) {
+                    ready = true;
+                }
+                
                 data.data.getGame.players.items.forEach(player => {
                     if (player.id != data.data.getGame.host.id) {
                         players.push(player.name);
                     }
                 });
-
-                if (data.data.getGame.facts.items.length >= data.data.getGame.players.items.length) {
-                    ready = true;
-                }
             } 
         } else {
             error = "No game ID or code specified."
@@ -78,6 +78,7 @@ export default async (req, res) => {
         host: (!error && data.data.getGame) ? data.data.getGame.host.name : null,
         players: (!error && data.data.getGame) ? players : null,
         full: (!error && data.data.getGame) ? (players.length == data.data.getGame.playerNum) : null,
+        seconds: (!error && data.data.getGame) ? data.data.getGame.playerSeconds : null,
         error: error
     })
 

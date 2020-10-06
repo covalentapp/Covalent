@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { setCookie } from 'nookies'
 import SimpleButton from '../components/SimpleButton';
 import Avatar from '../components/Avatar';
-import Error from '../components/Error';
 import styles from '../styles/Settings.module.css';
 
 /*This file is for the Settings component for Covalent
@@ -214,7 +213,7 @@ export default function Settings() {
                         }} />
                     }
 
-                    {enabled && !started &&
+                    {searching && !started &&
                         <SimpleButton name="start" type="join" onClick={() => {
                             setStart(true);
                         }}/>

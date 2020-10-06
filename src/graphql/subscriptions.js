@@ -352,6 +352,7 @@ export const onCreatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -488,6 +489,7 @@ export const onUpdatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -624,6 +626,7 @@ export const onDeletePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
@@ -756,6 +759,7 @@ export const onCreateFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -844,6 +848,7 @@ export const onUpdateFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -932,6 +937,7 @@ export const onDeleteFacts = /* GraphQL */ `
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
