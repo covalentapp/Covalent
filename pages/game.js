@@ -129,26 +129,20 @@ export default function Game ({ cookies, error, time }) {
                     <title>Covalent</title>
                 </Head>
 
-                <style jsx global>{`
+                {error &&
+                    <Error text={error} />
+                }
+
+                {cookies.gameID && !error &&
+                <div>
+                    <style jsx global>{`
                     body {
                         width: 100vw;
                         height: 100vh;
                         background: #E1E1E1;
                         overflow: hidden;
                     }
-                `}</style>
-
-                {error &&
-                    <Error text={'Error: ' + error} />
-                }
-                
-                
-                {!cookies.gameID &&
-                    <Error text="You're not currently in a game." />
-                }
-
-                {cookies.gameID && !error &&
-                <div>
+                    `}</style>
                     <div className={styles.gameBody}>
 
                         <div className={styles.gameBar}>
@@ -254,6 +248,8 @@ export async function getServerSideProps(ctx) {
             time = data.time;
         }
 
+    } else {
+        error = "You're not currently in a game."
     }
 
     return {

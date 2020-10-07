@@ -92,7 +92,10 @@ export default async (req, res) => {
                         })
 
                         facts.forEach(fact => {
-                            tricksters.push({name: fact.player.name, streak: (fact.incorrect ? fact.incorrect : 0)})
+                            tricksters.push({
+                                name: fact.player.name, 
+                                streak: (fact.incorrect ? ((fact.incorrect / (players.length - 1)) * 100) : 0)
+                            })
                         })
 
                         tricksters.sort((a,b) => {

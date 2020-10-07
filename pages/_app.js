@@ -2,16 +2,14 @@ import { Amplify } from "aws-amplify";
 Amplify.configure({ ssr: true });
 
 import '../styles/globals.css'
-import "react-slideshow-image/dist/styles.css";
 
+import "react-slideshow-image/dist/styles.css"; // landing page slideshow
+
+// Font Awesome imports
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons'
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faArrowCircleRight, faCheckCircle, faTimesCircle, faTrophy, faMedal } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faArrowCircleRight);
-library.add(faCheckCircle);
-library.add(faTimesCircle);
+library.add(faArrowCircleRight, faCheckCircle, faTimesCircle, faTrophy, faMedal);
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

@@ -94,15 +94,6 @@ export default function Submit ({ cookies, error, instructions, time }) {
                     <title>Covalent</title>
                 </Head>
 
-                <style jsx global>{`
-                    body {
-                        width: 100vw;
-                        height: 100vh;
-                        background: #E1E1E1;
-                        overflow: hidden;
-                    }
-                `}</style>
-
                 {error &&
                     <Error text={error}/>
                 }
@@ -113,6 +104,14 @@ export default function Submit ({ cookies, error, instructions, time }) {
 
                 {cookies.gameID && instructions &&
                 <div>
+                    <style jsx global>{`
+                    body {
+                        width: 100vw;
+                        height: 100vh;
+                        background: #E1E1E1;
+                        overflow: hidden;
+                    }
+                    `}</style>
                     <div className={styles.gameBody}>
 
                         <div className={styles.gameBar}>
