@@ -71,6 +71,7 @@ export const getGame = /* GraphQL */ `
           id
           player {
             id
+            name
           }
           createdAt
           updatedAt
@@ -80,6 +81,14 @@ export const getGame = /* GraphQL */ `
       previous {
         items {
           id
+          facts {
+            facts
+            correct
+          }
+          player {
+            id
+            name
+          }
           createdAt
           updatedAt
         }

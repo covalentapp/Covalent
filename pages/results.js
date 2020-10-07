@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from 'next/router'
-import { parseCookies, setCookie } from "nookies";
+import { parseCookies } from "nookies";
 import styles from "../styles/Results.module.css";
 import SimpleButton from "../components/SimpleButton";
 
@@ -128,65 +128,24 @@ export default function Results ({ error, previous, waiting }) {
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
-    let error = null, waiting = null, fetchPrevious = { guessers: [], tricksters: [] };
+    let res, data, error = null, waiting = null, tricksters = null, guessers = null;
 
-    if (cookies.gameID && cookies.previousID ) {
-        let res, data, prevRes, prevData;
-        try {
-            res = await fetch(origin + '/api/get/game?gameId=' + cookies.gameID);
-            data = await res.json();
-
-            if (data.game.data.getGame.previous.items.length < data.game.data.getGame.players.items.length) { 
-                error = "Waiting on remaining players before showing results";
-                waiting = true;
-            } else {
-                for (let previous of data.game.data.getGame.previous.items) {
-
-                    prevRes = await fetch(origin + '/api/get/previous?previousId=' + previous.id);
-                    prevData = await prevRes.json();
-
-
-                    if (prevData.previous.facts.length < data.game.data.getGame.facts.items.length - 1) {
-                        error = "Waiting on remaining players before showing results";
-                        waiting = true;
-                        break;
-                    } else {
-                        
-                        // Top Guessers
-                        // Fetch each person's previous connections, tally up the # correct
-                        
-                        let newRecord = {
-                            name: prevData.previous.player.name,
-                            amountCorrect: 0
-                        }
-
-                        for (let facts of prevData.previous.facts) {
-                            if (facts.correct) {
-                                newRecord.amountCorrect++;
-                            }
-                            // To implement: top tricksters
-                            // Possible method: keep an array of fact IDs and mark how many incorect each one got,
-                            // then fetch the name associated with each fact set
-                        }
-
-                        fetchPrevious.guessers.push(newRecord);
-
-                    }
-                }
-
-            }
-
-        } catch (err) {
-            console.log(err);
-        }
-
+    if (cookies.gameID) {
+        res = await fetch(origin + '/api/get/game?id=' + cookies.gameID);
+        data = await res.json();
+        tricksters = data.tricksters;
+        guessers = data.guessers;
+        waiting = data.waiting;
+    } else {
+        error = "No game ID provided."
     }
 
     return {
         props: {
             error,
             waiting,
-            fetchPrevious
+            tricksters,
+            guessers
         }
     }
 }

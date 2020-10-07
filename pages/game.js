@@ -52,7 +52,7 @@ export default function Game ({ cookies, error, time }) {
         }
     
         async function newFacts() {
-            await fetch(origin + '/api/facts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID)
+            await fetch(origin + '/api/getFacts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID)
             .then(response => response.json())
             .then(data => {
                 if (data.end) {
@@ -86,7 +86,7 @@ export default function Game ({ cookies, error, time }) {
         }
 
         async function submit() {
-            await fetch(origin + '/api/facts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&factsId=' + factsId + '&factId=' + selectedFact.id, { method: 'POST' })
+            await fetch(origin + '/api/postFacts?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&factsId=' + factsId + '&factId=' + selectedFact.id)
             .then(response => response.json())
             .then(data => {
                 let newConnection = {

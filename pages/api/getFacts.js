@@ -1,19 +1,16 @@
 /*
 
-/api/facts
+/api/getFacts
 
-Either gets a new fact set (GET) or submits a fact set (POST).
+Gets a new fact set and associated video.
 
 Requires:
 - Game ID (gameId)
 - Player ID (playerId)
-- Facts ID (factsId) - POST
-- Selected Fact ID (factId) - POST
 
 Returns:
-- Set of new facts (facts) - GET
-- Video (video) - GET
-- Set of facts with validity (facts) - POST
+- Set of new facts (facts)
+- Video (video)
 
 */
 
@@ -22,8 +19,8 @@ import awsConfig from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { getGame, getPlayer, getFacts, getPrevious, getTimer } from "../../src/graphql/queries";
-import { updatePrevious, updatePlayer, createTimer, updateTimer, createPrevious } from "../../src/graphql/mutations";
+import { getGame, getPlayer, getFacts } from "../../src/graphql/queries";
+import { updatePlayer, createTimer, updateTimer } from "../../src/graphql/mutations";
 
 import AWS from 'aws-sdk';
 
@@ -62,109 +59,6 @@ export default async (req, res) => {
                 ));
 
                 if (playerData.data.getPlayer) {
-
-                    if (req.method === 'POST') {
-
-                        let facts, selected, timer, factsPrevious;
-
-                        if (!req.query.factsId) {
-                            error = "Not all fields are filled.";
-                        } else if (!playerData.data.getPlayer.timer) {
-                            error = "Not currently playing."
-                        } else {
-
-                            // Validate facts, check timer
-                            // Add to previous (or make previous if it doesn't exist)
-
-                            facts = await API.graphql(graphqlOperation(
-                                getFacts,
-                                {
-                                    id: req.query.factsId
-                                }
-                            ));
-
-                            timer = await API.graphql(graphqlOperation(
-                                getTimer,
-                                {
-                                    id: playerData.data.getPlayer.timer.id
-                                }
-                            ));
-
-                            if (!req.query.factId || ((Math.ceil((new Date().getTime())/1000) - timer.time) > (gameData.data.getGame.playerSeconds))) {
-                                selected = true;
-                            } else {
-                                selected = facts.data.getFacts.facts.filter(fact => {
-                                    return fact.id == req.query.factId;
-                                })[0].valid;
-                            }
-
-                            // Implement: check and make sure fact set isn't your's
-
-                            if (playerData.data.getPlayer.previous) {
-                                 // Facts already exist in previous
-                                if (!(playerData.data.getPlayer.previous.facts.filter(fact => {
-                                    return fact.facts == req.query.factsId;
-                                    }).length > 0)) {
-                                        factsPrevious = await API.graphql(graphqlOperation(
-                                            getPrevious,
-                                            {
-                                                id: playerData.data.getPlayer.previous.id
-                                            }
-                                        ));
-
-                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected});
-
-                                        await API.graphql(graphqlOperation(
-                                            updatePrevious,
-                                            {
-                                                input: {
-                                                    id: playerData.data.getPlayer.previous.id,
-                                                    facts: data.data.getPrevious.facts
-                                                }
-                                            }
-                                        ));
-                                    } else {
-                                        error = "Fact set already submitted."
-                                    }
-                            } else {
-                                let previous = await API.graphql(graphqlOperation(
-                                    createPrevious,
-                                    {
-                                        input: {
-                                            previousGameId: req.query.gameId,
-                                            previousPlayerId: req.query.playerId,
-                                            facts: 
-                                                [{
-                                                    facts: req.query.factsId,
-                                                    correct: !selected
-                                                }]
-                                        }
-                                    }
-                                ));
-
-                                await API.graphql(graphqlOperation(
-                                    updatePlayer,
-                                    {
-                                        input: {
-                                            id: req.query.playerId,
-                                            playerPreviousId: previous.data.createPrevious.id
-                                        }
-                                    }
-                                ));
-
-                            }
-
-                            // RETURN VALUES (remember, these aren't scrambled, so the facts need their IDs as keys)
-
-                        }
-                        res.statusCode = 200
-                        res.json({ 
-                            facts: (!error) ? facts.data.getFacts.facts : null,
-                            correct: (!error) ? !selected : null,
-                            error: error
-                        })
-
-                    } else {
 
                         let video, facts, previous, end = false, currentFact = 0;
 
@@ -254,7 +148,6 @@ export default async (req, res) => {
                             end: end,
                             error: error
                         })
-                    }
                 }  else {
                     error = "Player does not exist.";
                     res.statusCode = 200
@@ -276,7 +169,6 @@ export default async (req, res) => {
                 error: error
             })
         }
-    }
 
         /* 
         Shuffle those facts to the beat
@@ -292,6 +184,7 @@ export default async (req, res) => {
             a[j] = x;
         }
         return a;
+       }
     }
 
 }
