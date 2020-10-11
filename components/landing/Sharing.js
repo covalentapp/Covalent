@@ -11,9 +11,7 @@ export default function Sharing() {
             </h>
             <p className={styles.description}>
                 Covalent’s simple, intuitive UI and integrated video feed
-                provide
-                <br />
-                for memorable and personal connections.
+                provide for memorable and personal connections.
             </p>
             <img src="images/home.png" className={styles.sharingImg} />
         </div>

@@ -49,9 +49,9 @@ export default function Home() {
                     <div id="games">
                         <LandingGames />
                     </div>
-                    <div id="contact">
+                    {/*<div id="contact">
                         <Contact />
-                    </div>
+            </div>*/}
                     <div id="footer">
                         <Footer />
                     </div>

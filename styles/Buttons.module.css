@@ -5,19 +5,25 @@
     width: auto;
     height: 5vh;
     border: 1px solid #000000;
-    border-radius: 24px;
+    border-radius: 9999px;
     background-color: white;
     color: black;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: calc(var(--fontmin) * 1px + var(--fontvar) * 1vmin);
     min-width: 20vmin;
-    min-height: 20px;
+    min-height: 24px;
     text-transform: uppercase;
     text-align: center;
     margin: 1vmin;
     cursor: pointer;
     line-height: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .simpleButton {
+        height: calc(10px + 3vh);
+    }
 }
 
 @media all and (max-height: 400px), (max-width: 400px) {

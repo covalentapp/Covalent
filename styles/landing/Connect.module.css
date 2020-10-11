@@ -24,11 +24,12 @@
 
 .connect .description {
     font-size: calc(9px + 1.5vmin);
-    width: calc(100px + 40vw);
+    width: calc(150px + 25vw);
 }
 
 .connect .tellEmail {
     font-size: calc(3px + 1.5vmin);
+    width: calc(150px + 15vw);
 }
 
 .emailForm {
@@ -37,16 +38,17 @@
 }
 
 .emailInput {
-    width: 20vw;
+    width: calc(150px + 7vw);
     height: 5vh;
     border: 2px solid #444444;
-    border-radius: 5vh;
+    border-radius: 9999px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: calc(2px + 3vmin);
+    font-size: calc(6px + 2.5vmin);
     text-align: center;
     outline: 0 !important;
+    padding: 0 calc(10px + 0.5vw);
 }
 
 .emailSubmit {
@@ -90,6 +92,6 @@
     }
 
     .emailInput {
-        font-size: 14px;
+        font-size: 16px;
     }
 }

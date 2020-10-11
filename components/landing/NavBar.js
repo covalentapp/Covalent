@@ -83,7 +83,7 @@ export default function NavBar() {
                         <SimpleButton
                             type="purple"
                             name="Start Bonding"
-                            style={{ padding: "0 1vw" }}
+                            style={{ padding: "0 calc(5px + 0.4vw)" }}
                         />
                     </span>
                 </div>

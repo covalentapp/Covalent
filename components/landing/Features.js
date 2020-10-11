@@ -4,6 +4,7 @@ import styles from "../../styles/landing/Features.module.css";
 
 const properties = {
     duration: 10000,
+    transitionDuration: 300,
     indicators: true,
 };
 

@@ -1,7 +1,7 @@
 .nav {
     position: sticky;
     top: 0;
-    width: 100%;
+    width: 100vw;
     height: 6%;
     background-color: white;
     display: flex;
@@ -79,8 +79,11 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        width: 90vw;
-        height: calc(50px + 8vh);
+        width: 92vw;
+        height: auto;
+    }
+    .nav .buttons span {
+        padding-right: calc(5px + 0.4vw);
     }
 }
 
