@@ -4,16 +4,18 @@ import styles from "../../styles/landing/NavBar.module.css";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { scrollToTop } from "react-scroll/modules/mixins/animate-scroll";
 import HamburgerMenu from "react-hamburger-menu";
+import { useRouter }  from "next/router";
 
 export default function NavBar() {
     const [open, setOpen] = useState(false);
     const [small, setSmall] = useState(false);
+    const router = useRouter();
 
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
 
-    function handleClick() {
+    function handleMenuClick() {
         setOpen(!open);
     }
     useEffect(() => {
@@ -29,6 +31,11 @@ export default function NavBar() {
         window.addEventListener("resize", handleResize);
     });
 
+    const handleStartClick = (e) => {
+        e.preventDefault();
+        router.push('/menu');
+    }
+
     return (
         <div className={styles.nav}>
             <div className={styles.temp}>
@@ -43,7 +50,7 @@ export default function NavBar() {
                 <div className={styles.hMenu}>
                     <HamburgerMenu
                         isOpen={open}
-                        menuClicked={handleClick}
+                        menuClicked={handleMenuClick}
                         width={18}
                         height={15}
                     />
@@ -84,6 +91,7 @@ export default function NavBar() {
                             type="purple"
                             name="Start Bonding"
                             style={{ padding: "0 calc(5px + 0.4vw)" }}
+                            onClick={handleStartClick}
                         />
                     </span>
                 </div>
