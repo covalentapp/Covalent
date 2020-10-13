@@ -15,6 +15,60 @@ const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" :
 export default function Results ({ error, tricksters, guessers, waiting }) {
 
     const router = useRouter();
+    
+    //test functions below
+    /*
+    function getTrickster(i) {
+        let name, streak;
+        if(i == 1) {
+            name = "Arek Der-Sarkissian";
+            streak = "100";
+        }
+        else if(i == 2) {
+            name = "Michael Shi";
+            streak = "75";
+        }
+        else {
+            name = "Daniel Dai";
+            streak = "50";
+        }
+
+        return {
+            name,
+            streak
+        };
+    }
+
+    function getGuesser(i) {
+        let name, streak;
+        if(i == 1) {
+            name = "Arek Der-Sarkissian";
+            streak = "4";
+        }
+        else if(i == 2) {
+            name = "Michael Shi";
+            streak = "3";
+        }
+        else {
+            name = "Daniel Dai";
+            streak = "3";
+        }
+
+        return {
+            name,
+            streak
+        };
+    }
+
+    var tricksters = ["", "", ""]
+    var guessers = ["", "", ""]
+
+    for(let i = 1; i < 4; i++) {
+        tricksters[i-1] = getTrickster(i);
+        guessers[i-1] = getGuesser(i);
+    }
+    */
+    //end test functions
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -78,9 +132,15 @@ export default function Results ({ error, tricksters, guessers, waiting }) {
                     <hr />
                     <div className={styles.trickstersContainer}>
                         <h1>TOP TRICKSTERS</h1>
-                        <div className={styles.tricksters}>
-                            <div className={styles.trickster} id={styles.first}>
+                        <span className={styles.tricksters}>
+                            <div className={styles.player} id={styles.first}>
+                                <div>
+                                <FontAwesomeIcon
+                                    icon="trophy"
+                                    className={styles.icon}
+                                />
                                 <p>{tricksters[0].name}</p>
+                                </div>
                                 <div className={styles.progressBarBorder}>
                                     <div
                                         className={styles.progressBar}
@@ -93,10 +153,16 @@ export default function Results ({ error, tricksters, guessers, waiting }) {
                                 </div>
                             </div>
                             <div
-                                className={styles.trickster}
+                                className={styles.player}
                                 id={styles.second}
                             >
+                                <div>
+                                <FontAwesomeIcon
+                                    icon="medal"
+                                    className={styles.icon}
+                                />
                                 <p>{tricksters[1].name}</p>
+                                </div>
                                 <div className={styles.progressBarBorder}>
                                     <div
                                         className={styles.progressBar}
@@ -105,8 +171,14 @@ export default function Results ({ error, tricksters, guessers, waiting }) {
                                 </div>
                             </div>
                             {tricksters[2] && // accounts for two person games
-                            <div className={styles.trickster} id={styles.third}>
+                            <div className={styles.player} id={styles.third}>
+                                <div>
+                                <FontAwesomeIcon
+                                    icon="medal"
+                                    className={styles.icon}
+                                />
                                 <p>{tricksters[2].name}</p>
+                                </div>
                                 <div className={styles.progressBarBorder}>
                                     <div
                                         className={styles.progressBar}
@@ -115,24 +187,54 @@ export default function Results ({ error, tricksters, guessers, waiting }) {
                                 </div>
                             </div>
                             }
-                        </div>
+                        </span>
                     </div>
                     <hr />
                     <div className={styles.guessersContainer}>
-                        <div className={styles.guessers}>
+                        <span className={styles.guessers}>
                             <h1>TOP GUESSERS</h1>
-                            <div className={styles.guesser} id={styles.first}>
-                                <p>{guessers[0].name} // {guessers[0].streak}</p>
+                            <div className={styles.player} id={styles.first}>
+                                <div>
+                                    <FontAwesomeIcon
+                                        icon="trophy"
+                                        className={styles.icon}
+                                    />
+                                    <p>{guessers[0].name} // {guessers[0].streak}</p>
+                                    <FontAwesomeIcon
+                                        icon="check-circle"
+                                        className={styles.icon}
+                                    />
+                                </div>
                             </div>
-                            <div className={styles.guesser} id={styles.second}>
-                                <p>{guessers[1].name} // {guessers[1].streak}</p>
+                            <div className={styles.player} id={styles.second}>
+                                <div>
+                                    <FontAwesomeIcon
+                                        icon="trophy"
+                                        className={styles.icon}
+                                    />
+                                    <p>{guessers[1].name} // {guessers[1].streak}</p>
+                                    <FontAwesomeIcon
+                                        icon="check-circle"
+                                        className={styles.icon}
+                                    />
+                                </div>
                             </div>
                             {guessers[2] &&
-                            <div className={styles.guesser} id={styles.third}>
-                                <p>{guessers[2].name} // {guessers[2].streak}</p>
+                            <div className={styles.player} id={styles.third}>
+                                <div>
+                                    <FontAwesomeIcon
+                                        icon="trophy"
+                                        className={styles.icon}
+                                    />
+                                    <p>{guessers[2].name} // {guessers[2].streak}</p>
+                                    <FontAwesomeIcon
+                                        icon="check-circle"
+                                        className={styles.icon}
+                                    />
+                                </div>
                             </div>
                             }       
-                        </div>
+                        </span>
                     </div>
                     <hr />
                     <div className={styles.exit}>
