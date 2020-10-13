@@ -8,6 +8,7 @@ Known issues:
 - Can't play back on Safari (all) unless WebM can be converted to mp4
 Add:
 - Add customizations for button and loading screen
+- Files larger than 1mb won't work with Lambda@Edge, hence the 7s limit
 */
 
 class GameVideoRecorder extends Component {
@@ -16,7 +17,7 @@ class GameVideoRecorder extends Component {
             <div className={styles.recorder}>
                 <VideoRecorder
                 isOnInitially={true}
-                timeLimit={10000}
+                timeLimit={7000}
                 onRecordingComplete={this.props.onRecordingComplete}
                 />
             </div>
