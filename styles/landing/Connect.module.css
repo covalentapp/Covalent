@@ -1,10 +1,9 @@
 .connect {
     margin-left: 10%;
-    margin-top: 3%;
-    padding-top: 5vmin;
+    margin-top: 8vh;
 }
 
-.connect h {
+.connect h1 {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
@@ -12,7 +11,7 @@
     font-size: calc(18px + 3vmin);
 }
 
-.connect h span {
+.connect h1 span {
     color: #5A4FCF;
 }
 
@@ -79,7 +78,11 @@
 }
 
 @media all and (max-height: 400px), (max-width: 400px) {
-    .connect h {
+    .connect {
+        margin-top: 32px;
+    }
+
+    .connect h1 {
         font-size: 30px;
     }
 

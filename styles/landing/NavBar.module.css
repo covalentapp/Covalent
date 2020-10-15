@@ -1,8 +1,10 @@
+
+
 .nav {
     position: sticky;
     top: 0;
     width: 100vw;
-    height: 6%;
+    height: auto;
     background-color: white;
     display: flex;
     flex-direction: row;
@@ -23,6 +25,8 @@
 .nav .logoImg {
     width: 6vmin;
     height: 6vmin;
+    min-width: 24px;
+    min-height: 24px;
 }
 
 .nav .logo p {
@@ -107,5 +111,16 @@
     align-self: flex-end;
 }
 
+@media all and (max-height: 400px), (max-width: 400px) {
+    .nav .logo p {
+        font-size: 10px;
+    }
+    .nav .buttons > button:not(span) {
+        font-size: 12px;
+    }
+    .nav {
+        padding: 4px;
+    }
+}
 
 

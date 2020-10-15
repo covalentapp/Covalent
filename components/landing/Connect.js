@@ -23,9 +23,9 @@ class Connect extends Component {
     render() {
         return (
             <div className={styles.connect}>
-                <h>
+                <h1>
                     Connect with <span>Covalent</span>
-                </h>
+                </h1>
                 <p className={styles.description}>
                     Covalent is a platform designed to connect you with your
                     peers and teammates to enhance your team’s productivity and

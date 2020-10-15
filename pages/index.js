@@ -36,6 +36,7 @@ export default function Home() {
             `}</style>
             <div className={styles.landingPage}>
                 <NavBar />
+                <div className={styles.navContainer}></div>
                 <span className={styles.pageContent}>
                     <div id="connect">
                         <Connect />
