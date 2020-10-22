@@ -1,3 +1,8 @@
+.MenuContainer {
+    width: 100vw;
+    height: 100vw;
+}
+
 .Menu {
     position: absolute;
     left: 25%;

@@ -46,7 +46,6 @@
     font-weight: bold;
     letter-spacing: 0.05em;
     color: #000000;
-
 }
 
 .gamesMenu header button {
@@ -54,7 +53,7 @@
     top: 3vh;
     right: 2.5vw;
     border: 0;
-    background-color: transparent;;
+    background-color: transparent;
 
     font-family: Roboto;
     font-style: normal;
