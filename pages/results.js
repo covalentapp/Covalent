@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Results ({ error, tricksters, guessers, waiting }) {
+export default function Results ({ cookies, error, tricksters, guessers, waiting }) {
 
     const router = useRouter();
     
@@ -80,8 +80,15 @@ export default function Results ({ error, tricksters, guessers, waiting }) {
         }
 
         async function reload() {
-            await delay(2000);
-            router.reload();
+            let res, data;
+            while (waiting) {
+                res = await fetch(origin + '/api/results?id=' + cookies.gameID);
+                data = await res.json();
+                if (!data.waiting) {
+                    router.reload();
+                }
+                await delay(2000);
+            }
         }
     }, [waiting])
 
@@ -106,8 +113,11 @@ export default function Results ({ error, tricksters, guessers, waiting }) {
             {error &&
                 <Error text={error}/>
             }
+            {waiting && 
+                <Error text="Waiting on other players to finish..."/>
+            }
 
-            {!error &&
+            {!error && !waiting &&
             <div className={styles.Results}>
                 <style jsx global>{`
                     body {
@@ -270,6 +280,7 @@ export async function getServerSideProps(ctx) {
 
     return {
         props: {
+            cookies,
             error,
             waiting,
             tricksters,

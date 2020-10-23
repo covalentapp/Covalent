@@ -40,12 +40,13 @@ export default async (req, res) => {
     if (!req.query.gameId || !req.query.playerId) {
         error = "Not all fields are filled.";
     } else {
-        gameData = await API.graphql(graphqlOperation(
-            getGame,
-            {
-                id: req.query.gameId
-            }
-        ));
+
+            gameData = await API.graphql(graphqlOperation(
+                getGame,
+                {
+                    id: req.query.gameId
+                }
+            ));
 
         if (gameData.data.getGame) {
 
@@ -88,49 +89,57 @@ export default async (req, res) => {
                             })
                             .catch(err => {
                                 console.log(err);
-                                error = err;
+                                error = "Error getting player's video";
                             }); 
 
-                            facts = await API.graphql(graphqlOperation(
-                                getFacts,
-                                {
-                                    id: facts[currentFact].id
-                                }
-                            ));
+                            try {
+                                facts = await API.graphql(graphqlOperation(
+                                    getFacts,
+                                    {
+                                        id: facts[currentFact].id
+                                    }
+                                ));
+                            } catch {
+                                error = "Error getting factset"
+                            }
 
                             shuffle(facts.data.getFacts.facts);
                             
-                            if (!playerData.data.getPlayer.timer) {
-                                let timer = await API.graphql(graphqlOperation(
-                                    createTimer,
-                                    {
-                                        input: {
-                                            timerPlayerId: req.query.playerId,
-                                            time: Math.ceil((new Date().getTime()/1000)) + 3
-                                            // 3 second grace + ceiling because fetch can be slow
+                            try {
+                                if (!playerData.data.getPlayer.timer) {
+                                    let timer = await API.graphql(graphqlOperation(
+                                        createTimer,
+                                        {
+                                            input: {
+                                                timerPlayerId: req.query.playerId,
+                                                time: Math.ceil((new Date().getTime()/1000)) + 3
+                                                // 3 is for a 3 second grace + ceiling because fetch can be slow
+                                            }
                                         }
-                                    }
-                                ));
+                                    ));
 
-                                await API.graphql(graphqlOperation(
-                                    updatePlayer,
-                                    {
-                                        input: {
-                                            id: req.query.playerId,
-                                            playerTimerId: timer.data.createTimer.id
+                                    await API.graphql(graphqlOperation(
+                                        updatePlayer,
+                                        {
+                                            input: {
+                                                id: req.query.playerId,
+                                                playerTimerId: timer.data.createTimer.id
+                                            }
                                         }
-                                    }
-                                ));
-                            } else {
-                                await API.graphql(graphqlOperation(
-                                    updateTimer,
-                                    {
-                                        input: {
-                                            id: playerData.data.getPlayer.timer.id,
-                                            time: Math.ceil((new Date().getTime()/1000)) + 3
+                                    ));
+                                } else {
+                                    await API.graphql(graphqlOperation(
+                                        updateTimer,
+                                        {
+                                            input: {
+                                                id: playerData.data.getPlayer.timer.id,
+                                                time: Math.ceil((new Date().getTime()/1000)) + 3
+                                            }
                                         }
-                                    }
-                                ));
+                                    ));
+                                }
+                            } catch {
+                                error = "Error configuring internal timer"
                             }
 
                         } else {
