@@ -29,8 +29,7 @@
 .timer p1 {
     font-style: normal;
     font-weight: bold;
-    font-size: 30px;
-    line-height: 30px;
+    font-size: calc(9px + 1.5vmin);
     color: #000000;
 }
 
@@ -38,7 +37,6 @@
     font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: normal;
-    font-size: 11px;
-    line-height: 20px;
+    font-size: calc(6px + 1vmin);
     color: #000000;
 }
