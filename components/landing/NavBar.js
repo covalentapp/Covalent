@@ -33,8 +33,6 @@ export default function NavBar() {
             } else {
                 setHeight(8.25);
             }
-
-            h = document.getElementsByClassName(styles.nav).style.height;
         }
 
         window.addEventListener("resize", handleResize);
