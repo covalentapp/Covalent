@@ -7,6 +7,7 @@ import Features from "../components/landing/Features";
 import LandingGames from "../components/landing/LandingGames";
 import Contact from "../components/landing/Contact";
 import Footer from "../components/landing/Footer";
+import SimpleButton from "../components/SimpleButton"; 
 
 export default function Home() {
     return (
@@ -34,6 +35,8 @@ export default function Home() {
                     overflow-x: hidden;
                 }
             `}</style>
+            <SimpleButton style={{borderWidth:1,position:'fixed',bottom:20, left:20, zIndex:1}} name="Feedback" type="large" onClick={() => { 
+                window.open("https://form.typeform.com/to/kFozUj4m"); }}/>
             <div className={styles.landingPage}>
                 <NavBar />
                 <div className={styles.navContainer}></div>
@@ -55,6 +58,8 @@ export default function Home() {
             </div>*/}
                     <div id="footer">
                         <Footer />
+                    </div>
+                    <div>
                     </div>
                 </span>
                 {/*<p>The landing page will be here.</p>*/}
