@@ -7,8 +7,6 @@ import routingWrapper from "./routingWrapper";
 //remaining tasks for GamesMenu: add in the information + formatting for each of the individual games
 //+ one issue: the games currently go OVER the "transparent" div - i want it to go under
 
-//convert hostmenu to function --> use context/global vars --> menu isopen true false to toggle
-
 class HostMenu extends Component {
     constructor(props) {
         super(props);
@@ -28,20 +26,26 @@ class HostMenu extends Component {
     }
 
     handleRouteChange = () => {
-        if(window.location.href != origin + "/menu/?host") {
+        if (window.location.href != origin + "/menu/?host") {
             this.setState({ isOpen: false });
             setTimeout(() => {
                 this.props.close();
             }, 250);
         }
-    }
-        
+    };
+
     componentDidMount() {
-        this.props.router.events.on('routeChangeComplete', this.handleRouteChange);
+        this.props.router.events.on(
+            "routeChangeComplete",
+            this.handleRouteChange
+        );
     }
 
     componentWillUnmount() {
-        this.props.router.events.off('routeChangeComplete', this.handleRouteChange);
+        this.props.router.events.off(
+            "routeChangeComplete",
+            this.handleRouteChange
+        );
     }
 
     render() {
@@ -144,81 +148,143 @@ class HostMenu extends Component {
                     </header>
                     <div className={styles.gamesBackground}>
                         <div className={styles.gamesFrame}>
-                            <div className={styles.transparent}></div>
-                            <div className={styles.scrollingWrapper}>
-                                <div className={styles.games}>
-                                    <div className={styles.game} id="1">
-                                        <div
-                                            className={styles.gameTransparent}
-                                            onClick={() => {
-                                                this.props.router.push("/new");
-                                            }}
-                                        >
-                                            <div className={styles.panel}>
-                                                <div className={styles.title}>
-                                                    Two Truths And A Lie
+                            <div className={styles.transparent}>
+                                <div className={styles.scrollingWrapper}>
+                                    <div className={styles.games}>
+                                        <div className={styles.game} id="1">
+                                            <div
+                                                className={
+                                                    styles.gameTransparent
+                                                }
+                                            >
+                                                <div className={styles.panel}>
+                                                    <div
+                                                        className={styles.title}
+                                                    >
+                                                        Two Truths And A Lie
+                                                    </div>
+                                                    <button
+                                                        className={styles.link}
+                                                        onClick={() => {
+                                                            this.props.router.push(
+                                                                "/new"
+                                                            );
+                                                        }}
+                                                    >
+                                                        Play!
+                                                    </button>
                                                 </div>
-                                                <div className={styles.link}>
-                                                    Play!
+                                                <div className={styles.text}>
+                                                    Two Truths and a Lie is a
+                                                    quick and easy way to get to
+                                                    know a little about your
+                                                    teammates! In the hot seat,
+                                                    share a couple quick
+                                                    factoids and a believable
+                                                    lie, and try to figure out
+                                                    your teammates’ lies when
+                                                    guessing.
                                                 </div>
-                                            </div>
-                                            <div className={styles.text}>
-                                                Two Truths and a Lie is a quick
-                                                and easy way to get to know a
-                                                little about your teammates! In
-                                                the hot seat, share a couple
-                                                quick factoids and a believable
-                                                lie, and try to figure out your
-                                                teammates’ lies when guessing.
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={styles.game} id="2">
-                                        <div className={styles.gameTransparent}>
-                                            <div className={styles.panel}>
-                                                <div className={styles.title}>
-                                                    Twenty Questions
+                                        <div className={styles.game} id="2">
+                                            <div
+                                                className={
+                                                    styles.gameTransparent
+                                                }
+                                            >
+                                                <div className={styles.panel}>
+                                                    <div
+                                                        className={styles.title}
+                                                    >
+                                                        Twenty Questions
+                                                    </div>
+                                                    <div
+                                                        className={styles.link}
+                                                    >
+                                                        Coming Soon
+                                                    </div>
                                                 </div>
-                                                <div className={styles.link}>
-                                                    Coming Soon
+                                                <div className={styles.text}>
+                                                    20 Questions is a fun game
+                                                    where teammates work
+                                                    together asking yes or no
+                                                    questions to the person in
+                                                    the hot seat in order to
+                                                    reveal their secret talent!
                                                 </div>
-                                            </div>
-                                            <div className={styles.text}>
-                                                20 Questions is a fun game where
-                                                teammates work together asking
-                                                yes or no questions to the
-                                                person in the hot seat in order
-                                                to reveal their secret talent!
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={styles.game} id="3">
-                                        <div className={styles.gameTransparent}>
-                                            <div className={styles.panel}>
-                                                <div className={styles.title}>
-                                                    In Development
+                                        <div className={styles.game} id="3">
+                                            <div
+                                                className={
+                                                    styles.gameTransparent
+                                                }
+                                            >
+                                                <div className={styles.panel}>
+                                                    <div
+                                                        className={styles.title}
+                                                    >
+                                                        In Development
+                                                    </div>
+                                                    <div
+                                                        className={styles.link}
+                                                    >
+                                                        Coming Soon
+                                                    </div>
                                                 </div>
-                                                <div className={styles.link}>
-                                                    Coming Soon
+                                                <div className={styles.text}>
+                                                    More icebreakers coming
+                                                    soon!
                                                 </div>
-                                            </div>
-                                            <div className={styles.text}>
-                                                More icebreakers coming soon!
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={styles.game} id="4">
-                                        <div className={styles.gameTransparent}>
-                                            <div className={styles.panel}>
-                                                <div className={styles.title}>
-                                                    In Development
+                                        <div className={styles.game} id="4">
+                                            <div
+                                                className={
+                                                    styles.gameTransparent
+                                                }
+                                            >
+                                                <div className={styles.panel}>
+                                                    <div
+                                                        className={styles.title}
+                                                    >
+                                                        In Development
+                                                    </div>
+                                                    <div
+                                                        className={styles.link}
+                                                    >
+                                                        Coming Soon
+                                                    </div>
                                                 </div>
-                                                <div className={styles.link}>
-                                                    Coming Soon
+                                                <div className={styles.text}>
+                                                    More icebreakers coming
+                                                    soon!
                                                 </div>
                                             </div>
-                                            <div className={styles.text}>
-                                                More icebreakers coming soon!
+                                        </div>
+                                        <div className={styles.game} id="5">
+                                            <div
+                                                className={
+                                                    styles.gameTransparent
+                                                }
+                                            >
+                                                <div className={styles.panel}>
+                                                    <div
+                                                        className={styles.title}
+                                                    >
+                                                        In Development
+                                                    </div>
+                                                    <div
+                                                        className={styles.link}
+                                                    >
+                                                        Coming Soon
+                                                    </div>
+                                                </div>
+                                                <div className={styles.text}>
+                                                    More icebreakers coming
+                                                    soon!
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
