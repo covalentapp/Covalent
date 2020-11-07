@@ -123,6 +123,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <div className={styles.join}>
                     <h2>Invalid game code. Make sure your host has enabled the game (<Link href="/menu">or join another game</Link>).</h2>
                 </div>
+                //render component gamenotfound with link prop
             }
 
             {!joined && !error && !gameFull && gameCheck &&
@@ -142,12 +143,14 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <div className={styles.join}>
                     <h2>Waiting on {gameCheck.host} to start the game</h2>
                 </div>
+                //turn into normal error page
             }
 
             {gameFull &&
                 <div className={styles.join}>
                     <h2>This game is full, or the host has already started it. <Link href="/menu">Go join another game!</Link></h2>
                 </div>
+                //full game component
             }
         
         </div>
