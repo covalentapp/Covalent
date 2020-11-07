@@ -1,19 +1,9 @@
-.error404 {
+.Custom404 {
     text-align: left;
 }
 
-img {
-    width: 411.08px;
-    height: 423px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: -50%;
-    transform: translate(-50%, -50%);
-}
 
-
-.error-block{
+.errorBlock{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -24,7 +14,7 @@ img {
     transform: translate(-50%, -50%);
 }
 
-.error-number {
+.errorNumber {
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
@@ -35,7 +25,7 @@ img {
     color: #000000;
 }
 
-.error-text {
+.errorText {
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
@@ -47,7 +37,7 @@ img {
 
 }
 
-.error-link{
+.errorLink{
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
