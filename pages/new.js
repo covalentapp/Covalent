@@ -47,6 +47,24 @@ export default function Settings() {
     }
 
     /*
+    deletes copied, error messages after 5 secs 
+    */
+
+    useEffect(() => {
+        if(copied) {
+            setTimeout(() => {
+                setCopied(false);
+            }, 5000);
+        }
+        if(error) {
+            setTimeout(() => {
+                setError("");
+            }, 5000);
+        }
+
+    }, [copied, error]);
+
+    /*
     LOCAL STORAGE
     */
 
@@ -320,7 +338,7 @@ export default function Settings() {
                     {searching && (
                         <SimpleButton
                             name="copy link"
-                            type="small"
+                            type="copy"
                             onClick={() => {
                                 navigator.clipboard.writeText(
                                     "covalent.app/join/" + code
@@ -369,9 +387,9 @@ export default function Settings() {
                     <p>{error}</p>
                 </div>
                 {searching && (
-                    <div>
+                    <div className={styles.joined}>
                         <hr className={styles.line} />
-                        <h2>Joined</h2>
+                        <h1>Joined</h1>
 
                         <div id="players" className={styles.center}>
                             {gamePlayers}

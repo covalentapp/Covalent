@@ -85,23 +85,15 @@
     color: #5A4FCF;
 }
 
-@media all and (max-width: 900px) {
-    .settingsBackground header .logo div {
-        display: none;
-    }
-}
-
-@media all and (max-width: 400px), (max-height: 400px) {
-    .settingsBackground header h1 {
-        font-size: 17px;
-    }
-}
-
 .settingsBackground .body {
     width: calc(150px + 60vw);
     
     margin-left: auto;
     margin-right: auto;
+}
+
+.settingsBackground .body .top {
+    margin-bottom: calc(20px + 0.5vh);
 }
 
 .settingsBackground .body h1 {
@@ -121,7 +113,7 @@
     font-family: Roboto Condensed;
     font-style: normal;
     font-weight: normal;
-    
+    font-size: calc(2px + 2vmin);
     text-align: center;
     letter-spacing: 0.05em;
 
@@ -158,7 +150,7 @@
     border-width: 1px;
     padding: 0 10px;
     border-radius: var(--radius);
-    width: 160px; 
+    width: 168px; 
     height: 30px;
     margin: 5px 5px;
 }
@@ -202,10 +194,36 @@ background-color: gray;
     content: "Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!";
 }
 
+.settingsBackground .joined h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(16px + 2vmin);
+    text-transform: uppercase;
+
+    text-align: center;
+    letter-spacing: 0.05em;
+
+    color: #000000;
+}
+
 @media all and (max-width: 850px) {
     .center {
         display:flex; 
         align-items: center;
         flex-direction: column;
     }
+}
+
+@media all and (max-width: 900px) {
+    .settingsBackground header .logo div {
+        display: none;
+    }
+}
+
+@media all and (max-width: 400px), (max-height: 400px) {
+    .settingsBackground header h1, .settingsBackground .joined h1 {
+        font-size: 17px;
+    }
+
 }
