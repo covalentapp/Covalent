@@ -86,7 +86,7 @@
 }
 
 .settingsBackground .body {
-    width: calc(150px + 60vw);
+    width: calc(50px + 85vw);
     
     margin-left: auto;
     margin-right: auto;
@@ -100,7 +100,7 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: calc(16px + 2vmin);
+    font-size: calc(9px + 2vmin);
     text-transform: uppercase;
 
     text-align: center;
@@ -113,7 +113,7 @@
     font-family: Roboto Condensed;
     font-style: normal;
     font-weight: normal;
-    font-size: calc(2px + 2vmin);
+    font-size: calc(4px + 1.5vmin);
     text-align: center;
     letter-spacing: 0.05em;
 
@@ -150,7 +150,7 @@
     border-width: 1px;
     padding: 0 10px;
     border-radius: var(--radius);
-    width: 168px; 
+    width: 175px; 
     height: 30px;
     margin: 5px 5px;
 }
@@ -172,9 +172,9 @@
 
 .line{
 width:100%; 
-height:5px; 
-color:gray; 
-background-color: gray;
+height:4px; 
+border:none;
+background-color: #E1E1E1;
 }
 
 .center{
@@ -192,13 +192,21 @@ background-color: gray;
 
 .center:empty:before{
     content: "Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!";
+    font-family: Roboto Condensed;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1.5vmin);
+    text-align: center;
+    letter-spacing: 0.05em;
+
+    color: #000000;
 }
 
 .settingsBackground .joined h1 {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: calc(16px + 2vmin);
+    font-size: calc(9px + 2vmin);
     text-transform: uppercase;
 
     text-align: center;
@@ -222,8 +230,10 @@ background-color: gray;
 }
 
 @media all and (max-width: 400px), (max-height: 400px) {
-    .settingsBackground header h1, .settingsBackground .joined h1 {
+    .settingsBackground h1 {
         font-size: 17px;
     }
-
+    .settingsBackground .body p, .center:empty:before {
+        font-size: 10px;
+    }
 }
