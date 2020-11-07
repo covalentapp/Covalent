@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import { setCookie } from 'nookies'
 import SimpleButton from '../../components/SimpleButton';
 import Error from '../../components/Error';
+import ErrorGameNotFound from '../../components/ErrorGameNotFound';
+import ErrorFullGame from '../../components/ErrorFullGame';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
@@ -121,9 +123,8 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
             {!gameCheck && !error && 
                 
                 <div className={styles.join}>
-                    <h2>Invalid game code. Make sure your host has enabled the game (<Link href="/menu">or join another game</Link>).</h2>
+                    <ErrorGameNotFound link={"/menu"} />
                 </div>
-                //render component gamenotfound with link prop
             }
 
             {!joined && !error && !gameFull && gameCheck &&
@@ -147,9 +148,8 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
 
             {gameFull &&
                 <div className={styles.join}>
-                    <h2>This game is full, or the host has already started it. <Link href="/menu">Go join another game!</Link></h2>
+                    <ErrorFullGame link={"/menu"} />
                 </div>
-                //full game component
             }
         
         </div>
