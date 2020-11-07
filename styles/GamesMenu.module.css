@@ -63,6 +63,8 @@
     letter-spacing: 0.1em;
 
     color: #6930C3;
+    
+    cursor: pointer;
 }
 
 .gamesMenu header button:hover {

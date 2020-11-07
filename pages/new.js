@@ -144,16 +144,12 @@ export default function Settings() {
     }, [started]);
 
     return (
-        <div>
+        <div className={styles.settingsBackground}>
             <style jsx global>{`
                 body {
                     text-align: center; 
-                    margin-top: 50px; 
                     font-family:'Roboto', sans-serif; 
-                    width: 80%;
-                    max-width: 1000px;
-                    margin-left: auto;
-                    margin-right: auto;
+                    width: 100%;
                 }
             `}</style>
             <Head>
@@ -169,7 +165,26 @@ export default function Settings() {
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | New Game</title>
             </Head>
-            <div>
+            <header>
+                    <div className={styles.logo}>
+                        <img
+                            src="/images/logo.svg"
+                            className={styles.logoImg}
+                            alt="Covalent Logo"
+                        ></img>
+                        <div>COVALENT</div>
+                    </div>
+                    <h1>HOST A GAME OF 2 TRUTHS AND A LIE!</h1>
+                    <div className={styles.button}>
+                        <button
+                            className={styles.exit}
+                            onClick={(e) => this.changePage(e, "/menu")}
+                        >
+                            Exit
+                        </button>
+                    </div>
+                </header>
+                <div className={styles.body}>
                 <h1>Instructions</h1>
                 <i>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie. However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie, so make the truths as interesting as possible!</i>
                 <p>As the host, write instructions for your teammates and choose the settings for your game below:</p>
