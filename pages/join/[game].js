@@ -141,9 +141,8 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
 
             {joined && !gameFull &&
                 <div className={styles.join}>
-                    <h2>Waiting on {gameCheck.host} to start the game</h2>
+                    <Error text={`Waiting on ${gameCheck.host} to start the game.`} />
                 </div>
-                //turn into normal error page
             }
 
             {gameFull &&

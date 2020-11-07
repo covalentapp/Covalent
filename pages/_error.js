@@ -14,4 +14,7 @@ function Error({ statusCode }) {
   }
   
   export default Error
+//fix AWS creds
+  //npm run build
+  //npm start
   
