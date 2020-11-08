@@ -178,11 +178,14 @@ background-color: #E1E1E1;
 }
 
 .center{
+    padding-top: calc(2px + 0.5vh);
+    width: 100%;
     display:flex; 
     align-items: center;
-    justify-content: space-between;
-    flex-direction:row;
+    justify-content: flex-start;
+    flex-direction: row;
     overflow-x: auto;
+    flex-wrap: nowrap;
 }
 
 .center:empty{
@@ -202,7 +205,11 @@ background-color: #E1E1E1;
     color: #000000;
 }
 
-.settingsBackground .joined h1 {
+.settingsBackground .joined {
+    overflow: hidden;
+}
+
+.settingsBackground .joined > h1 {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
@@ -215,13 +222,7 @@ background-color: #E1E1E1;
     color: #000000;
 }
 
-@media all and (max-width: 850px) {
-    .center {
-        display:flex; 
-        align-items: center;
-        flex-direction: column;
-    }
-}
+
 
 @media all and (max-width: 900px) {
     .settingsBackground header .logo div {

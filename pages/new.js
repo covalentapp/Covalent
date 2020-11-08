@@ -275,7 +275,7 @@ export default function Settings() {
                         onChange={(event) => setPlayers(event.target.value)}
                         readOnly={enabled}
                     />
-                    <b>
+                    {/*<b>
                         <label htmlFor="players">Number of Rounds (1-10): </label>
                     </b>
                     <input
@@ -286,7 +286,7 @@ export default function Settings() {
                         defaultValue="2"
                         onChange={(event) => setPlayers(event.target.value)}
                         readOnly={enabled}
-                    />
+                    />*/}
                     <br />
                     
                     <b>
@@ -392,6 +392,12 @@ export default function Settings() {
                         <h1>Joined</h1>
 
                         <div id="players" className={styles.center}>
+                            {/* test avatars
+                                <Avatar name={"Michael Shi"} />
+                                <Avatar name={"Arek Der-Sarkissian"} />
+                                <Avatar name={"Daniel Dai"} />
+                                <Avatar name={"Catherine Hu"} />
+                            */}
                             {gamePlayers}
                         </div>
                     </div>

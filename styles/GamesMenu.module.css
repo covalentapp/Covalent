@@ -191,6 +191,7 @@
 .game .gameTransparent .panel {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 30%;
     padding-right: 5px;
 }
@@ -218,9 +219,11 @@
 }
 
 .game .gameTransparent button {
+    width: auto;
     border: none;
     background: none;
     cursor: pointer;
+    outline: 0 !important;
 }
 
 .game .gameTransparent button:hover {
