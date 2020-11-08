@@ -1,12 +1,13 @@
-import React, { Component } from "react";
-import styles from "../styles/Error.module.css";
+import React from "react";
+import styles from "../styles/Custom404.module.css";
 import Head from "next/head";
+import Link from "next/link";
 
-class Error extends Component {
-    render () {
-        return (
-            <div className={styles.error}>
-                <Head>
+
+export default function Custom404() {
+    return (
+        <div className={styles.Custom404}>
+            <Head>
                     <meta charSet="utf-8" />
                     <meta
                         name="viewport"
@@ -38,11 +39,12 @@ class Error extends Component {
                 `}</style>
                 <img src="/images/partial-logo.png" alt="Partial Logo"/>
                  <div className={styles.errorBlock}>
-                     <h2 className={styles.errorText}>{this.props.text}</h2>
+                     <h2 className={styles.errorNumber}>Error 404</h2>
+                     <h2 className={styles.errorText}>Covalent couldn't find that bond.</h2>
+                     <span className={styles.errorLink}>
+                        <Link href="/" >GO BACK</Link>
+                     </span>
                  </div>
-            </div>
-        );
-    }
+        </div>
+    )
 }
-
-export default Error;

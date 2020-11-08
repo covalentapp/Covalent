@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import styles from "../styles/Error.module.css";
+import styles from "../styles/ErrorNotFound.module.css";
 import Head from "next/head";
+import Link from "next/link";
 
-class Error extends Component {
+class ErrorNotFound extends Component {
     render () {
         return (
-            <div className={styles.error}>
+            <div className={styles.ErrorNotFound}>
                 <Head>
                     <meta charSet="utf-8" />
                     <meta
@@ -38,11 +39,15 @@ class Error extends Component {
                 `}</style>
                 <img src="/images/partial-logo.png" alt="Partial Logo"/>
                  <div className={styles.errorBlock}>
-                     <h2 className={styles.errorText}>{this.props.text}</h2>
+                     <h2 className={styles.errorText}>Sorry, Covalent couldn't find that game.</h2>
+                     <h2 className={styles.errorText}>Make sure your host has enabled the game,</h2>
+                     <span className={styles.errorLink}>
+                        <Link href={this.props.link}>or join another game.</Link>
+                     </span>
                  </div>
             </div>
         );
     }
 }
 
-export default Error;
+export default ErrorNotFound;
