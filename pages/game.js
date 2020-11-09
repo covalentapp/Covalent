@@ -64,13 +64,7 @@ export default function Game ({ cookies, error, time }) {
                     setFact2(data.fact2);
                     setFact3(data.fact3);
                     setName(data.name);
-                    setVideo(
-                        URL.createObjectURL(
-                            new File([new Uint8Array(data.video.data)],
-                            data.id + '.webm',
-                            {type: 'video/webm'})
-                        )
-                    );
+                    setVideo(data.video);
                     disableTimer(false);
                 }
             });
