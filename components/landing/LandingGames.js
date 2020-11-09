@@ -41,14 +41,17 @@ export default function LandingGames() {
                         <hr></hr>
                     </td>
                     <td className={styles.text}>
-                        <h2>Send Us Suggestions</h2>
+                        <h2>Send Us Feedback!</h2>
                         <p>
                             As we continue developing games, we're always
-                            looking for feedback so we'd love to get our users'
-                            input on what we should create next. Please feel
-                            free to send suggestions our way so we can improve
-                            and add on new features for all of you!{" "}
+                            looking for ideas and suggestions. We'd love to get our users' input, so please feel free to send us your thoughts and feedback so we can build new features for all of you! 
                         </p>
+                        <SimpleButton
+                            name="Feedback"
+                            type="purple"
+                            onClick={() => { 
+                                window.open("https://form.typeform.com/to/kFozUj4m"); }}
+                        ></SimpleButton>
                     </td>
                 </tr>
             </table>
