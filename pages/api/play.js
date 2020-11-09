@@ -37,7 +37,8 @@ export default async (req, res) => {
         ));
 
         if (gameData.data.getGame.id) {
-
+            
+            // Are all the facts submitted (lengths of facts equals length of players)?
             if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
 
                 playerData = await API.graphql(graphqlOperation(

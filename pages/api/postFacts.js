@@ -29,6 +29,10 @@ export default async (req, res) => {
 
     if (!req.query.gameId || !req.query.playerId) {
         error = "Not all fields are filled.";
+        res.statusCode = 200
+        res.json({ 
+            error: error
+        })
     } else {
         gameData = await API.graphql(graphqlOperation(
             getGame,
@@ -36,9 +40,10 @@ export default async (req, res) => {
                 id: req.query.gameId
             }
         ));
-
+        // game exists
         if (gameData.data.getGame) {
 
+            // all players have posted their facts
             if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
 
                 playerData = await API.graphql(graphqlOperation(
@@ -47,7 +52,8 @@ export default async (req, res) => {
                         id: req.query.playerId
                     }
                 ));
-
+                
+                // player exists
                 if (playerData.data.getPlayer) {
 
                         let facts, selected, timer, factsPrevious;
@@ -74,7 +80,9 @@ export default async (req, res) => {
                                     id: playerData.data.getPlayer.timer.id
                                 }
                             ));
-
+                            
+                            // if no answer submitted or time is over, it sets selected to "true".
+                            // "true" because a truth is the wrong answer in this case 
                             if (!req.query.factId || ((Math.ceil((new Date().getTime())/1000) - timer.time) > (gameData.data.getGame.playerSeconds))) {
                                 selected = true;
                             } else {
@@ -83,7 +91,7 @@ export default async (req, res) => {
                                 })[0].valid;
                             }
 
-                            // Implement: check and make sure fact set isn't your's
+                            // IMPLEMENT: check and make sure fact set isn't your's
 
                             if (playerData.data.getPlayer.previous) {
                                  // Facts already exist in previous

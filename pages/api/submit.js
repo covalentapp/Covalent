@@ -27,6 +27,16 @@ import formidable from 'formidable-serverless';
 import fs from 'fs';
 import AWS from 'aws-sdk';
 
+/*
+
+In order to process the uploaded video, Next.js's own bodyParser needs to be disabled.
+Instead, formidable is used to process the request payload.
+More information in the issue below.
+
+https://github.com/vercel/next.js/issues/7947
+
+*/
+
 export const config = {
     api: {
       bodyParser: false,
@@ -47,9 +57,11 @@ export default async (req, res) => {
     let error, data;
 
     try {
+        // Ensures all query parts are there
         if (!req.query.fact1 || !req.query.fact2 || !req.query.lie || !req.query.gameId || !req.query.playerId) {
             error = "Not all fields were filled!";
         } else {
+            // Get the game associated with the ID given
             data = await API.graphql(graphqlOperation(
                 getGame,
                 {
@@ -58,7 +70,7 @@ export default async (req, res) => {
             ));
 
             if (data.data.getGame) {
-
+                // Get the player associated with the ID given
                 data = await API.graphql(graphqlOperation(
                     getPlayer,
                     {
@@ -67,6 +79,7 @@ export default async (req, res) => {
                 ));
 
                 if (data.data.getPlayer) {
+                    // If the player doesn't have a set of facts, add the facts
                     if (!data.data.getPlayer.facts) {
                         data = await API.graphql(graphqlOperation(
                             createFacts,
@@ -76,6 +89,8 @@ export default async (req, res) => {
                                     factsPlayerId: req.query.playerId,
                                     facts: 
                                         [{
+                                            // Random IDs are assigned into a maximum of six digits
+                                            // These "fact IDs" are used to validate truths / lies
                                             id: Math.floor(Math.random() * 100000),
                                             name: req.query.fact1,
                                             valid: true,
@@ -93,9 +108,19 @@ export default async (req, res) => {
                                 }
                             }
                         ));
+                        
+                        /* 
+                        The entire section below is to process submitted videos to upload to S3
+                        Just to illustrate what's going on:
+                        - Video contained as multi-part form in request body
+                        - Body processed below; "files" variable contains paths to the files
+                        - fs reads the file from the given path as "video"
+                        - Uploads to S3 with base64 encoding
+                        - fs unlinks (removes) the file and the API call is finished
+                        */
 
                         const form = new formidable.IncomingForm();
-                        form.uploadDir = "/tmp";
+                        form.uploadDir = "/tmp"; // tmp is the only writeable directory on Lambda
                         form.keepExtensions = true;
                         form.parse(req, (err, fields, files) => {
                             if (err) {

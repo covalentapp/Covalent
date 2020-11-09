@@ -42,7 +42,8 @@ export default async (req, res) => {
                 }
             ));
             
-            // Create new code
+            // Check if a randomly generated code exists (from makeid),
+            // if not, save the code
             do {
                 code = makeid(6);
                 data = await API.graphql(graphqlOperation(
@@ -53,7 +54,7 @@ export default async (req, res) => {
                 ));
             } while (data.data.gameByCode.items.length != 0);
 
-            // Create new game
+            // Create new game (two truths & lie)
             gameData = await API.graphql(graphqlOperation(
                 createGame,
                 {
@@ -69,7 +70,7 @@ export default async (req, res) => {
                 }
             ));
 
-            // Update host account
+            // Update host account to reflect the game they're in
             await API.graphql(graphqlOperation(
                 updatePlayer,
                 {
@@ -88,7 +89,7 @@ export default async (req, res) => {
     }
 
     /*
-    So random
+    So random (makes random code)
     https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
     */
 

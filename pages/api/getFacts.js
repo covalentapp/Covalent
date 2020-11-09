@@ -39,6 +39,10 @@ export default async (req, res) => {
 
     if (!req.query.gameId || !req.query.playerId) {
         error = "Not all fields are filled.";
+        res.statusCode = 200
+        res.json({ 
+            error: error
+        })
     } else {
 
             gameData = await API.graphql(graphqlOperation(
@@ -47,9 +51,11 @@ export default async (req, res) => {
                     id: req.query.gameId
                 }
             ));
-
+        
+        // if the game was found
         if (gameData.data.getGame) {
 
+            // if all players have submitted their facts
             if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
 
                 playerData = await API.graphql(graphqlOperation(
@@ -58,7 +64,8 @@ export default async (req, res) => {
                         id: req.query.playerId
                     }
                 ));
-
+                
+                // if the player exists
                 if (playerData.data.getPlayer) {
 
                         let video, facts, previous, end = false, currentFact = 0;
@@ -70,16 +77,20 @@ export default async (req, res) => {
                         facts = gameData.data.getGame.facts.items;
                         previous = playerData.data.getPlayer.previous;
 
+                        // if the player has answered previous questions, get the next one (index of the next one)
                         if (previous) {
                             currentFact = facts.findIndex(factSet => (factSet.id == previous.facts[previous.facts.length - 1].facts)) + 1;        
                         } 
 
+                        // account for player's own fact set (skip it)
                         if ((currentFact < facts.length) && (facts[currentFact].player.id == req.query.playerId)) {
                             currentFact++;
                         }
 
+                        // process fact set
                         if (currentFact < facts.length) {
 
+                            // retrieve video
                             let params = {Bucket: 'covalent-user-videos', Key: facts[currentFact].id + '.webm'};
 
                             await s3.getObject(params)
@@ -92,6 +103,7 @@ export default async (req, res) => {
                                 error = "Error getting player's video";
                             }); 
 
+                            // get the associated fact set
                             try {
                                 facts = await API.graphql(graphqlOperation(
                                     getFacts,
@@ -100,12 +112,18 @@ export default async (req, res) => {
                                     }
                                 ));
                             } catch {
-                                error = "Error getting factset"
+                                error = "Error getting fact set";
                             }
 
+                            // shuffle those facts to the beat
                             shuffle(facts.data.getFacts.facts);
                             
                             try {
+                                // internal timer: because people can't be trusted on the frontend
+                                // internal timer is set when a fact set is retrieved (as a timestamp)
+                                // when submitting, the game compares the submission time with the internal timer
+
+                                // checks to see if a timer object exists (won't if it's the first factset)
                                 if (!playerData.data.getPlayer.timer) {
                                     let timer = await API.graphql(graphqlOperation(
                                         createTimer,
@@ -117,7 +135,8 @@ export default async (req, res) => {
                                             }
                                         }
                                     ));
-
+                                    
+                                    // associates player with timer
                                     await API.graphql(graphqlOperation(
                                         updatePlayer,
                                         {
@@ -128,6 +147,7 @@ export default async (req, res) => {
                                         }
                                     ));
                                 } else {
+                                    // use existing timer
                                     await API.graphql(graphqlOperation(
                                         updateTimer,
                                         {
@@ -139,7 +159,7 @@ export default async (req, res) => {
                                     ));
                                 }
                             } catch {
-                                error = "Error configuring internal timer"
+                                error = "Error configuring internal timer";
                             }
 
                         } else {
