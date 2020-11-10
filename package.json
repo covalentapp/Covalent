@@ -12,7 +12,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "aws-amplify": "^3.3.1",
-    "aws-sdk": "^2.761.0",
+    "aws-sdk": "^2.788.0",
     "formidable-serverless": "^1.0.3",
     "framer": "^1.2.8",
     "framer-motion": "^2.6.13",
