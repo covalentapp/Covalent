@@ -93,15 +93,14 @@ export default async (req, res) => {
                             // retrieve video
                             let params = {Bucket: 'covalent-user-videos', Key: facts[currentFact].id + '.webm'};
 
-                            await s3.getObject(params)
-                            .promise()
-                            .then(data => {
-                                video = data;
-                            })
-                            .catch(err => {
+                           s3.getSignedUrl('getObject', params, (err, url) => {
+                               if (err) {
                                 console.log(err);
                                 error = "Error getting player's video";
-                            }); 
+                               } else {
+                                   video = url;
+                               }
+                           })
 
                             // get the associated fact set
                             try {
@@ -172,7 +171,7 @@ export default async (req, res) => {
                             fact1: (!error && !end) ? { name: facts.data.getFacts.facts[0].name, id: facts.data.getFacts.facts[0].id} : null,
                             fact2: (!error && !end) ? { name: facts.data.getFacts.facts[1].name, id: facts.data.getFacts.facts[1].id} : null,
                             fact3: (!error && !end) ? { name: facts.data.getFacts.facts[2].name, id: facts.data.getFacts.facts[2].id} : null,
-                            video: (!error && !end) ? video.Body : null,
+                            video: (!error && !end) ? video : null,
                             name: (!error && !end) ? facts.data.getFacts.player.name : null,
                             end: end,
                             error: error
