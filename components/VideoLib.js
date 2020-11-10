@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import VideoRecorder from 'react-video-recorder';
-import styles from '../styles/Video.module.css';
+import React, { Component } from 'react'
+import VideoRecorder from 'react-video-recorder'
+import UnsupportedView from './VideoRecorder/unsupported-view.js'
+import ErrorView from './VideoRecorder/error-view.js'
+import styles from '../styles/Video.module.css'
 
 /*
 Known issues:
@@ -19,6 +21,8 @@ class GameVideoRecorder extends Component {
                 isOnInitially={true}
                 timeLimit={7000}
                 onRecordingComplete={this.props.onRecordingComplete}
+                renderUnsupportedView={() => <UnsupportedView />}
+                renderErrorView={() => <ErrorView />}
                 />
             </div>
         )

@@ -1,0 +1,12 @@
+.unsupportedView {
+    padding: 5vmin;
+    font-family: Roboto Condensed;
+    font-style: normal;
+    font-size: calc(6px + 1.5vmin);
+    line-height: 140%;
+    text-align: center;
+}
+
+.cameraIcon {
+    font-size: calc(16px + 4vmin);
+}
