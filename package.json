@@ -15,7 +15,7 @@
     "aws-amplify": "^3.3.1",
     "aws-sdk": "^2.761.0",
     "formidable-serverless": "^1.0.3",
-    "framer": "^1.2.8",
+    "framer": "^1.2.9",
     "framer-motion": "^2.6.13",
     "next": "9.5.5",
     "nookies": "^2.4.0",
