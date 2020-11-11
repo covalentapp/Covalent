@@ -15,17 +15,27 @@ class Connect extends Component {
 
     handleChange(event) {
         this.setState({ value: event.target.value });
+        let emailInputBox = document.getElementsByClassName(styles.emailInput)[0];
+        if (emailInputBox.value == "" || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,3}))$/.test(emailInputBox.value)) {
+            emailInputBox.style.boxShadow = "none";
+        } else {
+            emailInputBox.style.boxShadow = "0px 0px 11px -2px rgba(255,0,0,0.9)";
+        }
     }
 
+    
     async handleSubmit(event) {
-        // VALIDATION THAT THIS IS A VALID EMAIL
+        event.preventDefault();
         await fetch(origin + '/api/email?email=' + this.state.value)
             .then(response => response.json())
             .then(data => {
-                // IF IT'S FALSE, GIVE AN ERROR
-                // ELSE MAKE IT GREEN
+                if(data.success) {
+                    document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "Thank you for subscribing!";
+                    setTimeout(() => {
+                        document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "";
+                    }, 3000);
+                }
             });
-        event.preventDefault();
     }
 
     render() {
@@ -60,6 +70,8 @@ class Connect extends Component {
                         />
                     </button>
                 </form>
+                <p className={styles.emailValidation}>
+                </p>
             </div>
         );
     }
