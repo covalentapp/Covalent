@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
 import styles from "../../styles/landing/Connect.module.css";
 
+const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
+
 class Connect extends Component {
     constructor(props) {
         super(props);
@@ -15,8 +17,14 @@ class Connect extends Component {
         this.setState({ value: event.target.value });
     }
 
-    handleSubmit(event) {
-        alert("An email was submitted: " + this.state.value);
+    async handleSubmit(event) {
+        // VALIDATION THAT THIS IS A VALID EMAIL
+        await fetch(origin + '/api/email?email=' + this.state.value)
+            .then(response => response.json())
+            .then(data => {
+                // IF IT'S FALSE, GIVE AN ERROR
+                // ELSE MAKE IT GREEN
+            });
         event.preventDefault();
     }
 
