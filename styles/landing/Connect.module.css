@@ -29,7 +29,6 @@
 .connect .tellEmail {
     font-size: calc(3px + 1.5vmin);
     width: calc(150px + 15vw);
-
 }
 
 .emailValidation {
