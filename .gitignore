@@ -40,3 +40,4 @@ yarn-error.log*
 .serverless
 .serverless_nextjs
 serverless.yml
+next.config.js

@@ -2,11 +2,12 @@ import Airtable from "airtable";
 
 export default async (req, res) => {
 
-    var base = new Airtable({ apiKey: "keyvjhy7kLPSm8jUE" }).base(
-        "appnQXxRfZPOnmFYz"
+    var base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base(
+        process.env.AIRTABLE_BASE
     );
     
     if (req.query.email) {
+
         base("Sending List").create(
             [
                 {
@@ -19,14 +20,20 @@ export default async (req, res) => {
             function (err, records) {
                 if (err) {
                     console.error(err);
-                    return;
                 }
+                res.statusCode = 200
+                res.json({ 
+                    success: err ? false : true
+                })
             }
+            
         );
+    } else {
+        res.statusCode = 200
+        res.json({ 
+            success: false
+        })
     }
 
-    res.statusCode = 200
-    res.json({ 
-        success: req.query.email ? true : false
-    })
+    
 }
