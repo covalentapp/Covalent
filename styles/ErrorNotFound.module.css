@@ -1,4 +1,4 @@
-.ErrorNotFound {
+.Custom404 {
     text-align: left;
 }
 
@@ -8,7 +8,7 @@
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     right: -50%;
     transform: translate(-50%, -50%);
@@ -19,7 +19,7 @@
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
-    line-height: 28px;
+    line-height: 26px;
     letter-spacing: 0.05em;
 
     color: #000000;
@@ -30,8 +30,9 @@
     font-style: normal;
     font-weight: bold;
     font-size: 36px;
-    line-height: 47px;
+    /* line-height: px; */
     letter-spacing: 0.05em;
+    margin-top: 5px;
 
     color: #5A4FCF;
 

@@ -1,28 +1,28 @@
 import React, { Component } from "react";
-import styles from "../styles/ErrorFullGame.module.css";
-import Head from "next/head";
+import styles from "../styles/ErrorWaiting.module.css";
 import Link from "next/link";
 
-class ErrorNotFound extends Component {
+class ErrorWaiting extends Component {
     render () {
         return (
             <div className={styles.ErrorNotFound}>
                 <style jsx global>{`
                     img {
-                        width: 180px;
+                        width: 250px;
                         height: auto;
                         position: absolute;
-                        top: 87%;
+                        top: 25%;
                         left: 50%;
                         right: -50%;
                         transform: translate(-50%, -50%);
                     }
                 `}</style>
-                <img src="/images/partial-logo.png" alt="Partial Logo"/>
+                <img src="/images/logo.svg" alt="Logo"/>
                  <div className={styles.errorBlock}>
-                     <h2 className={styles.errorText}>Sorry, that game is full, or the host has already started it.</h2>
+                     <h3 className={styles.errorText}>Covalent is creating bonds!</h3>
+                     <h3 className={styles.errorText}>Sit tight.</h3>
                      <span className={styles.errorLink}>
-                        <Link href={this.props.link}>Go join another game!</Link>
+                        <Link href={this.props.link}>or join another game.</Link>
                      </span>
                  </div>
             </div>
@@ -30,4 +30,4 @@ class ErrorNotFound extends Component {
     }
 }
 
-export default ErrorNotFound;
+export default ErrorWaiting;

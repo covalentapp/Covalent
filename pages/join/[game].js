@@ -8,6 +8,7 @@ import SimpleButton from '../../components/SimpleButton';
 import Error from '../../components/Error';
 import ErrorGameNotFound from '../../components/ErrorGameNotFound';
 import ErrorFullGame from '../../components/ErrorFullGame';
+import ErrorWaiting from '../../components/ErrorWaiting';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
@@ -142,7 +143,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
 
             {joined && !gameFull &&
                 <div className={styles.join}>
-                    <Error text={`Waiting on ${gameCheck.host} to start the game.`} />
+                    <ErrorWaiting text={`Waiting on ${gameCheck.host} to start the game.`} />
                 </div>
             }
 

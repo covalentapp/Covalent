@@ -8,10 +8,10 @@ class Error extends Component {
             <div className={styles.error}>
                 <style jsx global>{`
                     img {
-                        width: 411.08px;
-                        height: 423px;
+                        width: 180px;
+                        height: auto;
                         position: absolute;
-                        top: 50%;
+                        top: 87%;
                         left: 50%;
                         right: -50%;
                         transform: translate(-50%, -50%);

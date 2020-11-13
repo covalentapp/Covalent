@@ -7,7 +7,7 @@
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     right: -50%;
     transform: translate(-50%, -50%);
@@ -19,7 +19,7 @@
     font-style: normal;
     font-weight: bold;
     font-size: 36px;
-    line-height: 47px;
+    margin-top: 5px;
     letter-spacing: 0.05em;
 
     color: #000000;

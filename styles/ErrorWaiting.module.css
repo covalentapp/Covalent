@@ -1,4 +1,4 @@
-.ErrorFullGame {
+.ErrorNotFound {
     text-align: left;
 }
 
@@ -8,7 +8,7 @@
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 40%;
+    top: 70%;
     left: 50%;
     right: -50%;
     transform: translate(-50%, -50%);
@@ -18,7 +18,7 @@
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 28px;
     letter-spacing: 0.05em;
 
@@ -29,8 +29,8 @@
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
-    font-size: 36px;
-    margin-top:5px;
+    font-size: 28px;
+    margin-top: 5px;
     letter-spacing: 0.05em;
 
     color: #5A4FCF;
@@ -41,7 +41,7 @@
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 23px;
     letter-spacing: 0.05em;
     text-decoration-line: underline;
