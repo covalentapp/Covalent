@@ -1,3 +1,4 @@
+
 .ErrorNotFound {
     text-align: left;
 }
@@ -8,7 +9,7 @@
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 70%;
+    top: 60%;
     left: 50%;
     right: -50%;
     transform: translate(-50%, -50%);
@@ -48,3 +49,4 @@
 
     color: #000000;
 }
+

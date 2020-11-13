@@ -11,7 +11,7 @@ class ErrorWaiting extends Component {
                         width: 250px;
                         height: auto;
                         position: absolute;
-                        top: 25%;
+                        top: 35%;
                         left: 50%;
                         right: -50%;
                         transform: translate(-50%, -50%);
