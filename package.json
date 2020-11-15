@@ -9,23 +9,23 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@fortawesome/react-fontawesome": "^0.1.11",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.12",
     "airtable": "^0.10.1",
-    "aws-amplify": "^3.3.1",
+    "aws-amplify": "3.3.1",
     "aws-sdk": "^2.761.0",
     "formidable-serverless": "^1.0.3",
-    "framer": "^1.2.8",
+    "framer": "^1.2.9",
     "framer-motion": "^2.6.13",
     "next": "9.5.5",
-    "nookies": "^2.4.0",
+    "nookies": "^2.5.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hamburger-menu": "^1.2.1",
     "react-jdenticon": "0.0.8",
     "react-scroll": "^1.8.1",
-    "react-slideshow-image": "^3.3.0",
+    "react-slideshow-image": "^3.3.1",
     "react-video-recorder": "^3.17.1",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.1"
   }
 }

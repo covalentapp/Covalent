@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "../styles/Error.module.css";
-import Head from "next/head";
+import Link from "next/link";
 
 class Error extends Component {
     render () {
@@ -17,7 +17,7 @@ class Error extends Component {
                         transform: translate(-50%, -50%);
                     }
                 `}</style>
-                <img src="/images/partial-logo.png" alt="Partial Logo"/>
+                <Link href="/menu"><img src="/images/logo_wordmark.png" style={{cursor: "pointer"}} alt="Partial Logo"/></Link>
                  <div className={styles.errorBlock}>
                      <h2 className={styles.errorText}>{this.props.text}</h2>
                  </div>
