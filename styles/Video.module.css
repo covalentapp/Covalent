@@ -1,6 +1,6 @@
 .recorder {
-    width: 50vw;
-    height: calc(50vw * 3/4);
+    width: calc(50vh * 4/3);
+    height: 50vh;
     min-width: 500px;
     max-width: 640px;
     max-height: 480px;
@@ -24,8 +24,8 @@
 }
 
 .videoContainer {
-    width: 50vw;
-    height: calc(50vw * 3/4);
+    width: calc(50vh * 4/3);
+    height: 50vh;
     min-width: 500px;
     max-width: 640px;
     max-height: 480px;
