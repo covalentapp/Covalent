@@ -1,9 +1,33 @@
-.name{
+.Avatar {
+    flex: 0 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: calc(40px + 20vmin);
+}
+
+.name {
     font-family: 'Roboto', sans-serif; 
     display: block;
     margin:auto; 
-    font-size:15px; 
-    padding-bottom: 20px; 
+    font-size: calc(6px + 1.5vmin); 
+    padding-top: 10px; 
     text-align:center;
     text-decoration: underline;
+    letter-spacing: 0.05em; 
+}
+
+.icon {
+    width: 10vmin;
+    height: 10vmin;
+    border-radius: 0.5vmin;
+    box-shadow: 0 0 4px #888888;
+}
+
+@media all and (max-width: 400px), (max-height: 400px) {   
+    .name {
+        font-size: 12px;
+    }
 }

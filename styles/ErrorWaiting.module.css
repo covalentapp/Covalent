@@ -1,0 +1,52 @@
+
+.ErrorNotFound {
+    text-align: left;
+}
+
+
+.errorBlock{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.errorNumber {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0.05em;
+
+    color: #000000;
+}
+
+.errorText {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    margin-top: 5px;
+    letter-spacing: 0.05em;
+
+    color: #5A4FCF;
+
+}
+
+.errorLink{
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 23px;
+    letter-spacing: 0.05em;
+    text-decoration-line: underline;
+
+    color: #000000;
+}
+

@@ -1,3 +1,8 @@
+.MenuContainer {
+    width: 100vw;
+    height: 100vw;
+}
+
 .Menu {
     position: absolute;
     left: 25%;
@@ -82,4 +87,38 @@
     width: 100%;
     /*z-index: 1; no longer needed w/out join button animation*/
     padding-bottom: 2px;
+}
+
+.joinCodeLabel {
+    font-family: "Roboto";
+    font-weight: bold;
+    font-size: var(--font-size); 
+    letter-spacing: 0.1em;
+    color: #000000;
+}
+
+.codeInput {
+    margin-left: 10px;
+    width: 18vmin;
+    min-width: 72px;
+    max-width: 150px;
+    height: 4.5vmin;
+    min-height: 18px;
+    max-height: 40px;
+    border-radius: 24px;
+    border: 1px solid #000000;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-transform: uppercase;
+    font-family: "Roboto";
+    font-weight: bold;
+    font-size: calc(var(--font-size) - 2px);
+    letter-spacing: 0.1em;
+    color: #000000;
+    outline: none;
+}
+
+.codeInputError {
+    border: 1px solid red;
 }

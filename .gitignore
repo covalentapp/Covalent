@@ -35,3 +35,9 @@ yarn-error.log*
 
 # amplify
 /src/aws-exports.js
+
+# serverless
+.serverless
+.serverless_nextjs
+serverless.yml
+next.config.js

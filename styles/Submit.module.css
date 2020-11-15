@@ -1,0 +1,139 @@
+.gameBody {
+    position: absolute;
+    left: 0%;
+    width: calc(75% - 2px);
+    height: 100%;
+    display: flex;
+}
+
+/* ===== TOP ===== */
+
+.gameBar {
+    width: 100%;
+    height: 5vmin;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #FFFFFF;
+}
+
+.gameLogo {
+    display: flex;
+    flex-direction: row;
+}
+
+.logoImg {
+    height: 4vmin;
+    min-height: 16px;
+}
+
+.logoText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 0.4vw;
+}
+
+.gameLogo p1 {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 1vmin);
+    letter-spacing: 0.05em;
+    color: #5A4FCF;
+}
+
+.gameLogo p2 {
+    font-family: Roboto Condensed;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(3px + 1vmin);
+    letter-spacing: 0.05em;
+    color: #000000;
+}
+
+.centerText {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+}
+
+.centerText p1 {
+    font-size: calc(3px + .75vmin);
+    line-height: 110%;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.centerText p2 {
+    font-weight: bold;
+    font-size: calc(10px + 1.5vmin);
+    line-height: 110%;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+/* ===== MAIN ===== */
+
+.gameMain {
+    position: absolute;
+    top: calc(4px + 5vmin);
+    padding-top: 2vmin;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #FFFFFF;
+}
+
+.gameMain p {
+    padding-top: .6vmin;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(6px + 1.5vmin);
+    line-height: 60%;
+    letter-spacing: .1em;
+    text-indent: .1em;
+}
+
+.videoImg {
+    height: 50vmin;
+}
+
+/* ===== SIDE ===== */
+
+.gameSide {
+    position: absolute;
+    width: calc(25% - 2px);
+    height: 100%;
+    right: 0%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.gameSide divider {
+    margin: .5vmin 2vmin 0;
+    border-top: 2px solid #e1e1e1;
+}
+
+.gameSide h1 {
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: calc(9px + 1.5vmin);
+    line-height: 100%;
+    letter-spacing: .05em;
+    text-indent: .05em;
+}
+
+.gameSide p {
+    padding: 0 2vmin;
+    font-family: Roboto;
+    font-size: calc(6px + 1vmin);
+    letter-spacing: .05em;
+    text-indent: .05em;
+}

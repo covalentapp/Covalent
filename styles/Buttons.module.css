@@ -1,16 +1,18 @@
 .simpleButton {
+    --fontmin: 4;
+    --fontvar: 2.5;
     outline: 0 !important;
-    width: 20vmin;
-    height: 5vmin;
+    width: auto;
+    height: 5vh;
     border: 1px solid #000000;
-    border-radius: 24px;
+    border-radius: 9999px;
     background-color: white;
     color: black;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: calc(4px + 2.5vmin);
-    min-width: 120px;
-    min-height: 40px;
+    font-size: calc(var(--fontmin) * 1px + var(--fontvar) * 1vmin); /*make this editable by JS?*/
+    min-width: 20vmin;
+    min-height: 24px;
     text-transform: uppercase;
     text-align: center;
     margin: 1vmin;
@@ -18,21 +20,19 @@
     line-height: 0;
 }
 
-.simpleButton div {
-
-}
-
-@media all and (max-height: 400px) {
+@media only screen and (max-width: 768px) {
     .simpleButton {
-        font-size: 12px;
+        height: calc(10px + 3vh);
     }
 }
 
-@media all and (max-width: 400px) {
+@media all and (max-height: 400px), (max-width: 400px) {
     .simpleButton {
-        font-size: 12px;
+        font-size: 14px;
+        min-width: 80px;
     }
 }
+
 .simpleButton:hover {
     background-color: lightgray;
     outline: none;
@@ -43,12 +43,11 @@
     outline: none;
 }
 
-.small {
-    width: 10vmin;
-    height: 1vmin;
-    min-width: 100px;
-    min-height: 30px;
-    font-size: 15px;
+.copy {
+    min-width: 16vmin;
+    height: calc(14px + 2vh);
+    min-height: 20px;
+    font-size: calc(2px + 2vmin);
 }
 
 .join {
@@ -66,22 +65,32 @@
     color: white;
 }
 
-.host {
+.host, .copy {
     background-color: #48BFE3;
     border: 0px;
 }
 
-.host:hover {
+.host:hover, .copy:hover {
     background-color: #1D95BA;
     color: white;
 }
 
-.host:active {
+.host:active, .copy:active {
     background-color: #13637c;
     color: white;
 }
 
-#autoWidth {
-    width: auto;
-    padding: 0 1.5vw;
+.purple {
+    background-color: #5A4FCF;
+    color: white;
+    border: 0px;
+    text-transform: none;
+}
+
+.purple:hover {
+    background-color: #4f2692;
+}
+
+.purple:active {
+    background-color: #3d1d72;
 }

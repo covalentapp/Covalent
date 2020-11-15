@@ -1,5 +1,7 @@
-Interactive, intuitive, impressive, immersive, ideal, interesting ice-breakers.
+# Covalent
 
-*I write terrible code, but my alliteration game is on point.*
+*Interactive, intuitive, impressive, immersive, ideal, and interesting ice-breakers.*
 
-And unlike my predecessor, I'm rendered server-side!
+Built using Next.js. Production version accessible @ [covalent.app](https://covalent.app). 
+
+This project is a part of the [UCLA DevX family](https://ucladevx.com). Interested in building web apps? Check out the DevX [quarterly recruitment guidelines](https://ucladevx.com/recruitment/team).

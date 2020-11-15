@@ -52,10 +52,29 @@ export const onCreateGame = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       facts {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      previous {
         items {
           id
           createdAt
@@ -122,10 +141,29 @@ export const onUpdateGame = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       facts {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      previous {
         items {
           id
           createdAt
@@ -192,10 +230,29 @@ export const onDeleteGame = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       facts {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      previous {
         items {
           id
           createdAt
@@ -235,6 +292,9 @@ export const onCreatePlayer = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -259,6 +319,9 @@ export const onCreatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          nextToken
+        }
+        previous {
           nextToken
         }
         playerSeconds
@@ -289,9 +352,51 @@ export const onCreatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
+        createdAt
+        updatedAt
+      }
+      previous {
+        id
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          facts
+          correct
+        }
+        createdAt
+        updatedAt
+      }
+      timer {
+        id
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        time
         createdAt
         updatedAt
       }
@@ -324,6 +429,9 @@ export const onUpdatePlayer = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -348,6 +456,9 @@ export const onUpdatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          nextToken
+        }
+        previous {
           nextToken
         }
         playerSeconds
@@ -378,9 +489,51 @@ export const onUpdatePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
+        createdAt
+        updatedAt
+      }
+      previous {
+        id
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          facts
+          correct
+        }
+        createdAt
+        updatedAt
+      }
+      timer {
+        id
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        time
         createdAt
         updatedAt
       }
@@ -413,6 +566,9 @@ export const onDeletePlayer = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -437,6 +593,9 @@ export const onDeletePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          nextToken
+        }
+        previous {
           nextToken
         }
         playerSeconds
@@ -467,9 +626,51 @@ export const onDeletePlayer = /* GraphQL */ `
           updatedAt
         }
         facts {
+          id
           name
           valid
         }
+        createdAt
+        updatedAt
+      }
+      previous {
+        id
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          facts
+          correct
+        }
+        createdAt
+        updatedAt
+      }
+      timer {
+        id
+        player {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        time
         createdAt
         updatedAt
       }
@@ -501,6 +702,9 @@ export const onCreateFacts = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -540,10 +744,22 @@ export const onCreateFacts = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -575,6 +791,9 @@ export const onUpdateFacts = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -614,10 +833,22 @@ export const onUpdateFacts = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
@@ -649,6 +880,9 @@ export const onDeleteFacts = /* GraphQL */ `
         facts {
           nextToken
         }
+        previous {
+          nextToken
+        }
         playerSeconds
         playerNum
         description
@@ -688,13 +922,460 @@ export const onDeleteFacts = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       facts {
+        id
         name
         valid
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePrevious = /* GraphQL */ `
+  subscription OnCreatePrevious {
+    onCreatePrevious {
+      id
+      game {
+        id
+        name
+        type
+        enabled
+        code
+        players {
+          nextToken
+        }
+        host {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          nextToken
+        }
+        previous {
+          nextToken
+        }
+        playerSeconds
+        playerNum
+        description
+        createdAt
+        updatedAt
+      }
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      facts {
+        facts
+        correct
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePrevious = /* GraphQL */ `
+  subscription OnUpdatePrevious {
+    onUpdatePrevious {
+      id
+      game {
+        id
+        name
+        type
+        enabled
+        code
+        players {
+          nextToken
+        }
+        host {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          nextToken
+        }
+        previous {
+          nextToken
+        }
+        playerSeconds
+        playerNum
+        description
+        createdAt
+        updatedAt
+      }
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      facts {
+        facts
+        correct
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePrevious = /* GraphQL */ `
+  subscription OnDeletePrevious {
+    onDeletePrevious {
+      id
+      game {
+        id
+        name
+        type
+        enabled
+        code
+        players {
+          nextToken
+        }
+        host {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
+        facts {
+          nextToken
+        }
+        previous {
+          nextToken
+        }
+        playerSeconds
+        playerNum
+        description
+        createdAt
+        updatedAt
+      }
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      facts {
+        facts
+        correct
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTimer = /* GraphQL */ `
+  subscription OnCreateTimer {
+    onCreateTimer {
+      id
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      time
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTimer = /* GraphQL */ `
+  subscription OnUpdateTimer {
+    onUpdateTimer {
+      id
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      time
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTimer = /* GraphQL */ `
+  subscription OnDeleteTimer {
+    onDeleteTimer {
+      id
+      player {
+        id
+        name
+        game {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        avatar
+        hostOf {
+          id
+          name
+          type
+          enabled
+          code
+          playerSeconds
+          playerNum
+          description
+          createdAt
+          updatedAt
+        }
+        facts {
+          id
+          createdAt
+          updatedAt
+        }
+        previous {
+          id
+          createdAt
+          updatedAt
+        }
+        timer {
+          id
+          time
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      time
       createdAt
       updatedAt
     }

@@ -1,0 +1,27 @@
+.error {
+    text-align: center;
+}
+
+.errorBlock{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.errorText {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    margin-top: 5px;
+    letter-spacing: 0.05em;
+
+    color: #000000;
+
+}

@@ -1,0 +1,126 @@
+
+
+.nav {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1vh;
+    box-shadow: 0 0 10px #888888;
+    z-index: 1;
+}
+
+.nav .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10vw;
+}
+
+.nav .logoImg {
+    width: 6vmin;
+    height: 6vmin;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.nav .logo p {
+    padding-left: 0.4vw;
+
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(2px + 2vmin);
+    letter-spacing: 0.05em;
+
+    color: #5a4fcf;
+}
+
+.nav .buttons > button:not(span) {
+    outline: 0 !important;
+    margin: 0 1vw;
+    border: 0;
+    background: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    color: black;
+    font-size: calc(6px + 1.5vmin);
+    cursor: pointer;
+}
+
+.nav .buttons > button:not(span):hover {
+    color: #555555;
+}
+
+.nav .buttons span {
+    margin-left: 1vw;
+}
+
+@media (max-width: 612px) {
+    .temp {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .temp .hMenu {
+        display: inline-block;
+        padding-right: 10vw;
+    }
+    .nav {
+        display: block;
+    }
+    .nav .buttons {
+        display: none;
+    }
+    .nav .buttons#show {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 92vw;
+        height: auto;
+    }
+    .nav .buttons span {
+        padding-right: calc(5px + 0.4vw);
+    }
+}
+
+@media not all and (max-width: 612px) {
+    .temp {
+        display: contents;
+    }
+    .hamburger {
+        display: contents;
+    }
+    .nav .buttons {
+        display: inline-block;
+        padding-right: 10vw;
+    }
+    .nav .hMenu {
+        display: none;
+    }
+}
+
+.hamburger {
+    align-self: flex-end;
+}
+
+@media all and (max-height: 400px), (max-width: 400px) {
+    .nav .logo p {
+        font-size: 10px;
+    }
+    .nav .buttons > button:not(span) {
+        font-size: 12px;
+    }
+    .nav {
+        padding: 4px;
+    }
+}
+
+

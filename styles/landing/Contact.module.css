@@ -1,0 +1,65 @@
+.contactBody {
+    background-color: #5A4FCF;
+    color: #FFFFFF;
+    padding-top: 5vmin;
+    padding-bottom: 10vmin;
+    text-align: center;
+}
+
+.contactBody h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(18px + 3vmin);
+}
+
+.contactBody p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(9px + 1.5vmin);
+    padding-bottom: 1em;
+}
+
+.emailForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emailInput {
+    width: calc(150px + 25vmin);
+    height: calc(18px + 3vmin);
+    border: 0px;
+    border-radius: 100vmin;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(9px + 1.5vmin);
+    text-align: center;
+}
+
+.emailSubmit {
+    width: calc(18px + 3vmin);
+    height: calc(18px + 3vmin);
+    margin-left: 2vmin;
+    padding: 0;
+    border: 0;
+    background-color: #FFFFFF;
+    outline: 0 !important;
+}
+
+.submitIcon {
+    height: calc(18px + 3vmin);
+    color: #80FFDB;
+    background-color: #5A4FCF;
+    cursor: pointer;
+}
+
+.submitIcon:hover {
+    color: #00DB9D;
+}
+
+.submitIcon:active {
+    color: #019a6e;
+}

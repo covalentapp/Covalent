@@ -10,17 +10,21 @@
 }
 
 .statementButton {
-    margin: 8px;
-    background-color: #E1E1E1;
-    border: 0px;
-    border-radius: 50vh;
-    padding: 8px;
+    outline: 0 !important;
+    margin: .8vmin 0;
+    width: 72vmin;
+    height: 4.5vmin;
+    border: 0;
+    border-radius: 5vmin;
     font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
+    font-size: calc(6px + 1.5vmin);
     text-align: center;
-    color: black;
+    cursor: pointer;
+}
+
+.icon {
+    height: 2vmin;
+    padding-top: 0.25vmin;
 }
 
 .statementButton:hover {
@@ -28,6 +32,64 @@
 }
 
 .statementButton:active {
-    background-color: #00DB9D;
-    color: white;
+    background-color: #58ffd0;
+}
+
+.selected {
+    background-color: #58ffd0;
+}
+
+.selected:hover {
+    background-color: #80FFDB;
+}
+
+.resultsButton {
+    display: flex;
+    justify-content: space-between;
+    outline: 0 !important;
+    margin: .8vmin 0;
+    width: 72vmin;
+    height: 4.5vmin;
+    border: 0;
+    border-radius: 5vmin;
+    font-family: Roboto;
+    font-size: calc(6px + 1.5vmin);
+    text-align: left;
+    padding-left: 2vmin;
+    padding-right: 2vmin;
+    padding-top: 1vmin;
+}
+
+.correct {
+    background-color: #80FFDB;
+}
+
+.wrong {
+    background-color: #FF8680;
+}
+
+.submitButton {
+    outline: 0 !important;
+    margin-top: 3vmin;
+    margin-left: 29vmin;
+    width: 14vmin;
+    height: 5vmin;
+    background: #48BFE3;
+    border: 0;
+    border-radius: 5vmin;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: calc(6px + 1.5vmin);
+    letter-spacing: .1em;
+    text-indent: .1em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background: #7edcf9;
+}
+
+.submitButton:active {
+    background: #b2e8f9;
 }

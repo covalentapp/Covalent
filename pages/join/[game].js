@@ -1,24 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Join.module.css';
 import Head from 'next/head';
-import SimpleButton from '../../components/SimpleButton.js';
+import Link from 'next/link';
+import { useRouter } from 'next/router'
+import { setCookie } from 'nookies'
+import SimpleButton from '../../components/SimpleButton';
+import Error from '../../components/Error';
+import ErrorGameNotFound from '../../components/ErrorGameNotFound';
+import ErrorFullGame from '../../components/ErrorFullGame';
+import ErrorWaiting from '../../components/ErrorWaiting';
 
-import absoluteUrl from 'next-absolute-url';
+const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull }) {
+export default function JoinGame({ error, gameCheck, gameFull }) {
 
     const [playerName, setName] = useState('');
     const [joined, setJoin] = useState(false);
-    const [addedId, playerId] = useState(''); 
-    const [addedGameId, gameId] = useState('');
-    const [waiting, gameLoading] = useState(playerCheck);
-    
+    const [addedId, playerId] = useState(null); 
+    const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
+    const [waiting, gameLoading] = useState(null);
 
-    // MOVE IDS (game and player) TO LOCAL STORAGE
-    // Remember: if player is specified beforehand, the IDs are not in the hooks!
+    const router = useRouter();
 
     // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
-    // Otherwise (no idea how to do this): remove player from game with new API call?
+
+    // Also: maybe implement framer motion for the new player avatars to make it look nicer
+
+    /* 
+    Puts IDs into local storage
+    */
+
+    useEffect(() => {
+        if (addedId && addedGameId) {
+            setCookie(null, 'gameID', addedGameId, {
+                maxAge: 24 * 60 * 60,
+                path: '/',
+            });
+            setCookie(null, 'playerID', addedId, {
+                maxAge: 24 * 60 * 60,
+                path: '/',
+            });
+        }
+    }, [addedId, addedGameId]);
 
     /*
     Updates when player name is set and submitted
@@ -26,23 +49,25 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
 
     useEffect(() => {
         if (joined) {
-            addPlayer();
+            joinGame();
         }
 
-        async function addPlayer() {
-            const { origin } = absoluteUrl(req);
+        async function joinGame() {
             let res, data;
-            res = await fetch(origin + '/api/create/player?playerName=' + playerName + '&gameId=' + gameCheck.id);
+            res = await fetch(origin + '/api/join?playerName=' + playerName + '&code=' + gameCheck.code);
             data = await res.json();
-            if (data.playerId) {
-                playerId(data.playerId); 
-                gameId(gameCheck.id);
+            if (data.playerID) {
+                playerId(data.playerID); 
                 gameLoading(true);
             } else {
                 gameFull = true;
             }
         }
     }, [joined]);
+
+    /*
+    Checks if game has started
+    */
 
     useEffect(() => {
         if (waiting) {
@@ -61,14 +86,14 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
             }
 
             let res, data;
-            const { origin } = absoluteUrl(req);
 
             while (waiting) {
                 // Implement: only allow to check a certain number of times
-                res = await fetch(origin + '/api/get/game?gameId=' + addedGameId);
+                res = await fetch(origin + '/api/game?id=' + addedGameId);
                 data = await res.json();
-                if (data.game.data.getGame.enabled) {
-                    // REDIRECT TO GAME PAGE
+                if (data.enabled) {
+                    router.push("/submit");
+                    break;
                 }  
                 await delay(2000);
             }
@@ -93,95 +118,74 @@ export default function JoinGame({ req, error, gameCheck, playerCheck, gameFull 
             </Head>     
             
             {error && 
-            <div className={styles.join}>
-            <h2>An internal error occurred. We're sorry for the inconvenience.</h2>
-            </div>
+                <Error text={"An internal error occurred. We're sorry for the inconvenience."} />
             }
 
             {!gameCheck && !error && 
-            <div className={styles.join}>
-            <h2>Invalid game code. Make sure your host has enabled the game.</h2>
-            </div>
+                
+                <div className={styles.join}>
+                    <ErrorGameNotFound link={"/menu"} />
+                </div>
             }
 
-            {!playerCheck && !joined && !error && !gameFull && gameCheck &&
-            <div className={styles.join}>
-            <h2>Joining {gameCheck.host}'s game</h2>
-            <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
-            <input type="text" className={styles.name} placeholder="ENTER YOUR NAME" onChange={event => setName(event.target.value)}></input>
-            <SimpleButton name="join game" type="join" onClick={() => {
-                if (playerName) {
-                    setJoin(true);
-                }
-            }}/>               
-            </div>
+            {!joined && !error && !gameFull && gameCheck &&
+                <div className={styles.join}>
+                    <h2>Joining {gameCheck.host}'s game</h2>
+                    <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
+                    <input type="text" className={styles.name} placeholder="ENTER YOUR NAME" onChange={event => setName(event.target.value)}></input>
+                    <SimpleButton name="join game" type="join" onClick={() => {
+                        if (playerName) {
+                            setJoin(true);
+                        }
+                    }}/>               
+                </div>
             }
 
-            {(playerCheck || joined) && !gameFull && !error &&
-            <div className={styles.join}>
-                <h2>Waiting on {gameCheck.host} to start the game</h2>
-            </div>
+            {joined && !gameFull &&
+                <div className={styles.join}>
+                    <ErrorWaiting text={`Waiting on ${gameCheck.host} to start the game.`} />
+                </div>
             }
 
             {gameFull &&
-            <div className={styles.join}>
-            <h2>This game is full, or the host has already started it. Go join another game!</h2>
-            </div>
+                <div className={styles.join}>
+                    <ErrorFullGame link={"/menu"} />
+                </div>
             }
         
         </div>
     );
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params }) {
     let res, data, error = null;
     let gameCheck = {};
-    let playerCheck = {};
     let gameFull = false;
     let lowerCaseCode = params.game.toLowerCase();
     try {
-        const { origin } = absoluteUrl(req);
-        res = await fetch(origin + '/api/get/game?code=' + lowerCaseCode);
+        res = await fetch(origin + '/api/game?code=' + lowerCaseCode);
         data = await res.json();
         // Game doesn't exist
-        if (data.game.data.gameByCode.items.length == 0) {
+        if (!data.id) {
             gameCheck = null;
-            playerCheck = null;
+        // Check if game is already full / enabled
+        } else if (data.full || data.enabled) {
+            gameFull = true;
         } else {
-            gameCheck.host = data.game.data.gameByCode.items[0].host.name;
-            gameCheck.name = data.game.data.gameByCode.items[0].name;
-            gameCheck.id = data.game.data.gameByCode.items[0].id;
-            // Check if game is already full / enabled
-            res = await fetch(origin + '/api/get/game?gameId=' + gameCheck.id);
-            data = await res.json();
-            if (data.game.data.getGame.players.items.length >= data.game.data.getGame.playerNum + 1 || data.game.data.getGame.enabled) {
-                playerCheck = null;
-                gameFull = true;
-            } else {
-                // Make new player
-                if (query.name) {
-                    res = await fetch(origin + '/api/create/player?playerName=' + query.name + '&gameId=' + gameCheck.id);
-                    data = await res.json();
-                    if (data.playerId) {
-                        playerCheck.id = data.playerId;
-                    } else {
-                        gameFull = true;
-                    }
-                } else {
-                    playerCheck = null;
-                }
-            }
-            
+            gameCheck.code = lowerCaseCode;
+            gameCheck.host = data.host;
+            gameCheck.name = data.name;
+            gameCheck.id = data.id;
         }
-    } catch {
+    } catch (err) {
         error = true;
+        console.log(err);
     }
 
     return {
         props: {
             error,
             gameCheck,
-            playerCheck,
             gameFull
         },
     }

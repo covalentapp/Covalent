@@ -1,0 +1,49 @@
+/* Implement in landing page with:
+<div className={styles.Features}>
+    <Features></Features>
+</div>
+*/
+
+.features {
+    /* Adjust padding to fit. */
+    height: 100%;
+    padding: 0 2vmin 4vmin;
+    /* padding-left: 4em;
+    padding-right: 4em;
+    padding-top: 7vmin;
+    padding-bottom: 7vmin; */
+    background-color: #80FFDB;
+}
+
+.slideContainer {
+    text-align: center;
+}
+
+.eachFade {
+    display: block;
+    margin: auto;
+}
+
+.eachFade h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(18px + 3vmin);
+}
+
+.eachFade p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(9px + 1.5vmin);
+    padding-bottom: 3vmin;
+    padding-left: 15vw;
+    padding-right: 15vw;
+}
+
+.featureImg {
+    width: calc(60px + 50vw);
+    height: auto;
+    border: 4px solid #80FFDB;
+    filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.25));
+}

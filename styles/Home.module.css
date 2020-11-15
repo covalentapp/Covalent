@@ -1,0 +1,10 @@
+.landingPage {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: auto;
+}
+
+.pageContent {
+    z-index: 0; /* couldn't figure out why the navbar was getting overlapped so i just z-index'd */
+}
