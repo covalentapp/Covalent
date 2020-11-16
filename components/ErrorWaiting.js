@@ -19,11 +19,7 @@ class ErrorWaiting extends Component {
                 `}</style>
                 <img src="/images/logo.svg" alt="Logo"/>
                  <div className={styles.errorBlock}>
-                     <h3 className={styles.errorText}>Covalent is creating bonds!</h3>
-                     <h3 className={styles.errorText}>Sit tight.</h3>
-                     <span className={styles.errorLink}>
-                        <Link href={this.props.link}>or join another game.</Link>
-                     </span>
+                     <h3 className={styles.errorText}>{this.props.text}</h3>
                  </div>
             </div>
         );
