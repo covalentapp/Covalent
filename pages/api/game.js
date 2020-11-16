@@ -71,9 +71,11 @@ export default async (req, res) => {
                         players.push(player.name);
                     }
                 });
-            } 
+            } else {
+                error = "Game not found.";
+            }
         } else {
-            error = "No game ID or code specified."
+            error = "No game ID or code specified.";
         }
     } catch (err) {
         console.log("Error searching for game: " + err.errors[0].errorType);
