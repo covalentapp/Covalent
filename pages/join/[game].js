@@ -123,7 +123,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
 
             {!gameCheck && !error && 
                 
-                <div className={styles.join}>
+                <div>
                     <ErrorGameNotFound link={"/menu"} />
                 </div>
             }
@@ -142,13 +142,13 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
             }
 
             {joined && !gameFull &&
-                <div className={styles.join}>
+                <div>
                     <ErrorWaiting text={`Waiting on ${gameCheck.host} to start the game.`} />
                 </div>
             }
 
             {gameFull &&
-                <div className={styles.join}>
+                <div>
                     <ErrorFullGame link={"/menu"} />
                 </div>
             }
