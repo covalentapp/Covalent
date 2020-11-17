@@ -17,6 +17,7 @@ export const createGame = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -34,6 +35,7 @@ export const createGame = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -47,31 +49,37 @@ export const createGame = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
       facts {
         items {
           id
+          ttl
           createdAt
           updatedAt
         }
@@ -80,6 +88,7 @@ export const createGame = /* GraphQL */ `
       previous {
         items {
           id
+          ttl
           createdAt
           updatedAt
         }
@@ -88,6 +97,7 @@ export const createGame = /* GraphQL */ `
       playerSeconds
       playerNum
       description
+      ttl
       createdAt
       updatedAt
     }
@@ -109,6 +119,7 @@ export const updateGame = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -126,6 +137,7 @@ export const updateGame = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -139,31 +151,37 @@ export const updateGame = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
       facts {
         items {
           id
+          ttl
           createdAt
           updatedAt
         }
@@ -172,6 +190,7 @@ export const updateGame = /* GraphQL */ `
       previous {
         items {
           id
+          ttl
           createdAt
           updatedAt
         }
@@ -180,6 +199,7 @@ export const updateGame = /* GraphQL */ `
       playerSeconds
       playerNum
       description
+      ttl
       createdAt
       updatedAt
     }
@@ -201,6 +221,7 @@ export const deleteGame = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -218,6 +239,7 @@ export const deleteGame = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -231,31 +253,37 @@ export const deleteGame = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
       facts {
         items {
           id
+          ttl
           createdAt
           updatedAt
         }
@@ -264,6 +292,7 @@ export const deleteGame = /* GraphQL */ `
       previous {
         items {
           id
+          ttl
           createdAt
           updatedAt
         }
@@ -272,6 +301,7 @@ export const deleteGame = /* GraphQL */ `
       playerSeconds
       playerNum
       description
+      ttl
       createdAt
       updatedAt
     }
@@ -298,6 +328,7 @@ export const createPlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -310,6 +341,7 @@ export const createPlayer = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -327,6 +359,7 @@ export const createPlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -339,6 +372,7 @@ export const createPlayer = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -353,6 +387,7 @@ export const createPlayer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -360,6 +395,7 @@ export const createPlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -368,6 +404,7 @@ export const createPlayer = /* GraphQL */ `
           name
           valid
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -382,6 +419,7 @@ export const createPlayer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -389,6 +427,7 @@ export const createPlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -396,6 +435,7 @@ export const createPlayer = /* GraphQL */ `
           facts
           correct
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -405,13 +445,16 @@ export const createPlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
         time
+        ttl
         createdAt
         updatedAt
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -438,6 +481,7 @@ export const updatePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -450,6 +494,7 @@ export const updatePlayer = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -467,6 +512,7 @@ export const updatePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -479,6 +525,7 @@ export const updatePlayer = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -493,6 +540,7 @@ export const updatePlayer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -500,6 +548,7 @@ export const updatePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -508,6 +557,7 @@ export const updatePlayer = /* GraphQL */ `
           name
           valid
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -522,6 +572,7 @@ export const updatePlayer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -529,6 +580,7 @@ export const updatePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -536,6 +588,7 @@ export const updatePlayer = /* GraphQL */ `
           facts
           correct
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -545,13 +598,16 @@ export const updatePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
         time
+        ttl
         createdAt
         updatedAt
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -578,6 +634,7 @@ export const deletePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -590,6 +647,7 @@ export const deletePlayer = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -607,6 +665,7 @@ export const deletePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -619,6 +678,7 @@ export const deletePlayer = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -633,6 +693,7 @@ export const deletePlayer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -640,6 +701,7 @@ export const deletePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -648,6 +710,7 @@ export const deletePlayer = /* GraphQL */ `
           name
           valid
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -662,6 +725,7 @@ export const deletePlayer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -669,6 +733,7 @@ export const deletePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -676,6 +741,7 @@ export const deletePlayer = /* GraphQL */ `
           facts
           correct
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -685,13 +751,16 @@ export const deletePlayer = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
         time
+        ttl
         createdAt
         updatedAt
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -717,6 +786,7 @@ export const createFacts = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -729,6 +799,7 @@ export const createFacts = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -744,6 +815,7 @@ export const createFacts = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -757,25 +829,30 @@ export const createFacts = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -784,6 +861,7 @@ export const createFacts = /* GraphQL */ `
         name
         valid
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -809,6 +887,7 @@ export const updateFacts = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -821,6 +900,7 @@ export const updateFacts = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -836,6 +916,7 @@ export const updateFacts = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -849,25 +930,30 @@ export const updateFacts = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -876,6 +962,7 @@ export const updateFacts = /* GraphQL */ `
         name
         valid
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -901,6 +988,7 @@ export const deleteFacts = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -913,6 +1001,7 @@ export const deleteFacts = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -928,6 +1017,7 @@ export const deleteFacts = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -941,25 +1031,30 @@ export const deleteFacts = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -968,6 +1063,7 @@ export const deleteFacts = /* GraphQL */ `
         name
         valid
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -993,6 +1089,7 @@ export const createPrevious = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -1005,6 +1102,7 @@ export const createPrevious = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -1020,6 +1118,7 @@ export const createPrevious = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -1033,25 +1132,30 @@ export const createPrevious = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -1059,6 +1163,7 @@ export const createPrevious = /* GraphQL */ `
         facts
         correct
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -1084,6 +1189,7 @@ export const updatePrevious = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -1096,6 +1202,7 @@ export const updatePrevious = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -1111,6 +1218,7 @@ export const updatePrevious = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -1124,25 +1232,30 @@ export const updatePrevious = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -1150,6 +1263,7 @@ export const updatePrevious = /* GraphQL */ `
         facts
         correct
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -1175,6 +1289,7 @@ export const deletePrevious = /* GraphQL */ `
           id
           name
           avatar
+          ttl
           createdAt
           updatedAt
         }
@@ -1187,6 +1302,7 @@ export const deletePrevious = /* GraphQL */ `
         playerSeconds
         playerNum
         description
+        ttl
         createdAt
         updatedAt
       }
@@ -1202,6 +1318,7 @@ export const deletePrevious = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -1215,25 +1332,30 @@ export const deletePrevious = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
@@ -1241,6 +1363,7 @@ export const deletePrevious = /* GraphQL */ `
         facts
         correct
       }
+      ttl
       createdAt
       updatedAt
     }
@@ -1265,6 +1388,7 @@ export const createTimer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -1278,29 +1402,35 @@ export const createTimer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
       time
+      ttl
       createdAt
       updatedAt
     }
@@ -1325,6 +1455,7 @@ export const updateTimer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -1338,29 +1469,35 @@ export const updateTimer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
       time
+      ttl
       createdAt
       updatedAt
     }
@@ -1385,6 +1522,7 @@ export const deleteTimer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
@@ -1398,29 +1536,35 @@ export const deleteTimer = /* GraphQL */ `
           playerSeconds
           playerNum
           description
+          ttl
           createdAt
           updatedAt
         }
         facts {
           id
+          ttl
           createdAt
           updatedAt
         }
         previous {
           id
+          ttl
           createdAt
           updatedAt
         }
         timer {
           id
           time
+          ttl
           createdAt
           updatedAt
         }
+        ttl
         createdAt
         updatedAt
       }
       time
+      ttl
       createdAt
       updatedAt
     }

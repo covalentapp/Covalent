@@ -47,7 +47,8 @@ export default async (req, res) => {
                         {
                             input: {
                                 name: req.query.playerName,
-                                playerGameId: gameData.data.gameByCode.items[0].id
+                                playerGameId: gameData.data.gameByCode.items[0].id,
+                                ttl: Math.floor(new Date().getTime() / 1000) + 86400
                             }
                         }
                     ));

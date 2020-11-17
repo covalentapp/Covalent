@@ -37,7 +37,8 @@ export default async (req, res) => {
                 createPlayer,
                 {
                     input: {
-                        name: req.query.host
+                        name: req.query.host,
+                        ttl: Math.floor(new Date().getTime() / 1000) + 86400
                     }
                 }
             ));
@@ -65,7 +66,8 @@ export default async (req, res) => {
                         playerNum: req.query.playerNum,
                         playerSeconds: req.query.playerSec,
                         enabled: false,
-                        code: code
+                        code: code,
+                        ttl: Math.floor(new Date().getTime() / 1000) + 86400
                     }
                 }
             ));

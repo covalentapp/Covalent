@@ -129,8 +129,9 @@ export default async (req, res) => {
                                         {
                                             input: {
                                                 timerPlayerId: req.query.playerId,
-                                                time: Math.ceil((new Date().getTime()/1000)) + 3
+                                                time: Math.ceil((new Date().getTime()/1000)) + 3,
                                                 // 3 is for a 3 second grace + ceiling because fetch can be slow
+                                                ttl: Math.floor(new Date().getTime() / 1000) + 86400
                                             }
                                         }
                                     ));

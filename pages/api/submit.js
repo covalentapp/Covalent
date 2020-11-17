@@ -104,7 +104,8 @@ export default async (req, res) => {
                                             id: Math.floor(Math.random() * 100000),
                                             name: req.query.lie,
                                             valid: false
-                                        }]
+                                        }],
+                                    ttl: Math.floor(new Date().getTime() / 1000) + 86400
                                 }
                             }
                         ));

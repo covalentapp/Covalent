@@ -130,7 +130,8 @@ export default async (req, res) => {
                                                 [{
                                                     facts: req.query.factsId,
                                                     correct: !selected
-                                                }]
+                                                }],
+                                            ttl: Math.floor(new Date().getTime() / 1000) + 86400
                                         }
                                     }
                                 ));
