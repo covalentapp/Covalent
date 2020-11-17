@@ -2,6 +2,16 @@
     text-align: center;
 }
 
+.error img {
+    width: calc(50px + 15vmin);
+    height: auto;
+    position: absolute;
+    top: 87%;
+    left: 50%;
+    right: -50%;
+    transform: translate(-50%, -50%);
+}
+
 .errorBlock{
     display: flex;
     align-items: center;
@@ -18,9 +28,11 @@
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
-    font-size: 36px;
+    font-size: calc(12px + 3vmin);
     margin-top: 5px;
     letter-spacing: 0.05em;
+    margin-left: calc(10px + 1vw);
+    margin-right: calc(10px + 1vw);
 
     color: #000000;
 

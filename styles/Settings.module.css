@@ -2,6 +2,27 @@
     --radius: calc(4px + 0.2vmin);
 }
 
+.settingsBackground .overlay {
+    position: absolute;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+}
+
+.settingsBackground .errorMsg {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    width: 90%;
+    height: 90%;
+    z-index: 9999;
+    border-radius: 20px;
+    background: white;
+}
+
 .settingsBackground input, .settingsBackground textarea, .settingsBackground button {
     outline: 0 !important;
 }
