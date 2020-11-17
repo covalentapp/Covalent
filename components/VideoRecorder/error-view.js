@@ -1,16 +1,15 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from '../../styles/ErrorView.module.css'
+import styles from '../../styles/VideoRecorderView.module.css'
 
 const ErrorView = () => (
-    <div className={styles.errorView}>
-        <FontAwesomeIcon icon='camera' className={styles.cameraIcon}/>
+    <div className={styles.view}>
+        <FontAwesomeIcon icon='camera' className={styles.icon} />
         <br />
         <br />
-        Oops! There was an <b>error</b> accessing your camera or microphone.
+        <div className={styles.viewHeader}>Oh no! We can't access your camera or microphone.</div>
         <br />
-        <br />
-        Please make sure your browser <b>isn't blocking</b> Covalent's access, then <b>refresh</b> this page!
+        <div className={styles.viewText}>Make sure your browser isn't blocking Covalent's access and that other applications aren't using your camera, then refresh this page.</div>
     </div>
 )
 

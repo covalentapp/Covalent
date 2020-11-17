@@ -1,16 +1,15 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from '../../styles/UnsupportedView.module.css'
+import styles from '../../styles/VideoRecorderView.module.css'
 
 const UnsupportedView = () => (
-    <div className={styles.unsupportedView}>
-        <FontAwesomeIcon icon='camera' className={styles.cameraIcon}/>
+    <div className={styles.view}>
+        <FontAwesomeIcon icon='camera' className={styles.icon} />
         <br />
         <br />
-        Oops! Looks like you're using an <b>unsupported</b> browser.
+        <div className={styles.viewHeader}>Oh no! You're using an unsupported browser.</div>
         <br />
-        <br />
-        Please try using <b>Google Chrome</b> or <b>Mozilla Firefox</b>!
+        <div className={styles.viewText}>Make sure you're using a supported browser, such as Google Chrome or Mozilla Firefox, and that your browser is up-to-date.</div>
     </div>
 )
 
