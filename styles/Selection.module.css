@@ -4,7 +4,7 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 28px;
+    font-size: calc(6px + 1.5vmin);
     text-align: center;
     min-width: 50%;
 }
