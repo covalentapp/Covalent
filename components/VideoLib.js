@@ -9,8 +9,6 @@ import styles from '../styles/Video.module.css'
 Known issues:
 - Can't record on Safari (desktop)
 - Can't play back on Safari (all) unless WebM can be converted to mp4
-Add:
-- Add customizations for button and loading screen
 - Files larger than 1mb won't work with Lambda@Edge, hence the 7s limit
 */
 
@@ -25,6 +23,11 @@ class GameVideoRecorder extends Component {
                     renderLoadingView={() => <LoadingView />}
                     renderUnsupportedView={() => <UnsupportedView />}
                     renderErrorView={() => <ErrorView />}
+                    /*
+                    The setting below enables replay controls, but there's some issues with the overlay on chrome.
+                    Need to do customizations before enabling
+                    showReplayControls={true}
+                    */
                 />
             </div>
         )

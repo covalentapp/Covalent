@@ -24,7 +24,7 @@ export default function Custom404() {
                     />
                     <link rel="manifest" href="/manifest.json" />
                     <link rel="icon" href="/favicon.ico" />
-                    <title>Covalent</title>
+                    <title>Covalent | Page Not Found</title>
                 </Head>
                 <style jsx global>{`
                     img {
