@@ -63,7 +63,10 @@ export default async (req, res) => {
                     }
                 - Be advised: the syntax of running a mutation looks slightly different than running a query (like above with the game)
                     Check how I've written mutations before in other files (like createPlayer in api/join.js)
-
+                
+                - Making sure that the game hasn't started yet.
+                    - If / else that wraps that other if / else for the mutation
+                    
                 */
 
             } else {
