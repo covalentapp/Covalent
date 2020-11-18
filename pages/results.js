@@ -114,7 +114,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                 <Error text={error}/>
             }
             {waiting && 
-                <Error text="Waiting on other players to finish..."/>
+                <ErrorWaiting text="Waiting on other players to finish..."/>
             }
 
             {!error && !waiting &&

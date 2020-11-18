@@ -7,11 +7,11 @@ class Error extends Component {
         return (
             <div className={styles.error}>
                 {this.props.noLink ? (
-                    <img src="/images/logo_wordmark.png" alt="Partial Logo" />
+                    <img src="/images/logo-wordmark.png" alt="Partial Logo" />
                 ) : (
                     <Link href="/menu">
                         <img
-                            src="/images/logo_wordmark.png"
+                            src="/images/logo-wordmark.png"
                             style={{ cursor: "pointer" }}
                             alt="Partial Logo"
                         />
