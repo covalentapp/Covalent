@@ -22,7 +22,7 @@ import config from "../../src/aws-exports.js";
 
 Amplify.configure({ ...config, ssr: true });
 
-import { getGame, gameByCode } from "../../src/graphql/queries";
+import { getGame, gameByCode } from "../../src/graphql/custom_queries/gameQueries";
 
 export default async (req, res) => {
 

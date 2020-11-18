@@ -19,7 +19,7 @@ import awsConfig from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { getGame, getPlayer, getFacts } from "../../src/graphql/queries";
+import { getGameFacts, getPlayerPreviousAndTimer, getFacts } from "../../src/graphql/custom_queries/getFactsQueries";
 import { updatePlayer, createTimer, updateTimer } from "../../src/graphql/mutations";
 
 import AWS from 'aws-sdk';
@@ -46,7 +46,7 @@ export default async (req, res) => {
     } else {
 
             gameData = await API.graphql(graphqlOperation(
-                getGame,
+                getGameFacts,
                 {
                     id: req.query.gameId
                 }
@@ -59,7 +59,7 @@ export default async (req, res) => {
             if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
 
                 playerData = await API.graphql(graphqlOperation(
-                    getPlayer,
+                    getPlayerPreviousAndTimer,
                     {
                         id: req.query.playerId
                     }

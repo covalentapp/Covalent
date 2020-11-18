@@ -19,7 +19,7 @@ import config from "../../src/aws-exports.js";
 Amplify.configure({ ...config, ssr: true });
 
 import { updateGame } from "../../src/graphql/mutations";
-import { getGame } from "../../src/graphql/queries";
+import { getGameHostAndPlayers } from "../../src/graphql/custom_queries/enableQueries";
 
 export default async (req, res) => {
     let data, error = null;
@@ -27,7 +27,7 @@ export default async (req, res) => {
     try {
         // Check if there are players and if host is specified  
         data = await API.graphql(graphqlOperation(
-            getGame,
+            getGameHostAndPlayers,
             {
                 id: req.query.gameId
             }

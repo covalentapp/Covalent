@@ -20,49 +20,37 @@ import config from "../../src/aws-exports.js";
 
 Amplify.configure({ ...config, ssr: true });
 
-import { getGame, getPlayer } from "../../src/graphql/queries";
+import { getGameAndPlayerID } from "../../src/graphql/custom_queries/playQueries";
 
 export default async (req, res) => {
 
-    let error, gameData, playerData;
+    let error, data;
 
     if (!req.query.gameId || !req.query.playerId) {
         error = "Not all fields are filled.";
     } else {
-        gameData = await API.graphql(graphqlOperation(
-            getGame,
+        data = await API.graphql(graphqlOperation(
+            getGameAndPlayerID,
             {
-                id: req.query.gameId
+                gameId: req.query.gameId,
+                playerId: req.query.playerId
             }
         ));
 
-        if (gameData.data.getGame.id) {
-            
-            // Are all the facts submitted (lengths of facts equals length of players)?
-            if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
-
-                playerData = await API.graphql(graphqlOperation(
-                    getPlayer,
-                    {
-                        id: req.query.playerId
-                    }
-                ));
-
-                if (!playerData.data.getPlayer.id) {
-                    error = "Invalid player ID."
-                } 
-            } else {
-                error = "Not all players have submitted their facts."
-            }
-        } else {
+        if (!data.data.getGame.id) {
             error = "Invalid game ID."
+        } else if (data.data.getGame.facts.items.length < data.data.getGame.players.items.length) {
+            // All the facts are submitted when length of facts equals length of players
+            error = "Not all players have submitted their facts."
+        } else if (!data.data.getPlayer.id) {
+            error = "Invalid player ID."
         }
     }
 
     res.statusCode = 200
     res.json({ 
         start: !error ? true : false,
-        time: !error ? gameData.data.getGame.playerSeconds : null,
+        time: !error ? data.data.getGame.playerSeconds : null,
         error: error
     })
 }

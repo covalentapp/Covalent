@@ -18,7 +18,7 @@ import awsConfig from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { getGame } from "../../src/graphql/queries";
+import { getGame } from "../../src/graphql/custom_queries/resultsQueries";
 
 export default async (req, res) => {
 
