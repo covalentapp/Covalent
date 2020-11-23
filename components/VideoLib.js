@@ -9,7 +9,6 @@ import styles from '../styles/Video.module.css'
 Known issues:
 - Can't record on Safari (desktop)
 - Can't play back on Safari (all) unless WebM can be converted to mp4
-- Files larger than 1mb won't work with Lambda@Edge, hence the 7s limit
 */
 
 class GameVideoRecorder extends Component {
@@ -18,7 +17,7 @@ class GameVideoRecorder extends Component {
             <div className={styles.recorder}>
                 <VideoRecorder
                     isOnInitially={true}
-                    timeLimit={7000}
+                    timeLimit={10000}
                     onRecordingComplete={this.props.onRecordingComplete}
                     renderLoadingView={() => <LoadingView />}
                     renderUnsupportedView={() => <UnsupportedView />}

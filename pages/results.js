@@ -271,7 +271,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
     );
 }
 
-/*export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
     let res, data, error = null, waiting = null, tricksters = null, guessers = null;
@@ -295,4 +295,4 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
             guessers
         }
     }
-}*/
+}

@@ -40,16 +40,16 @@ export default function Submit ({ cookies, error, instructions, time }) {
             async function addFacts() {
                 let res, data;
 
-                const formData = new FormData();
-                formData.append('file', video);
-
-                res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie, {
-                    method: 'POST',
-                    body: formData
-                });
+                res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie);
                 data = await res.json();
 
                 if (!data.error && data.submit) {
+
+                    res = await fetch(data.video, {
+                        method: 'PUT',
+                        body: video
+                    });
+
                     while (submitted) {
                         res = await fetch(origin + '/api/game?id=' + cookies.gameID)
                         data = await res.json();
@@ -60,6 +60,7 @@ export default function Submit ({ cookies, error, instructions, time }) {
                         }
                         await delay(2000);
                     }
+
                 } else {
                     console.log(data.error);
                     // Implement: SHOW DATA.ERROR

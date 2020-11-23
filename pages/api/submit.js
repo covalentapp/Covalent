@@ -22,26 +22,7 @@ Amplify.configure({ ...awsConfig, ssr: true });
 
 import { createFacts } from "../../src/graphql/mutations";
 import { getGame, getPlayer } from "../../src/graphql/queries";
-
-import formidable from 'formidable-serverless';
-import fs from 'fs';
 import AWS from 'aws-sdk';
-
-/*
-
-In order to process the uploaded video, Next.js's own bodyParser needs to be disabled.
-Instead, formidable is used to process the request payload.
-More information in the issue below.
-
-https://github.com/vercel/next.js/issues/7947
-
-*/
-
-export const config = {
-    api: {
-      bodyParser: false,
-  },
-}
 
 AWS.config.update({
     region: 'us-east-1',
@@ -55,6 +36,7 @@ const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 export default async (req, res) => {
 
     let error, data;
+    let link = "";
 
     try {
         // Ensures all query parts are there
@@ -109,53 +91,26 @@ export default async (req, res) => {
                                 }
                             }
                         ));
-                        
-                        /* 
-                        The entire section below is to process submitted videos to upload to S3
-                        Just to illustrate what's going on:
-                        - Video contained as multi-part form in request body
-                        - Body processed below; "files" variable contains paths to the files
-                        - fs reads the file from the given path as "video"
-                        - Uploads to S3 with base64 encoding
-                        - fs unlinks (removes) the file and the API call is finished
+
+                        /*
+                        Get link to upload video with on frontend
                         */
 
-                        const form = new formidable.IncomingForm();
-                        form.uploadDir = "/tmp"; // tmp is the only writeable directory on Lambda
-                        form.keepExtensions = true;
-                        form.parse(req, (err, fields, files) => {
-                            if (err) {
-                                console.error(err);
-                                error = err;
-                            }
-                            fs.readFile(files?.file.path, function (err, video) {
-                                if (err) {
-                                    console.error(err);
-                                    error = err;
-                                }
+                       let params = {
+                            Bucket: 'covalent-user-videos', 
+                            Key: data.data.createFacts.id + ".webm", 
+                            ContentType: 'video/webm', 
+                            ContentEncoding: 'base64'
+                        };
 
-                                let params = {
-                                    Bucket: 'covalent-user-videos', 
-                                    Key: data.data.createFacts.id + ".webm", 
-                                    Body: Buffer.from(video), 
-                                    ContentType: 'video/webm', 
-                                    ContentEncoding: 'base64'
-                                };
-                                s3.upload(params, function(err) {
-                                    if (err) {
-                                        console.log(err);
-                                        error = err;
-                                    }
-                                });
-                                fs.unlink(files?.file.path, function (err) {
-                                    if (err) {
-                                        console.error(err);
-                                        error = err;
-                                    }
-                                });
-                            });
-
-                        }); 
+                        await s3.getSignedUrlPromise('putObject', params)
+                        .then((url) => {
+                            link = url;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            error = "Error creating video link.";
+                        });
                     } else {
                         error = "Facts already exist."
                     }
@@ -180,6 +135,7 @@ export default async (req, res) => {
     res.statusCode = 200
     res.json({ 
         submit: error ? false : true,
+        video: error ? null : link,
         error: error
     })
 }
