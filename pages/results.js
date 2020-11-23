@@ -17,7 +17,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
     const router = useRouter();
     
     //test functions below
-    /*
+    
     function getTrickster(i) {
         let name, streak;
         if(i == 1) {
@@ -67,7 +67,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
         tricksters[i-1] = getTrickster(i);
         guessers[i-1] = getGuesser(i);
     }
-    */
+    
     //end test functions
 
     function delay(ms) {
@@ -93,7 +93,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
     }, [waiting])
 
     return (
-        <div>
+        <div className={styles.ResultsContainer}>
             <Head>
                 <meta charSet="utf-8" />
                 <meta
@@ -108,7 +108,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                 <link rel="apple-touch-icon" href="/images/logo192.png" />
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="icon" href="/favicon.ico" />
-                <title>Covalent</title>
+                <title>Covalent | Results</title>
             </Head>
             {error &&
                 <Error text={error}/>
@@ -119,14 +119,6 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
 
             {!error && !waiting &&
             <div className={styles.Results}>
-                <style jsx global>{`
-                    body {
-                        width: 100vw;
-                        height: 100vh;
-                        background-image: linear-gradient(#80ffdb, #48bfe3);
-                        overflow: hidden;
-                    }
-                `}</style>
                 <div className={styles.ResultsBody}>
                     <div className={styles.header}>
                         <img
@@ -154,13 +146,25 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                                 <div className={styles.progressBarBorder}>
                                     <div
                                         className={styles.progressBar}
+                                        style={{ width: tricksters[0].streak + '%' }}
+                                    >
+                                    </div>
+                                    <span>{tricksters[0].streak}%</span>
+                                </div>
+                                {/*for percentage following red bar
+                                <div className={styles.progressBarBorder}>
+                                    <div
+                                        className={styles.progressBar}
                                         style={
                                             {
                                                 width: tricksters[0].streak + '%'
                                             }
                                         }
-                                    ></div>
-                                </div>
+                                    >
+                                        <p>{tricksters[0].streak}%</p>
+                                    </div>
+                                    
+                                    </div>*/}
                             </div>
                             <div
                                 className={styles.player}
@@ -177,7 +181,9 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                                     <div
                                         className={styles.progressBar}
                                         style={{ width: tricksters[1].streak + '%' }}
-                                    ></div>
+                                    >
+                                    </div>
+                                    <span>{tricksters[1].streak}%</span>
                                 </div>
                             </div>
                             {tricksters[2] && // accounts for two person games
@@ -193,7 +199,9 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                                     <div
                                         className={styles.progressBar}
                                         style={{ width: tricksters[2].streak + '%' }}
-                                    ></div>
+                                    >
+                                    </div>
+                                    <span>{tricksters[2].streak}%</span>
                                 </div>
                             </div>
                             }
@@ -263,7 +271,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
     );
 }
 
-export async function getServerSideProps(ctx) {
+/*export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
     let res, data, error = null, waiting = null, tricksters = null, guessers = null;
@@ -287,4 +295,4 @@ export async function getServerSideProps(ctx) {
             guessers
         }
     }
-}
+}*/

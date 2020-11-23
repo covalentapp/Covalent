@@ -1,3 +1,12 @@
+.ResultsContainer {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background-image: linear-gradient(#80ffdb, #48bfe3);
+    overflow-y: auto;
+}
+
 .Results {
     position: absolute;
     left: 25%;
@@ -6,7 +15,8 @@
     box-shadow: 0px 0px 40px 10px rgba(0, 0, 0, 0.15);
     --menu-width: 50%;
     width: var(--menu-width);
-    height: 100%;
+    height: auto;
+    min-height: 100%;
 }
 
 .Results p {
@@ -128,16 +138,44 @@
 }
 
 .ResultsBody .progressBarBorder {
+    position: relative;
     height: 3vh;
+    min-height: 12px;
     background: #E1E1E1;
     border-radius: 9999px;
     width: calc(240px + 10vw);
 }
 
 .ResultsBody .progressBar {
+    /*display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;*/
     height: 100%;
     background: #FF8680;
     border-radius: 9999px;
+}
+
+/*.ResultsBody .progressBar p {
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(2px + 1.5vmin);
+}*/
+
+.ResultsBody .progressBarBorder span {
+    position: absolute;
+    top: 0;
+    right: 0.4vw;
+    justify-self: flex-end;
+
+    line-height: 3vh;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(2px + 1.5vmin);
 }
 
 .ResultsBody .exit {
@@ -182,5 +220,9 @@
     }
     .trickstersContainer .tricksterIcon {
         width: 12px;
+    }
+    .ResultsBody .progressBarBorder span {
+        font-size: 8px;
+        line-height: 12px;
     }
 }
