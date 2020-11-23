@@ -200,11 +200,13 @@ background-color: #E1E1E1;
 
 .center{
     padding-top: calc(2px + 0.5vh);
+    padding-bottom: calc(12px + 1vh);
     width: 100%;
     display:flex; 
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
+    overflow-y: hidden;
     overflow-x: auto;
     flex-wrap: nowrap;
 }

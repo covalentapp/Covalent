@@ -487,12 +487,6 @@ export default function Settings() {
                                 <h1>Joined</h1>
 
                                 <div id="players" className={styles.center}>
-                                    {/* test avatars
-                                <Avatar name={"Michael Shi"} />
-                                <Avatar name={"Arek Der-Sarkissian"} />
-                                <Avatar name={"Daniel Dai"} />
-                                <Avatar name={"Catherine Hu"} />
-                            */}
                                     {gamePlayers}
                                 </div>
                             </div>
