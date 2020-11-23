@@ -14,6 +14,7 @@ class HostMenu extends Component {
     }
 
     changePage = (e, destination) => {
+        e.preventDefault();
         this.setState({ isOpen: false }); // triggers the exit animation
         setTimeout(() => {
             this.props.close();
