@@ -17,7 +17,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
     const router = useRouter();
     
     //test functions below
-    
+    /*
     function getTrickster(i) {
         let name, streak;
         if(i == 1) {
@@ -67,7 +67,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
         tricksters[i-1] = getTrickster(i);
         guessers[i-1] = getGuesser(i);
     }
-    
+    */
     //end test functions
 
     function delay(ms) {
