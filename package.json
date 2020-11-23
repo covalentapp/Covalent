@@ -16,7 +16,7 @@
     "aws-sdk": "^2.761.0",
     "framer": "^1.2.9",
     "framer-motion": "^2.6.13",
-    "next": "9.5.5",
+    "next": "10.0.2",
     "nookies": "^2.5.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
