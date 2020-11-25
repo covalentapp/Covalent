@@ -1,32 +1,32 @@
 .recorder {
-    width: calc(50vh * 4/3);
-    height: 50vh;
-    min-width: 500px;
-    max-width: 640px;
-    max-height: 480px;
+  width: calc(50vh * 4 / 3);
+  height: 50vh;
+  min-width: 500px;
+  max-width: 640px;
+  max-height: 480px;
 }
 
 .loadingText {
-    text-align: center;
-    padding-top: 20vh;
+  text-align: center;
+  padding-top: 20vh;
 }
 
 @media all and (max-width: 500px) {
-    .recorder {
-        width: 100%;
-        height: calc(100vw * 3/4);
-    }
+  .recorder {
+    width: 100%;
+    height: calc(100vw * 3 / 4);
+  }
 
-    .videoContainer {
-        width: 100%;
-        height: calc(100vw * 3/4);
-    }
+  .videoContainer {
+    width: 100%;
+    height: calc(100vw * 3 / 4);
+  }
 }
 
 .videoContainer {
-    width: calc(50vh * 4/3);
-    height: 50vh;
-    min-width: 500px;
-    max-width: 640px;
-    max-height: 480px;
+  width: calc(50vh * 4 / 3);
+  height: 50vh;
+  min-width: 500px;
+  max-width: 640px;
+  max-height: 480px;
 }
