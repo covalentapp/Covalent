@@ -35,7 +35,7 @@ import { getGame } from "../../src/graphql/queries";
 import { deletePlayer } from "../../src/graphql/mutations";
 
 export default async (req, res) => {
-    let data, error = null;
+    let data, error = null, removed;
 
     if (req.query.id && req.query.host && (req.query.player != undefined)) {
         try {
@@ -51,6 +51,26 @@ export default async (req, res) => {
             if (data.data.getGame && (data.data.getGame.players.items.length() > req.query.player)) {
                 let playerId = data.data.getGame.players.items[req.query.player];
                 let hostId = data.data.getGame.host.id;
+
+                if (req.query.hostId != hostId) {
+                    // host id does not match
+                    error = "Insufficient Permissions.";
+                } else if (data.data.getGame.players.items.length == 1) {
+                    // only host is in the game
+                    error = "No players to remove.";
+                } else if (data.data.getGame) {
+                    // the game is in session
+                    error = "Can't remove players while game is in session."
+                } else {
+                    removed = await API.graphql(graphqlOperation(
+                        deletePlayer,
+                        {
+                            input: {
+                                id: playerId
+                            }
+                        }
+                    ));
+                }
 
                 /*
 

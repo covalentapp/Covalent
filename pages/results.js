@@ -5,6 +5,7 @@ import { parseCookies } from "nookies";
 import styles from "../styles/Results.module.css";
 import SimpleButton from "../components/SimpleButton";
 import Error from "../components/Error";
+import ErrorWaiting from "../components/ErrorWaiting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //need to add: interactions w/ backend, icons based on order, stylizing (especially changing line-heights), formatting
