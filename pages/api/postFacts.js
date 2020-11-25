@@ -21,7 +21,7 @@ import awsConfig from "../../src/aws-exports.js";
 Amplify.configure({ ...awsConfig, ssr: true });
 
 import { getGameAndPlayer, getFacts, getPreviousFacts } from "../../src/graphql/custom_queries/postFactsQueries";
-import { updatePrevious, updatePlayer, createPrevious } from "../../src/graphql/mutations";
+import { updatePrevious, updatePlayer, createPrevious } from "../../src/graphql/custom_mutations";
 
 export default async (req, res) => {
 

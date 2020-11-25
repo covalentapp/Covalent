@@ -20,7 +20,7 @@ import awsConfig from "../../src/aws-exports.js";
 Amplify.configure({ ...awsConfig, ssr: true });
 
 import { getGameFacts, getPlayerPreviousAndTimer, getFacts } from "../../src/graphql/custom_queries/getFactsQueries";
-import { updatePlayer, createTimer, updateTimer } from "../../src/graphql/mutations";
+import { updatePlayer, createTimer, updateTimer } from "../../src/graphql/custom_mutations";
 
 import AWS from 'aws-sdk';
 

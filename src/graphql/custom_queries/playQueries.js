@@ -22,5 +22,3 @@ export const getGameAndPlayerID = /* GraphQL */ `
     }
   }
 `;
-
-
