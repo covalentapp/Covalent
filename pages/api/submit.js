@@ -16,7 +16,7 @@ Returns:
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import awsConfig from "../../src/aws-exports.js";
+import awsConfig, { s3exports } from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
@@ -26,8 +26,8 @@ import AWS from 'aws-sdk';
 
 AWS.config.update({
     region: 'us-east-1',
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    accessKeyId: s3exports.AWS_ACCESS_KEY_ID,
+    secretAccessKey: s3exports.SECRET_ACCESS_KEY,
     maxRetries: 3
 });
 
