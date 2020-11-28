@@ -28,10 +28,10 @@ export default function Custom404() {
                 </Head>
                 <style jsx global>{`
                     img {
-                        width: 180px;
+                        width: 25vmin;
                         height: auto;
                         position: absolute;
-                        top: 87%;
+                        top: 90%;
                         left: 50%;
                         right: -50%;
                         transform: translate(-50%, -50%);
@@ -46,5 +46,6 @@ export default function Custom404() {
                      </span>
                  </div>
         </div>
+
     )
 }

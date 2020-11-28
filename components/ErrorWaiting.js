@@ -5,10 +5,10 @@ import Link from "next/link";
 class ErrorWaiting extends Component {
     render () {
         return (
-            <div className={styles.ErrorNotFound}>
+            <div className={styles.ErrorWaiting}>
                 <style jsx global>{`
                     img {
-                        width: 250px;
+                        width: calc(50px + 15vmin);
                         height: auto;
                         position: absolute;
                         top: 35%;
