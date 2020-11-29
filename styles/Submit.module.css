@@ -41,6 +41,7 @@
     font-weight: bold;
     font-size: calc(6px + 1vmin);
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
     color: #5A4FCF;
 }
 
@@ -50,6 +51,7 @@
     font-weight: bold;
     font-size: calc(3px + 1vmin);
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
     color: #000000;
 }
 
@@ -64,6 +66,7 @@
     line-height: 110%;
     text-align: center;
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
 }
 
 .centerText p2 {
@@ -72,6 +75,7 @@
     line-height: 110%;
     text-align: center;
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
 }
 
 /* ===== MAIN ===== */

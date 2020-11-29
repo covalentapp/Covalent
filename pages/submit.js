@@ -21,6 +21,8 @@ export default function Submit ({ cookies, error, instructions, time }) {
     const [lie, setLie] = useState(null);
     const [submitted, setSubmit] = useState(false);
     const [enabled, setEnabled] = useState(false);
+    const [badSubmit, setBad] = useState(false);
+    const [delayed, setDelayed] = useState(false);
 
     const router = useRouter();
 
@@ -29,12 +31,20 @@ export default function Submit ({ cookies, error, instructions, time }) {
     }
 
     useEffect(() => {
+        if (badSubmit) {
+            setTimeout(() => {setBad(false);}, 5000);
+        }
+    },[badSubmit]);
+
+    useEffect(() => {
         if (submitted) {
             if (video && truth1 && truth2 && lie) {
+                setBad(false);
                 setEnabled(true);
                 addFacts();
             } else {
                 setSubmit(false);
+                setBad(true);
             }
 
             async function addFacts() {
@@ -154,6 +164,13 @@ export default function Submit ({ cookies, error, instructions, time }) {
                             onSubmit={() => setSubmit(true)}
                             submitted={enabled}
                         />
+                        {badSubmit && (!video || !truth1 || !truth2 || !lie) &&
+                        <p>Please {!video && 'record your video'}
+                        {!video && (!truth1 || !truth2 || !lie) && ' and '}
+                        {(!truth1 || !truth2) && 'input your truths'}
+                        {((!truth1 || !truth2) && !lie) && ' and '}
+                        {!lie && 'input your lie'}
+                        .</p>}   
                     </div>
                 </div>
 
