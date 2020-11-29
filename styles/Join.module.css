@@ -1,21 +1,41 @@
+
+.joinContainer {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    top: 47%;
+    left: 50%;
+    right: -50%;
+    transform: translate(-50%, -50%);
+
+}
+
 .join {
     text-align: center;
     display: flex;
     align-items: center;
     flex-direction: column;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: -50%;
-    transform: translate(-50%, -50%);
+}
+
+.join h2, .joinContainer p {
+    font-family: Roboto;
+    letter-spacing: 0.05em;
+    text-indent: 0.05em;
+}
+
+.joinContainer p {
+    position: fixed;
+    top: 96%;
 }
 
 .name {
     width: calc(100px + 20vmin);
-    min-width: 72px;
+    min-width: 180px;
     height: calc(20px + 2.5vmin);
-    min-height: 18px;
-    border-radius: 24px;
+    min-height: 30px;
+    border-radius: 9999px;
     border: 1px solid #000000;
     text-align: center;
     padding-left: 5px;
@@ -23,12 +43,22 @@
     margin-bottom: 5px;
     font-family: "Roboto";
     font-weight: bold;
-    font-size: calc(var(--font-size) - 2px);
-    letter-spacing: 0.1em;
+    font-size: calc(4px + 1.5vmin);
+    letter-spacing: 0.05em;
+    text-indent: 0.05em;
     color: #000000;
     outline: none;
 }
 
 .instructions {
     padding-bottom: 20px;
+    font-family: Roboto;
+    letter-spacing: 0.05em;
+    text-indent: 0.05em;
+}
+
+@media all and (max-width: 400px), (max-height: 400px) {
+    .name {
+        font-size: 10px;
+    }
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Join.module.css';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router'
 import { setCookie } from 'nookies'
 import SimpleButton from '../../components/SimpleButton';
@@ -15,6 +14,7 @@ const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" :
 export default function JoinGame({ error, gameCheck, gameFull }) {
 
     const [playerName, setName] = useState('');
+    const [badName, nameError] = useState(false);
     const [joined, setJoin] = useState(false);
     const [addedId, playerId] = useState(null); 
     const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
@@ -121,7 +121,15 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
             }
         }
     }, [waiting]);
-    
+
+    /*nameError disappears after 3 seconds*/
+    useEffect(() => {
+        if (badName) {
+            setTimeout(() => {
+                nameError(false);
+            }, 3000);
+        }
+    }, [badName]);
     
     return (
         <div>
@@ -157,15 +165,32 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
             }
 
             {!joined && !error && !gameFull && gameCheck &&
-                <div className={styles.join}>
-                    <h2>Joining {gameCheck.host}'s game</h2>
-                    <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
-                    <input type="text" className={styles.name} placeholder="ENTER YOUR NAME" onChange={event => setName(event.target.value)}></input>
-                    <SimpleButton name="join game" type="join" onClick={() => {
-                        if (playerName) {
-                            setJoin(true);
-                        }
-                    }}/>               
+                <div className={styles.joinContainer}>
+                    <div className={styles.join}>
+                        <h2>Joining {gameCheck.host}'s game</h2>
+                        <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
+                        <input 
+                            type="text" 
+                            className={styles.name} 
+                            placeholder="ENTER YOUR NAME" 
+                            onChange={event => setName(event.target.value)} 
+                            onKeyPress={event => {
+                                if(event.key === 'Enter') {
+                                    if(playerName)
+                                        setJoin(true);
+                                    else
+                                        nameError(true);
+                                }
+                            }}
+                        />
+                        <SimpleButton name="join game" type="join" onClick={() => {
+                            if (playerName)
+                                setJoin(true);
+                            else
+                                nameError(true);
+                        }}/>      
+                    </div>
+                    {badName && <p>Please enter a valid name.</p>}   
                 </div>
             }
 
