@@ -1,11 +1,30 @@
-.statements {
+.statements div {
     display: flex;
     flex-direction: column;
+    align-self: center;
+    align-items: center;
+    min-width: 50%;
+}
+
+.statements p {
+    letter-spacing: .1em;
+    text-indent: .1em;
+    text-transform: uppercase;
     font-family: Roboto;
     font-style: normal;
+}
+
+.statements div p {
     font-weight: normal;
     font-size: calc(6px + 1.5vmin);
     text-align: center;
+}
+
+.statements {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
     min-width: 50%;
 }
 
@@ -61,6 +80,7 @@
 }
 
 .correct {
+    font-weight: bold;
     background-color: #80FFDB;
 }
 
@@ -69,10 +89,11 @@
 }
 
 .submitButton {
+    align-self: center;
     outline: 0 !important;
     margin-top: 2vmin;
-    margin-left: 29vmin;
-    width: 14vmin;
+    width: auto;
+    min-width: 14vmin;
     height: 5vmin;
     background: #48BFE3;
     border: 0;

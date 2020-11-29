@@ -1,11 +1,23 @@
+.submitForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submitForm div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .truth {
     outline: 0 !important;
-    margin: .8vmin 0;
+    margin: 0.8vmin 0;
     width: 72vmin;
     height: 4.5vmin;
-    background: #80FFDB;
+    background: #80ffdb;
     border: 0;
-    border-radius: 5vmin;
+    border-radius: 9999px;
     font-family: Roboto Condensed;
     font-size: calc(6px + 1.5vmin);
     text-align: center;
@@ -17,19 +29,19 @@
 
 .truth::placeholder {
     font-weight: bold;
-    letter-spacing: .4em;
-    text-indent: .4em;
-    color:rgb(89, 89, 89);
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+    color: rgb(89, 89, 89);
 }
 
 .lie {
     outline: 0 !important;
-    margin: .8vmin 0;
+    margin: 0.8vmin 0;
     width: 72vmin;
     height: 4.5vmin;
-    background: #FF8680;
+    background: #ff8680;
     border: 0;
-    border-radius: 5vmin;
+    border-radius: 9999px;
     font-family: Roboto Condensed;
     font-size: calc(6px + 1.5vmin);
     text-align: center;
@@ -41,25 +53,24 @@
 
 .lie::placeholder {
     font-weight: bold;
-    letter-spacing: .4em;
-    text-indent: .4em;
-    color:rgb(89, 89, 89);
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+    color: rgb(89, 89, 89);
 }
 
 .submitButton {
     outline: 0 !important;
     margin-top: 2vmin;
-    margin-left: 29vmin;
     width: 14vmin;
     height: 5vmin;
-    background: #48BFE3;
+    background: #48bfe3;
     border: 0;
     border-radius: 5vmin;
     font-family: Roboto;
     font-weight: bold;
     font-size: calc(6px + 1.5vmin);
-    letter-spacing: .1em;
-    text-indent: .1em;
+    letter-spacing: 0.1em;
+    text-indent: 0.1em;
     text-align: center;
     cursor: pointer;
 }
@@ -76,5 +87,5 @@
     font-family: Roboto;
     font-weight: bold;
     text-align: center;
-    letter-spacing: .1em;
+    letter-spacing: 0.1em;
 }
