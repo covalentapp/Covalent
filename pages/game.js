@@ -32,6 +32,7 @@ export default function Game({ cookies, error, time }) {
     const [results, enableResults] = useState(false);
     const [resultSet, setResults] = useState([]);
     const [connections, setConnections] = useState([]);
+    const [correctConnect, setCorrectConnect] = useState(0);
     const [internalTime, setInternalTime] = useState(0);
     const [disabledTimer, disableTimer] = useState(true);
 
@@ -107,6 +108,9 @@ export default function Game({ cookies, error, time }) {
                         correct: data.correct,
                     };
                     setResults(data.facts);
+                    if (data.correct) {
+                        setCorrectConnect(correctConnect + 1);
+                    }
                     setConnections((connections) => [
                         ...connections,
                         newConnection,
@@ -245,7 +249,7 @@ export default function Game({ cookies, error, time }) {
 
                     <div className={styles.gameSide}>
                         <div className={styles.scoreBox}>
-                            <p>{connections.length || "0"}</p>
+                            <p>{correctConnect}</p>
                             <FontAwesomeIcon
                                 icon="check-circle"
                                 className={styles.scoreIcon}
