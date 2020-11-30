@@ -94,7 +94,8 @@ export default async (req, res) => {
                         facts.forEach(fact => {
                             tricksters.push({
                                 name: fact.player.name, 
-                                streak: (fact.incorrect ? ((fact.incorrect / (players.length - 1)) * 100) : 0)
+                                streak: (fact.incorrect ? ((fact.incorrect / (players.length - 1)) * 100) : 0),
+                                score: (fact.incorrect ? (fact.incorrect + "/" + (players.length - 1)) : "0/" + (players.length - 1)) + " Tricked"
                             })
                         })
 

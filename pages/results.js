@@ -94,8 +94,8 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
     }, [waiting])
 
     return (
-        <div className={styles.ResultsContainer}>
-            <Head>
+    <div>
+        <Head>
                 <meta charSet="utf-8" />
                 <meta
                     name="viewport"
@@ -117,158 +117,160 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
             {waiting && 
                 <ErrorWaiting text="Waiting on other players to finish..."/>
             }
-
             {!error && !waiting &&
-            <div className={styles.Results}>
-                <div className={styles.ResultsBody}>
-                    <div className={styles.header}>
-                        <img
-                            src="/images/logo.svg"
-                            className={styles.logoImg}
-                            alt="Covalent Logo"
-                        ></img>
-                        <div className={styles.logoText}>
-                            <p1>COVALENT</p1>
-                            <p2>2 TRUTHS &#38; A LIE</p2>
+            <div className={styles.ResultsContainer}>
+                <div className={styles.Results}>
+                    <div className={styles.ResultsBody}>
+                        <div className={styles.header}>
+                            <img
+                                src="/images/logo.svg"
+                                className={styles.logoImg}
+                                alt="Covalent Logo"
+                            ></img>
+                            <div className={styles.logoText}>
+                                <p1>COVALENT</p1>
+                                <p2>2 TRUTHS &#38; A LIE</p2>
+                            </div>
+                        </div>
+                        <hr />
+                        <div className={styles.trickstersContainer}>
+                            <h1>TOP TRICKSTERS</h1>
+                            <span className={styles.tricksters}>
+                                <div className={styles.player} id={styles.first}>
+                                    <div>
+                                    <FontAwesomeIcon
+                                        icon="trophy"
+                                        className={styles.icon}
+                                    />
+                                    <p>{tricksters[0].name}</p>
+                                    </div>
+                                    <div className={styles.progressBarBorder}>
+                                        <div
+                                            className={styles.progressBar}
+                                            style={{ width: tricksters[0].streak + '%' }}
+                                        >
+                                        </div>
+                                        <span>{tricksters[0].score}</span>
+                                    </div>
+                                    {/*for percentage following red bar
+                                    <div className={styles.progressBarBorder}>
+                                        <div
+                                            className={styles.progressBar}
+                                            style={
+                                                {
+                                                    width: tricksters[0].streak + '%'
+                                                }
+                                            }
+                                        >
+                                            <p>{tricksters[0].streak}%</p>
+                                        </div>
+                                        
+                                        </div>*/}
+                                </div>
+                                <div
+                                    className={styles.player}
+                                    id={styles.second}
+                                >
+                                    <div>
+                                    <FontAwesomeIcon
+                                        icon="medal"
+                                        className={styles.icon}
+                                    />
+                                    <p>{tricksters[1].name}</p>
+                                    </div>
+                                    <div className={styles.progressBarBorder}>
+                                        <div
+                                            className={styles.progressBar}
+                                            style={{ width: tricksters[1].streak + '%' }}
+                                        >
+                                        </div>
+                                        <span>{tricksters[1].score}</span>
+                                    </div>
+                                </div>
+                                {tricksters[2] && // accounts for two person games
+                                <div className={styles.player} id={styles.third}>
+                                    <div>
+                                    <FontAwesomeIcon
+                                        icon="medal"
+                                        className={styles.icon}
+                                    />
+                                    <p>{tricksters[2].name}</p>
+                                    </div>
+                                    <div className={styles.progressBarBorder}>
+                                        <div
+                                            className={styles.progressBar}
+                                            style={{ width: tricksters[2].streak + '%' }}
+                                        >
+                                        </div>
+                                        <span>{tricksters[2].score}</span>
+                                    </div>
+                                </div>
+                                }
+                            </span>
+                        </div>
+                        <hr />
+                        <div className={styles.guessersContainer}>
+                            <span className={styles.guessers}>
+                                <h1>TOP GUESSERS</h1>
+                                <div className={styles.player} id={styles.first}>
+                                    <div>
+                                        <FontAwesomeIcon
+                                            icon="trophy"
+                                            className={styles.icon}
+                                        />
+                                        <p>{guessers[0].name} // {guessers[0].streak}</p>
+                                        <FontAwesomeIcon
+                                            icon="check-circle"
+                                            className={styles.icon}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.player} id={styles.second}>
+                                    <div>
+                                        <FontAwesomeIcon
+                                            icon="trophy"
+                                            className={styles.icon}
+                                        />
+                                        <p>{guessers[1].name} // {guessers[1].streak}</p>
+                                        <FontAwesomeIcon
+                                            icon="check-circle"
+                                            className={styles.icon}
+                                        />
+                                    </div>
+                                </div>
+                                {guessers[2] &&
+                                <div className={styles.player} id={styles.third}>
+                                    <div>
+                                        <FontAwesomeIcon
+                                            icon="trophy"
+                                            className={styles.icon}
+                                        />
+                                        <p>{guessers[2].name} // {guessers[2].streak}</p>
+                                        <FontAwesomeIcon
+                                            icon="check-circle"
+                                            className={styles.icon}
+                                        />
+                                    </div>
+                                </div>
+                                }       
+                            </span>
+                        </div>
+                        <hr />
+                        <div className={styles.exit}>
+                            <div>THANKS FOR PLAYING!</div>
+                            <SimpleButton
+                                name="EXIT TO MENU"
+                                type="host"
+                                style={{ padding: "0 1.5vw" }}
+                                onClick={() => router.push("/menu")}
+                            ></SimpleButton>
                         </div>
                     </div>
-                    <hr />
-                    <div className={styles.trickstersContainer}>
-                        <h1>TOP TRICKSTERS</h1>
-                        <span className={styles.tricksters}>
-                            <div className={styles.player} id={styles.first}>
-                                <div>
-                                <FontAwesomeIcon
-                                    icon="trophy"
-                                    className={styles.icon}
-                                />
-                                <p>{tricksters[0].name}</p>
-                                </div>
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={{ width: tricksters[0].streak + '%' }}
-                                    >
-                                    </div>
-                                    <span>{tricksters[0].streak}%</span>
-                                </div>
-                                {/*for percentage following red bar
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={
-                                            {
-                                                width: tricksters[0].streak + '%'
-                                            }
-                                        }
-                                    >
-                                        <p>{tricksters[0].streak}%</p>
-                                    </div>
-                                    
-                                    </div>*/}
-                            </div>
-                            <div
-                                className={styles.player}
-                                id={styles.second}
-                            >
-                                <div>
-                                <FontAwesomeIcon
-                                    icon="medal"
-                                    className={styles.icon}
-                                />
-                                <p>{tricksters[1].name}</p>
-                                </div>
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={{ width: tricksters[1].streak + '%' }}
-                                    >
-                                    </div>
-                                    <span>{tricksters[1].streak}%</span>
-                                </div>
-                            </div>
-                            {tricksters[2] && // accounts for two person games
-                            <div className={styles.player} id={styles.third}>
-                                <div>
-                                <FontAwesomeIcon
-                                    icon="medal"
-                                    className={styles.icon}
-                                />
-                                <p>{tricksters[2].name}</p>
-                                </div>
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={{ width: tricksters[2].streak + '%' }}
-                                    >
-                                    </div>
-                                    <span>{tricksters[2].streak}%</span>
-                                </div>
-                            </div>
-                            }
-                        </span>
-                    </div>
-                    <hr />
-                    <div className={styles.guessersContainer}>
-                        <span className={styles.guessers}>
-                            <h1>TOP GUESSERS</h1>
-                            <div className={styles.player} id={styles.first}>
-                                <div>
-                                    <FontAwesomeIcon
-                                        icon="trophy"
-                                        className={styles.icon}
-                                    />
-                                    <p>{guessers[0].name} // {guessers[0].streak}</p>
-                                    <FontAwesomeIcon
-                                        icon="check-circle"
-                                        className={styles.icon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.player} id={styles.second}>
-                                <div>
-                                    <FontAwesomeIcon
-                                        icon="trophy"
-                                        className={styles.icon}
-                                    />
-                                    <p>{guessers[1].name} // {guessers[1].streak}</p>
-                                    <FontAwesomeIcon
-                                        icon="check-circle"
-                                        className={styles.icon}
-                                    />
-                                </div>
-                            </div>
-                            {guessers[2] &&
-                            <div className={styles.player} id={styles.third}>
-                                <div>
-                                    <FontAwesomeIcon
-                                        icon="trophy"
-                                        className={styles.icon}
-                                    />
-                                    <p>{guessers[2].name} // {guessers[2].streak}</p>
-                                    <FontAwesomeIcon
-                                        icon="check-circle"
-                                        className={styles.icon}
-                                    />
-                                </div>
-                            </div>
-                            }       
-                        </span>
-                    </div>
-                    <hr />
-                    <div className={styles.exit}>
-                        <div>THANKS FOR PLAYING!</div>
-                        <SimpleButton
-                            name="EXIT TO MENU"
-                            type="host"
-                            style={{ padding: "0 1.5vw" }}
-                            onClick={() => router.push("/menu")}
-                        ></SimpleButton>
-                    </div>
                 </div>
+                
             </div>
             }
-        </div>
+    </div>
     );
 }
 
