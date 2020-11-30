@@ -17,7 +17,7 @@ class ErrorWaiting extends Component {
                         transform: translate(-50%, -50%);
                     }
                 `}</style>
-                <img src="/images/logo.svg" alt="Logo"/>
+                <img src="/images/loading.gif" alt="Logo"/>
                  <div className={styles.errorBlock}>
                      <h3 className={styles.errorText}>{this.props.text}</h3>
                  </div>
