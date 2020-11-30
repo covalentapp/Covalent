@@ -7,7 +7,7 @@ branches:
 before_install:
   - git clone https://areksds:$GITHUB_KEY@github.com/covalentapp/aws-exports.js.git
   - mv aws-exports.js/aws-exports.js src/
-  - rm -r aws-exports.js
+  - rm -rf aws-exports.js
 script: npm build
 notifications:
   slack: covalentdev:$SLACK
