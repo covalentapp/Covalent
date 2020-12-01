@@ -151,7 +151,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <Error text={"An internal error occurred. We're sorry for the inconvenience."} />
             }
 
-            {(!chrome && !firefox) || mobile && (
+            {((!chrome && !firefox) || mobile) && (
                 <div>
                     <Error noLink={true} text="Covalent currently only supports Google Chrome or Mozilla Firefox on a computer." />
                 </div>
@@ -164,7 +164,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 </div>
             }
 
-            {!joined && !error && !gameFull && gameCheck &&
+            {(chrome || firefox) && !joined && !error && !gameFull && gameCheck &&
                 <div className={styles.joinContainer}>
                     <div className={styles.join}>
                         <h2>Joining {gameCheck.host}'s game</h2>
