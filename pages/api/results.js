@@ -10,7 +10,8 @@ Requires:
 Returns:
 - Top guessers (guessers)
 - Top tricksters (tricksters)
-
+- Number of players in game (numPlayers)
+- Number of players that are finished guessing (numPlayersDone)
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -22,7 +23,7 @@ import { getGame } from "../../src/graphql/queries";
 
 export default async (req, res) => {
 
-    let error = null, waiting = false, gameData, guessers = [], tricksters = [];
+    let error = null, waiting = false, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
 
     if (req.query.id) {
 
@@ -35,6 +36,8 @@ export default async (req, res) => {
             ));
 
             if (gameData.data.getGame) {
+                numPlayers = gameData.data.getGame.players.items.length;
+
                 // check if game is even in session
                 if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
                     // check if all connections exist (everyone has submitted answers)
@@ -42,6 +45,11 @@ export default async (req, res) => {
 
                     gameData.data.getGame.previous.items.forEach(previous => {
                         previousConnections += previous.facts.length;
+
+                        // If this player has finished, increment players done.
+                        if (previous.facts.length >= numPlayers - 1) {
+                            numPlayersDone++;
+                        }
                     });
 
 
@@ -128,6 +136,8 @@ export default async (req, res) => {
     res.json({ 
         guessers: guessers,
         tricksters: tricksters,
+        numPlayers: numPlayers,
+        numPlayersDone: numPlayersDone,
         waiting: waiting,
         error: error
     })
