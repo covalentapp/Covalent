@@ -10,8 +10,6 @@ Requires:
 Returns:
 - Top guessers (guessers)
 - Top tricksters (tricksters)
-- Number of players in game (numPlayers)
-- Number of players that haven't finished guessing (numPlayersRemaining)
 
 */
 
@@ -24,7 +22,7 @@ import { getGame } from "../../src/graphql/queries";
 
 export default async (req, res) => {
 
-    let error = null, waiting = false, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersRemaining = 0;
+    let error = null, waiting = false, gameData, guessers = [], tricksters = [];
 
     if (req.query.id) {
 
@@ -37,9 +35,6 @@ export default async (req, res) => {
             ));
 
             if (gameData.data.getGame) {
-                numPlayers = gameData.data.getGame.players.items.length;
-                numPlayersRemaining = numPlayers;
-
                 // check if game is even in session
                 if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
                     // check if all connections exist (everyone has submitted answers)
@@ -47,12 +42,6 @@ export default async (req, res) => {
 
                     gameData.data.getGame.previous.items.forEach(previous => {
                         previousConnections += previous.facts.length;
-
-                        // If this player has finished, decrement players remaining.
-                        // Have to count down bc not all players necessarily have an entry in previous.
-                        if (previous.facts.length >= numPlayers - 1) {
-                            numPlayersRemaining--;
-                        }
                     });
 
 
@@ -139,8 +128,6 @@ export default async (req, res) => {
     res.json({ 
         guessers: guessers,
         tricksters: tricksters,
-        numPlayers: numPlayers,
-        numPlayersRemaining: numPlayersRemaining,
         waiting: waiting,
         error: error
     })

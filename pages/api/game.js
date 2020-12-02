@@ -14,7 +14,7 @@ Returns:
 - Game ready (ready)
 - Host's name (host)
 - Player's name (players)
-- Number of players that haven't submitted their facts (numPlayersRemaining)
+
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -93,7 +93,6 @@ export default async (req, res) => {
         players: (!error && data.data.getGame) ? players : null,
         full: (!error && data.data.getGame) ? (players.length == data.data.getGame.playerNum) : null,
         seconds: (!error && data.data.getGame) ? data.data.getGame.playerSeconds : null,
-        numPlayersRemaining: (!error && data.data.getGame) ? data.data.getGame.players.items.length - data.data.getGame.facts.items.length : null,
         error: error
     })
 
