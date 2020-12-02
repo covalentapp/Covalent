@@ -5,7 +5,7 @@ class SubmitForm extends Component {
     render() {
         return (
             <div className={styles.submitForm}>
-                <div>
+                {!this.props.submitted && <div>
                     <label>
                         <input
                             name="truth1"
@@ -39,7 +39,7 @@ class SubmitForm extends Component {
                             readOnly={this.props.submitted}
                         />
                     </label>
-                </div>
+                </div>}
 
                 {!this.props.submitted && (
                     <button

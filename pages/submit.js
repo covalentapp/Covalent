@@ -147,16 +147,23 @@ export default function Submit ({ cookies, error, instructions, time }) {
                     </div>
 
                     <div className={styles.gameMain}>
+                        {!enabled ? 
                         <div>
-                            <GameVideoRecorder onRecordingComplete={videoBlob => {
-                                let videoFile = new File([videoBlob], "Player Video", {type: 'video/webm',});
-                                setVideo(videoFile)
-                            }}/>
+                            <div>
+                                <GameVideoRecorder onRecordingComplete={videoBlob => {
+                                    let videoFile = new File([videoBlob], "Player Video", {type: 'video/webm',});
+                                    setVideo(videoFile)
+                                }}/>
+                            </div>
+                            <div>
+                                <p>WRITE YOUR <strong>2 TRUTHS &#38; A LIE</strong></p>
+                            </div>
+                        </div> 
+                            : 
+                        <div className={styles.submittedLoading}>
+                            <img src="/images/loading.gif" alt="Logo"/>
                         </div>
-                        <div>
-                            <p>WRITE YOUR <strong>2 TRUTHS &#38; A LIE</strong></p>
-                        </div>
-
+                        }
                         <SubmitForm 
                             onTruthOneChange={event => setFirstTruth(event.target.value)} 
                             onTruthTwoChange={event => setSecondTruth(event.target.value)} 

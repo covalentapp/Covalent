@@ -88,4 +88,11 @@
     font-weight: bold;
     text-align: center;
     letter-spacing: 0.1em;
+    font-size: calc(6px + 3vmin);
+}
+
+@media all and (max-width: 400px), (max-height: 400px) {
+    .submitted {
+        font-size: 18px;
+    }
 }

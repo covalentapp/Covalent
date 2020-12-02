@@ -97,10 +97,18 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
+    text-align: center;
     font-size: calc(6px + 1.5vmin);
     line-height: 60%;
     letter-spacing: .1em;
     text-indent: .1em;
+}
+
+.gameMain img {
+    width: 20vmin;
+    height: 20vmin;
+    min-width: 80px;
+    min-height: 80px;
 }
 
 .videoImg {
@@ -140,4 +148,8 @@
     font-size: calc(6px + 1vmin);
     letter-spacing: .05em;
     text-indent: .05em;
+}
+
+.gameMain .submittedLoading {
+    margin-top: 15%;
 }
