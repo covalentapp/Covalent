@@ -184,14 +184,15 @@ export default function Submit ({ cookies, error, instructions, time }) {
                 <div className={styles.gameSide}>
                     <div>
                         <p><i>To use Covalent, please allow access to your camera. Covalent cannot take videos without your permission.</i></p>
-                        <p><i>Your videos are only stored on our servers for the duration of the game, and are deleted shortly afterwards.</i></p>
+                        <p><i>Your privacy is important to us: Covalent only stores videos for the duration of the game.</i></p>
                     </div>
                     <divider />
                     <div>
                         <h1>INSTRUCTIONS</h1>
-                        <p>In 2 Truths &#38; A Lie, you say (or in this case, type) 3 statements about yourself, 2 of which should be truths and 1 of which should be a lie.</p>
-                        <p>However, other players do not know which statement is a lie! Their objective is to guess which one is the lie, and your objective is to make them choose the wrong statement as the lie. So make the truths as interesting as possible!</p>
-                        <p>For the video, please follow your host instructions below, and introduce your 2 truths and a lie as well.</p>
+                        <p>Type 3 statements about yourself: 2 of these statements should be facts, or “truths,” and the 3rd statement should be a lie.</p>
+                        <p>Other players will see your 3 statements in a random order. <b>Their objective</b> is to guess which statement is the lie. <b>Your objective</b> is to trick others into choosing one of your truths as the lie.</p>
+                        <p><i><b>Tip:</b> Make your statements as interesting as possible!</i></p>
+                        <p><b>Please introduce yourself in the video!</b></p>
                     </div>
                     <divider />
                     <div>
