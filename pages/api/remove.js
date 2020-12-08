@@ -58,7 +58,7 @@ export default async (req, res) => {
                 } else if (data.data.getGame.players.items.length == 1) {
                     // only host is in the game
                     error = "No players to remove.";
-                } else if (data.data.getGame) {
+                } else if (data.data.getGame.enabled) {
                     // the game is in session
                     error = "Can't remove players while game is in session."
                 } else {
