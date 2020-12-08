@@ -20,8 +20,8 @@ import awsConfig, { s3exports } from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { createFacts } from "../../src/graphql/mutations";
-import { getGame, getPlayer } from "../../src/graphql/queries";
+import { createFacts } from "../../src/graphql/custom_mutations";
+import { getGameAndPlayer } from "../../src/graphql/custom_queries/submitQueries";
 import AWS from 'aws-sdk';
 
 AWS.config.update({
@@ -43,23 +43,16 @@ export default async (req, res) => {
         if (!req.query.fact1 || !req.query.fact2 || !req.query.lie || !req.query.gameId || !req.query.playerId) {
             error = "Not all fields were filled!";
         } else {
-            // Get the game associated with the ID given
+            // Get the game and player associated with the IDs given
             data = await API.graphql(graphqlOperation(
-                getGame,
+                getGameAndPlayer,
                 {
-                    id: req.query.gameId
+                    gameId: req.query.gameId,
+                    playerId: req.query.playerId
                 }
             ));
 
             if (data.data.getGame) {
-                // Get the player associated with the ID given
-                data = await API.graphql(graphqlOperation(
-                    getPlayer,
-                    {
-                        id: req.query.playerId
-                    }
-                ));
-
                 if (data.data.getPlayer) {
                     // If the player doesn't have a set of facts, add the facts
                     if (!data.data.getPlayer.facts) {

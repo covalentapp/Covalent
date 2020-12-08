@@ -18,8 +18,8 @@ import config from "../../src/aws-exports.js";
 
 Amplify.configure({ ...config, ssr: true });
 
-import { updateGame } from "../../src/graphql/mutations";
-import { getGame } from "../../src/graphql/queries";
+import { updateGame } from "../../src/graphql/custom_mutations";
+import { getGame } from "../../src/graphql/custom_queries/enableQueries";
 
 export default async (req, res) => {
     let data, error = null;
