@@ -8,6 +8,7 @@ import Error from '../../components/Error';
 import ErrorGameNotFound from '../../components/ErrorGameNotFound';
 import ErrorFullGame from '../../components/ErrorFullGame';
 import ErrorWaiting from '../../components/ErrorWaiting';
+import game from '../api/game';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
@@ -22,6 +23,10 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
     const [mobile, setMobile] = useState(false);
     const [firefox, setFirefox] = useState(false);
     const [chrome, setChrome] = useState(true);
+    const [players, setPlayers] = useState(0);
+    const [ready, setReady] = useState(false);
+    const [message, setMsg] = useState('');
+    const [full, setFull] = useState(gameFull);
 
     const router = useRouter();
 
@@ -82,7 +87,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 playerId(data.playerID); 
                 gameLoading(true);
             } else {
-                gameFull = true;
+                setFull(true);
             }
         }
     }, [joined]);
@@ -116,11 +121,21 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 if (data.enabled) {
                     router.push("/submit");
                     break;
-                }  
+                }
+                setPlayers(data.players.length);
+                if(!ready)
+                    setReady(true);
                 await delay(2000);
             }
         }
     }, [waiting]);
+
+    useEffect(() => {
+        if(players != 1)
+            setMsg(`Waiting on ${gameCheck.host} to start the game. There are currently ${players} other players ready.`);
+        else
+            setMsg(`Waiting on ${gameCheck.host} to start the game. There is currently ${players} other player ready.`);
+    }, [players]);
 
     /*nameError disappears after 3 seconds*/
     useEffect(() => {
@@ -164,7 +179,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 </div>
             }
 
-            {(chrome || firefox) && !joined && !error && !gameFull && gameCheck &&
+            {(chrome || firefox) && !ready && !error && !full && gameCheck &&
                 <div className={styles.joinContainer}>
                     <div className={styles.join}>
                         <h2>Joining {gameCheck.host}'s game</h2>
@@ -183,24 +198,26 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                                 }
                             }}
                         />
-                        <SimpleButton name="join game" type="join" onClick={() => {
+                        {!joined ? <SimpleButton name="join game" type="join" onClick={() => {
                             if (playerName)
                                 setJoin(true);
                             else
                                 nameError(true);
-                        }}/>      
+                        }}/> :
+                            <SimpleButton name="joining..." type="join" />
+                        }   
                     </div>
                     {badName && <p>Please enter a valid name.</p>}   
                 </div>
             }
 
-            {joined && !gameFull &&
+            {ready && !full &&
                 <div>
-                    <ErrorWaiting text={`Waiting on ${gameCheck.host} to start the game.`} />
+                    <ErrorWaiting text={message} />
                 </div>
             }
 
-            {gameFull &&
+            {full &&
                 <div>
                     <ErrorFullGame link={"/menu"} />
                 </div>

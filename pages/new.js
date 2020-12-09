@@ -34,6 +34,7 @@ export default function Settings() {
     const [firefox, setFirefox] = useState(false);
     const [chrome, setChrome] = useState(true);
     const [small, setSmall] = useState(false);
+    const [pJoined, setNumJoined] = useState(0); //num of players
 
     const router = useRouter();
 
@@ -177,6 +178,7 @@ export default function Settings() {
                     addPlayers(playerList);
                     playerList = [];
                     numPlayers++;
+                    setNumJoined(numPlayers);
                 } else if (data.enabled) {
                     break;
                 }
@@ -298,7 +300,7 @@ export default function Settings() {
                             <h1>Instructions</h1>
                             <p>
                                 <i>
-                                    In 2 Truths &#38; A Lie, you say (or in this
+                                    In 2 Truths and a Lie, you say (or in this
                                     case, type) 3 statements about yourself, 2
                                     of which should be truths and 1 of which
                                     should be a lie. However, other players do
@@ -484,7 +486,7 @@ export default function Settings() {
                         {searching && (
                             <div className={styles.joined}>
                                 <hr className={styles.line} />
-                                <h1>Joined</h1>
+                                <h1>Joined: {pJoined}/{players}</h1>
 
                                 <div id="players" className={styles.center}>
                                     {gamePlayers}

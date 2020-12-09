@@ -10,16 +10,12 @@ class ErrorWaiting extends Component {
                     img {
                         width: calc(50px + 15vmin);
                         height: auto;
-                        position: absolute;
-                        top: 35%;
-                        left: 50%;
-                        right: -50%;
-                        transform: translate(-50%, -50%);
                     }
                 `}</style>
-                <img src="/images/loading.gif" alt="Logo"/>
+                
                  <div className={styles.errorBlock}>
-                     <h3 className={styles.errorText}>{this.props.text}</h3>
+                 <img src="/images/loading.gif" alt="Logo"/>
+                     <div className={styles.errorText}>{this.props.text}</div>
                  </div>
             </div>
         );
