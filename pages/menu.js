@@ -44,7 +44,7 @@ class Menu extends Component {
             // Detect Firefox
             firefox: false,
             // Detect Chrome
-            chrome: false,
+            chrome: true,
         };
     }
 

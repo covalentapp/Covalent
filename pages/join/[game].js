@@ -21,7 +21,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
     const [waiting, gameLoading] = useState(null);
     const [mobile, setMobile] = useState(false);
     const [firefox, setFirefox] = useState(false);
-    const [chrome, setChrome] = useState(false);
+    const [chrome, setChrome] = useState(true);
 
     const router = useRouter();
 

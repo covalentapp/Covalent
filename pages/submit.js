@@ -22,19 +22,56 @@ export default function Submit ({ cookies, error, instructions, time }) {
     const [submitted, setSubmit] = useState(false);
     const [enabled, setEnabled] = useState(false);
     const [badSubmit, setBad] = useState(false);
-    const [delayed, setDelayed] = useState(false);
+    const [message, setMsg] = useState('');
 
     const router = useRouter();
+
+    var badTimer = null;
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    function startTimer() {
+        badTimer = setTimeout(() => {setBad(false);}, 5000);
+    }
+
     useEffect(() => {
-        if (badSubmit) {
-            setTimeout(() => {setBad(false);}, 5000);
-        }
+        clearTimeout(badTimer);
+        startTimer();
+
+        return () => clearTimeout(badTimer);
     },[badSubmit]);
+
+    useEffect(() => {
+        if (video && truth1 && truth2 && lie) {
+            setBad(false);
+        }
+        setMsg('');
+        if(!video) {
+            if(!truth1 || !truth2) {
+                if(!lie)
+                    setMsg('Please set your video, truths, and lie.');
+                else
+                    setMsg('Please set your video and truths.');
+            }
+            else if (!lie)
+                setMsg('Please set your video and lie.');
+            else
+                setMsg('Please set your video.');
+        }
+        else {
+            if(!truth1 || !truth2) {
+                if(!lie)
+                    setMsg('Please set your truths and lie.');
+                else
+                    setMsg('Please set your truths.');
+            }
+            else
+                setMsg('Please set your lie.');
+        }
+    },[video, truth1, truth2, lie]);
+
 
     useEffect(() => {
         if (submitted) {
@@ -171,13 +208,8 @@ export default function Submit ({ cookies, error, instructions, time }) {
                             onSubmit={() => setSubmit(true)}
                             submitted={enabled}
                         />
-                        {badSubmit && (!video || !truth1 || !truth2 || !lie) &&
-                        <p>Please {!video && 'record your video'}
-                        {!video && (!truth1 || !truth2 || !lie) && ' and '}
-                        {(!truth1 || !truth2) && 'input your truths'}
-                        {((!truth1 || !truth2) && !lie) && ' and '}
-                        {!lie && 'input your lie'}
-                        .</p>}   
+                        {badSubmit &&
+                        <p>{message}</p>}   
                     </div>
                 </div>
 

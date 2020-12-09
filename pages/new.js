@@ -32,7 +32,7 @@ export default function Settings() {
     const [gamePlayers, addPlayers] = useState([]);
     const [mobile, setMobile] = useState(false);
     const [firefox, setFirefox] = useState(false);
-    const [chrome, setChrome] = useState(false);
+    const [chrome, setChrome] = useState(true);
     const [small, setSmall] = useState(false);
 
     const router = useRouter();
