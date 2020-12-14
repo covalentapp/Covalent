@@ -34,7 +34,6 @@ export default function Settings() {
     const [firefox, setFirefox] = useState(false);
     const [chrome, setChrome] = useState(true);
     const [small, setSmall] = useState(false);
-    const [pJoined, setNumJoined] = useState(0); //num of players
 
     const router = useRouter();
 
@@ -166,19 +165,16 @@ export default function Settings() {
             }
 
             let res, data;
-            let numPlayers = 0;
             let playerList = [];
 
             while (searching) {
                 // Implement: only allow to check a certain number of times
                 res = await fetch(origin + "/api/game?id=" + gameId);
                 data = await res.json();
-                if (data.players.length > numPlayers) {
+                if (data.players.length > gamePlayers.length) {
                     data.players.forEach(appendPlayer);
                     addPlayers(playerList);
                     playerList = [];
-                    numPlayers++;
-                    setNumJoined(numPlayers);
                 } else if (data.enabled) {
                     break;
                 }
@@ -486,7 +482,7 @@ export default function Settings() {
                         {searching && (
                             <div className={styles.joined}>
                                 <hr className={styles.line} />
-                                <h1>Joined: {pJoined}/{players}</h1>
+                                <h1>Joined: {gamePlayers.length}/{players}</h1>
 
                                 <div id="players" className={styles.center}>
                                     {gamePlayers}

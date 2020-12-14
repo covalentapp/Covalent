@@ -8,6 +8,7 @@ import Error from '../../components/Error';
 import ErrorGameNotFound from '../../components/ErrorGameNotFound';
 import ErrorFullGame from '../../components/ErrorFullGame';
 import ErrorWaiting from '../../components/ErrorWaiting';
+import Avatar from "../../components/Avatar";
 import game from '../api/game';
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
@@ -23,9 +24,8 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
     const [mobile, setMobile] = useState(false);
     const [firefox, setFirefox] = useState(false);
     const [chrome, setChrome] = useState(true);
-    const [players, setPlayers] = useState(0);
+    const [gamePlayers, addPlayers] = useState([]);
     const [ready, setReady] = useState(false);
-    const [message, setMsg] = useState('');
     const [full, setFull] = useState(gameFull);
 
     const router = useRouter();
@@ -112,30 +112,31 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
 
+            function appendPlayer(player, index) {
+                playerList.push(<Avatar key={index} name={player} />);
+            }
+
             let res, data;
+            let playerList = [];
 
             while (waiting) {
                 // Implement: only allow to check a certain number of times
                 res = await fetch(origin + '/api/game?id=' + addedGameId);
                 data = await res.json();
-                if (data.enabled) {
+                if (data.players.length > gamePlayers.length) {
+                    data.players.forEach(appendPlayer);
+                    addPlayers(playerList);
+                    playerList = [];
+                } else if (data.enabled) {
                     router.push("/submit");
                     break;
                 }
-                setPlayers(data.players.length);
                 if(!ready)
                     setReady(true);
-                await delay(2000);
+                await delay(1000);
             }
         }
     }, [waiting]);
-
-    useEffect(() => {
-        if(players != 1)
-            setMsg(`Waiting on ${gameCheck.host} to start the game. There are currently ${players} other players ready.`);
-        else
-            setMsg(`Waiting on ${gameCheck.host} to start the game. There is currently ${players} other player ready.`);
-    }, [players]);
 
     /*nameError disappears after 3 seconds*/
     useEffect(() => {
@@ -147,7 +148,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
     }, [badName]);
     
     return (
-        <div>
+        <div className={styles.joinMain}>
             <Head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -160,7 +161,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | Join Game</title>
-            </Head>     
+            </Head>
             
             {error && 
                 <Error text={"An internal error occurred. We're sorry for the inconvenience."} />
@@ -212,8 +213,20 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
             }
 
             {ready && !full &&
-                <div>
-                    <ErrorWaiting text={message} />
+                <div className={styles.joinedOuter}>
+                    <div className={styles.joinedContainer}>
+                        <div className={styles.waiting}>
+                            <ErrorWaiting text={`Waiting on ${gameCheck.host} to start the game.`} />
+                        </div>
+                        <div className={styles.joined}>
+                            <hr className={styles.line} />
+                            <h1>Joined: {gamePlayers.length}/{gameCheck.playerNum}</h1>
+
+                            <div id="players" className={styles.center}>
+                                {gamePlayers}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
 
@@ -246,6 +259,7 @@ export async function getServerSideProps({ params }) {
             gameCheck.host = data.host;
             gameCheck.name = data.name;
             gameCheck.id = data.id;
+            gameCheck.playerNum = data.playerNum;
         }
     } catch (err) {
         error = true;

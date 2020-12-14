@@ -10,11 +10,12 @@ class ErrorWaiting extends Component {
                     img {
                         width: calc(50px + 15vmin);
                         height: auto;
+                        min-width: 90px;
                     }
                 `}</style>
                 
                  <div className={styles.errorBlock}>
-                 <img src="/images/loading.gif" alt="Logo"/>
+                    <img src="/images/loading.gif" alt="Logo"/>
                      <div className={styles.errorText}>{this.props.text}</div>
                  </div>
             </div>

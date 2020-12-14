@@ -20,7 +20,7 @@ export default function Avatar(props) {
             }}
         >
             <div className={styles.icon}>
-                <Jdenticon size="10vmin" value={props.name} />
+                <Jdenticon value={props.name} />
             </div>
             <h2 className={styles.name}>{props.name}</h2>
         </motion.div>

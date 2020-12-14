@@ -22,6 +22,8 @@
 .icon {
     width: 10vmin;
     height: 10vmin;
+    min-width: 40px;
+    min-height: 40px;
     border-radius: 0.5vmin;
     box-shadow: 0 0 4px #888888;
 }
