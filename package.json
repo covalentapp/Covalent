@@ -23,7 +23,7 @@
     "react-hamburger-menu": "^1.2.1",
     "react-jdenticon": "0.0.8",
     "react-scroll": "^1.8.1",
-    "react-slideshow-image": "^3.3.1",
+    "react-slideshow-image": "^3.4.3",
     "react-video-recorder": "^3.17.1",
     "styled-components": "^5.2.1"
   }
