@@ -149,7 +149,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
     }, [badName]);
     
     return (
-        <div className={styles.joinMain}>
+        <div>
             <Head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -163,6 +163,13 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | Join Game</title>
             </Head>
+            <style jsx global>{`
+                body {
+                    width: 100vw;
+                    height: 100vh;
+                    overflow: hidden;
+                }
+            `}</style>
             
             {error && 
                 <Error text={"An internal error occurred. We're sorry for the inconvenience."} />

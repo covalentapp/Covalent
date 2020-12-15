@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from 'next/router'
 import { parseCookies } from "nookies";
@@ -16,6 +16,9 @@ const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" :
 export default function Results ({ cookies, error, tricksters, guessers, waiting }) {
 
     const router = useRouter();
+    const [numReady, setNumRdy] = useState(0);
+    const [players, setPlayers] = useState(1);
+    const [ready, setRdy] = useState(false);
     
     //test functions below
     /*
@@ -85,9 +88,15 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
             while (waiting) {
                 res = await fetch(origin + '/api/results?id=' + cookies.gameID);
                 data = await res.json();
+                setPlayers(data.numPlayers - 1);
+                if(data.numPlayersDone > numReady + 1) {
+                    setNumRdy(data.numPlayersDone - 1);
+                }
                 if (!data.waiting) {
                     router.reload();
                 }
+                if(!ready)
+                    setRdy(true);
                 await delay(2000);
             }
         }
@@ -111,11 +120,34 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | Results</title>
             </Head>
+            <style jsx global>{`
+                body {
+                    width: 100vw;
+                    height: 100vh;
+                    overflow: hidden;
+                }
+            `}</style>
+
             {error &&
                 <Error text={error}/>
             }
-            {waiting && 
-                <ErrorWaiting text="Waiting on other players to finish..."/>
+            {waiting && ready &&
+                <div className={styles.waitingOuter}>
+                    <div className={styles.waitingContainer}>
+                        <div className={styles.waiting}>
+                            <ErrorWaiting text="Waiting on other players to finish..." />
+                        </div>
+                        <div className={styles.waitingBar}>
+                            <div className={styles.progressBarBorder}>
+                                <div
+                                    className={styles.progressBar}
+                                    style={{ width: numReady * 100 / players + '%' }}
+                                />
+                                <span>{numReady}/{players}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
             {!error && !waiting &&
             <div className={styles.ResultsContainer}>

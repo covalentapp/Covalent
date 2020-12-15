@@ -7,6 +7,59 @@
     overflow-y: auto;
 }
 
+.waitingOuter {
+    display: flex;
+    align-self: center;
+    transform: translate(0, 55%);
+    width: 100%;
+    height: 50%;
+}
+
+.waitingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    width: 100%;
+    height: 100%;
+}
+
+.waitingContainer .waiting {
+    width: 100%;
+}
+
+.waitingBar .progressBarBorder {
+    margin-top: 5%;
+    position: relative;
+    height: 4.5vh;
+    min-height: 18px;
+    background: #E1E1E1;
+    border-radius: 9999px;
+    width: calc(150px + 30vw);
+}
+
+.waitingBar .progressBar {
+    width: 0px;
+    height: 100%;
+    background: linear-gradient(to right,#80ffdb, #48bfe3);
+    border-radius: 9999px;
+    transition: width 1s;
+}
+
+.waitingBar .progressBarBorder span {
+    position: absolute;
+    top: calc(1px + 0.45vh);
+    right: 0.69vw;
+    justify-self: flex-end;
+
+    line-height: 3vh;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(6px + 1.5vmin);
+}
+
 .Results {
     position: absolute;
     left: 25%;

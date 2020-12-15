@@ -345,15 +345,15 @@ export default function Settings() {
                             />
                             <b>
                                 <label htmlFor="players">
-                                    Player Count (2-50):{" "}
+                                    Player Count (1-50):{" "}
                                 </label>
                             </b>
                             <input
                                 className={styles.settingsInput}
                                 type="number"
-                                min="2"
+                                min="1"
                                 max="50"
-                                defaultValue="2"
+                                defaultValue="3"
                                 onChange={(event) =>
                                     setPlayers(event.target.value)
                                 }
@@ -450,7 +450,7 @@ export default function Settings() {
                                             instructions == "" ||
                                             name == "" ||
                                             players > 50 ||
-                                            players < 2 ||
+                                            players < 1 ||
                                             time > 300 ||
                                             time < 30
                                         ) {
