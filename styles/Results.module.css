@@ -43,7 +43,6 @@
     height: 100%;
     background: linear-gradient(to right,#80ffdb, #48bfe3);
     border-radius: 9999px;
-    transition: width 1s;
 }
 
 .waitingBar .progressBarBorder span {

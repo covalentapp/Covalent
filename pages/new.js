@@ -353,7 +353,7 @@ export default function Settings() {
                                 type="number"
                                 min="1"
                                 max="50"
-                                defaultValue="3"
+                                defaultValue="2"
                                 onChange={(event) =>
                                     setPlayers(event.target.value)
                                 }

@@ -7,8 +7,8 @@ import SimpleButton from "../components/SimpleButton";
 import Error from "../components/Error";
 import ErrorWaiting from "../components/ErrorWaiting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
 
-//need to add: interactions w/ backend, icons based on order, stylizing (especially changing line-heights), formatting
 //issues: if viewport height is too small, it'll overflow and things will get hidden
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
@@ -139,9 +139,15 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                         </div>
                         <div className={styles.waitingBar}>
                             <div className={styles.progressBarBorder}>
-                                <div
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{
+                                        width: numReady * 100 / players + '%',
+                                        transition: {
+                                            duration: 1,
+                                        }
+                                    }}
                                     className={styles.progressBar}
-                                    style={{ width: numReady * 100 / players + '%' }}
                                 />
                                 <span>{numReady}/{players}</span>
                             </div>
@@ -177,11 +183,16 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                                     <p>{tricksters[0].name}</p>
                                     </div>
                                     <div className={styles.progressBarBorder}>
-                                        <div
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{
+                                                width: tricksters[0].streak + '%',
+                                                transition: {
+                                                    duration: 1,
+                                                }
+                                            }}
                                             className={styles.progressBar}
-                                            style={{ width: tricksters[0].streak + '%' }}
-                                        >
-                                        </div>
+                                        />
                                         <span>{tricksters[0].score}</span>
                                     </div>
                                     {/*for percentage following red bar
@@ -211,11 +222,16 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                                     <p>{tricksters[1].name}</p>
                                     </div>
                                     <div className={styles.progressBarBorder}>
-                                        <div
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{
+                                                width: tricksters[1].streak + '%',
+                                                transition: {
+                                                    duration: 1,
+                                                }
+                                            }}
                                             className={styles.progressBar}
-                                            style={{ width: tricksters[1].streak + '%' }}
-                                        >
-                                        </div>
+                                        />
                                         <span>{tricksters[1].score}</span>
                                     </div>
                                 </div>
@@ -229,11 +245,16 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                                     <p>{tricksters[2].name}</p>
                                     </div>
                                     <div className={styles.progressBarBorder}>
-                                        <div
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{
+                                                width: tricksters[2].streak + '%',
+                                                transition: {
+                                                    duration: 1,
+                                                }
+                                            }}
                                             className={styles.progressBar}
-                                            style={{ width: tricksters[2].streak + '%' }}
-                                        >
-                                        </div>
+                                        />
                                         <span>{tricksters[2].score}</span>
                                     </div>
                                 </div>

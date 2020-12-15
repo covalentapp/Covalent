@@ -7,6 +7,7 @@ import SubmitForm from "../components/SubmitForm";
 import Timer from "../components/Timer";
 import Error from "../components/Error";
 import { GameVideoRecorder } from "../components/VideoLib";
+import { motion } from "framer-motion";
 
 // This file is for the 2 Truths & A Lie game
 // @Daniel
@@ -223,9 +224,15 @@ export default function Submit ({ cookies, error, instructions, time }) {
                         {ready &&
                             <div className={styles.submitBar}>
                                 <div className={styles.progressBarBorder}>
-                                    <div
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{
+                                            width: numReady * 100 / players + '%',
+                                            transition: {
+                                                duration: 1,
+                                            }
+                                        }}
                                         className={styles.progressBar}
-                                        style={{ width: numReady * 100 / players + '%' }}
                                     />
                                     <span>{numReady}/{players}</span>
                                 </div>
