@@ -127,7 +127,8 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                     data.players.forEach(appendPlayer);
                     addPlayers(playerList);
                     playerList = [];
-                } else if (data.enabled) {
+                }
+                if (data.enabled) {
                     router.push("/submit");
                     break;
                 }
