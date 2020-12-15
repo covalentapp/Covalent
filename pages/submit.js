@@ -21,8 +21,11 @@ export default function Submit ({ cookies, error, instructions, time }) {
     const [lie, setLie] = useState(null);
     const [submitted, setSubmit] = useState(false);
     const [enabled, setEnabled] = useState(false);
+    const [ready, setRdy] = useState(false);
     const [badSubmit, setBad] = useState(false);
     const [message, setMsg] = useState('');
+    const [numReady, setNumRdy] = useState(0);
+    const [players, setPlayers] = useState(1);
 
     const router = useRouter();
 
@@ -100,11 +103,17 @@ export default function Submit ({ cookies, error, instructions, time }) {
                     while (submitted) {
                         res = await fetch(origin + '/api/game?id=' + cookies.gameID)
                         data = await res.json();
+                        setPlayers(data.players.length);
+                        if(data.numPlayersReady > numReady + 1) {
+                            setNumRdy(data.numPlayersReady - 1);
+                        }
                         if (data.ready) {
                             await delay(2000);
                             router.push("/game");
                             break;
                         }
+                        if(!ready)
+                            setRdy(true);
                         await delay(2000);
                     }
 
@@ -184,7 +193,7 @@ export default function Submit ({ cookies, error, instructions, time }) {
                     </div>
 
                     <div className={styles.gameMain}>
-                        {!enabled ? 
+                        {!ready ? 
                         <div>
                             <div>
                                 <GameVideoRecorder onRecordingComplete={videoBlob => {
@@ -206,10 +215,22 @@ export default function Submit ({ cookies, error, instructions, time }) {
                             onTruthTwoChange={event => setSecondTruth(event.target.value)} 
                             onLieChange={event => setLie(event.target.value)}
                             onSubmit={() => setSubmit(true)}
-                            submitted={enabled}
+                            submitting={enabled}
+                            submitted={ready}
                         />
                         {badSubmit &&
-                        <p>{message}</p>}   
+                        <p>{message}</p>}
+                        {ready &&
+                            <div className={styles.submitBar}>
+                                <div className={styles.progressBarBorder}>
+                                    <div
+                                        className={styles.progressBar}
+                                        style={{ width: numReady * 100 / players + '%' }}
+                                    />
+                                    <span>{numReady}/{players}</span>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
 

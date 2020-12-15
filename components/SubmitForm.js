@@ -41,7 +41,7 @@ class SubmitForm extends Component {
                     </label>
                 </div>}
 
-                {!this.props.submitted && (
+                {!this.props.submitted && !this.props.submitting && (
                     <button
                         type="submit"
                         className={styles.submitButton}
@@ -51,9 +51,18 @@ class SubmitForm extends Component {
                     </button>
                 )}
 
+                {!this.props.submitted && this.props.submitting && (
+                    <button
+                        type="submit"
+                        className={styles.submitButton}
+                    >
+                        SUBMITTING...
+                    </button>
+                )}
+
                 {this.props.submitted && (
                     <h1 className={styles.submitted}>
-                        SUBMITTED! WAITING ON TEAMMATES...
+                        SUBMITTED! WAITING ON TEAMMATES:
                     </h1>
                 )}
             </div>

@@ -115,6 +115,45 @@
     height: 50vmin;
 }
 
+.gameMain .submittedLoading {
+    margin-top: 12%;
+}
+
+.submitBar {
+    margin-top: 2%;
+}
+
+.submitBar .progressBarBorder {
+    position: relative;
+    height: 4.5vh;
+    min-height: 18px;
+    background: #E1E1E1;
+    border-radius: 9999px;
+    width: calc(150px + 30vw);
+}
+
+.submitBar .progressBar {
+    width: 0px;
+    height: 100%;
+    background: #FF8680;
+    border-radius: 9999px;
+    transition: width 1s;
+}
+
+.submitBar .progressBarBorder span {
+    position: absolute;
+    top: calc(1px + 0.45vh);
+    right: 0.69vw;
+    justify-self: flex-end;
+
+    line-height: 3vh;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(6px + 1.5vmin);
+}
+
 /* ===== SIDE ===== */
 
 .gameSide {
@@ -150,6 +189,27 @@
     text-indent: .05em;
 }
 
-.gameMain .submittedLoading {
-    margin-top: 15%;
+@media all and (max-width: 400px), (max-height: 400px) {
+    .gameSide p, .gameLogo p1 {
+        font-size: 10px;
+    }
+    .gameSide h1 {
+        font-size: 15px;
+    }
+    .submitBar .progressBarBorder span {
+        font-size: 12px;
+        top: 2.8px;
+    }
+    .gameMain p {
+        font-size: 12px;
+    }
+    .centerText p2 {
+        font-size: 16px;
+    }
+    .centerText p1 {
+        font-size: 6px;
+    }
+    .gameLogo p2 {
+        font-size: 7px;
+    }
 }

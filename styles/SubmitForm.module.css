@@ -61,7 +61,8 @@
 .submitButton {
     outline: 0 !important;
     margin-top: 2vmin;
-    width: 14vmin;
+    padding: 0 1.5vmin;
+    width: auto;
     height: 5vmin;
     background: #48bfe3;
     border: 0;
