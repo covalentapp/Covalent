@@ -7,22 +7,29 @@ import { motion } from "framer-motion";
 @Catherine*/
 
 export default function Avatar(props) {
-    return (
-        <motion.div
-            className={styles.Avatar}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{
-                type: "spring",
-                damping: 10,
-                mass: 0.5,
-                stiffness: 200,
-            }}
-        >
-            <div className={styles.icon}>
-                <Jdenticon value={props.name} />
-            </div>
-            <h2 className={styles.name}>{props.name}</h2>
-        </motion.div>
+  async function deletePlayer() {
+    let res = await fetch(
+      `${origin}/api/remove?id=${props.id}&host=${props.host}&player=${props.index}`
     );
+    console.log(props.index);
+  }
+  return (
+    <motion.div
+      className={styles.Avatar}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{
+        type: "spring",
+        damping: 10,
+        mass: 0.5,
+        stiffness: 200,
+      }}
+    >
+      <div className={styles.icon}>
+        <Jdenticon value={props.name} />
+      </div>
+      <button onClick={deletePlayer}>delete player</button>
+      <h2 className={styles.name}>{props.name}</h2>
+    </motion.div>
+  );
 }

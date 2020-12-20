@@ -35,44 +35,45 @@ import { getGame } from "../../src/graphql/queries";
 import { deletePlayer } from "../../src/graphql/mutations";
 
 export default async (req, res) => {
-    let data, error = null, removed;
+  let data,
+    error = null,
+    removed;
 
-    if (req.query.id && req.query.host && (req.query.player != undefined)) {
-        try {
-            // Query: get the game specified by the player
-            data = await API.graphql(graphqlOperation(
-                getGame,
-                {
-                    id: req.query.id
-                }
-            ));
-            
-            // If the game exists and the player exists in the array
-            if (data.data.getGame && (data.data.getGame.players.items.length() > req.query.player)) {
-                let playerId = data.data.getGame.players.items[req.query.player];
-                let hostId = data.data.getGame.host.id;
+  if (req.query.id && req.query.host && req.query.player != undefined) {
+    try {
+      // Query: get the game specified by the player
+      data = await API.graphql(
+        graphqlOperation(getGame, {
+          id: req.query.id,
+        })
+      );
+      // If the game exists and the player exists in the array
+      if (
+        data.data.getGame &&
+        data.data.getGame.players.items.length > req.query.player
+      ) {
+        let playerId = data.data.getGame.players.items[req.query.player].id;
+        let hostId = data.data.getGame.host.id;
 
-                if (req.query.hostId != hostId) {
-                    // host id does not match
-                    error = "Insufficient Permissions.";
-                } else if (data.data.getGame.players.items.length == 1) {
-                    // only host is in the game
-                    error = "No players to remove.";
-                } else if (data.data.getGame.enabled) {
-                    // the game is in session
-                    error = "Can't remove players while game is in session."
-                } else {
-                    removed = await API.graphql(graphqlOperation(
-                        deletePlayer,
-                        {
-                            input: {
-                                id: playerId
-                            }
-                        }
-                    ));
-                }
-
-                /*
+        if (req.query.host != hostId) {
+          // host id does not match
+          error = "Insufficient Permissions.";
+        } else if (data.data.getGame.players.items.length == 0) {
+          // only host is in the game
+          error = "No players to remove.";
+        } else if (data.data.getGame.enabled) {
+          // the game is in session
+          error = "Can't remove players while game is in session.";
+        } else {
+          removed = await API.graphql(
+            graphqlOperation(deletePlayer, {
+              input: {
+                id: playerId,
+              },
+            })
+          );
+        }
+        /*
 
                 What you need to code in place of this comment:
                 - Compare the host ID of the game to the host ID given as a query in req.query.host
@@ -88,23 +89,23 @@ export default async (req, res) => {
                     - If / else that wraps that other if / else for the mutation
                     
                 */
-
-            } else {
-                error = "Game / player not found.";
-            }
-            
-        } catch (err) {
-            console.log("Unable to remove player: " + err.errors[0].errorType);
-            console.log(err.errors[0].message);
-            error = err.errors[0].message;
-        }
-    } else {
-        error = "Please fill out all the fields.";
+      } else {
+        error = "Game / player not found.";
+      }
+    } catch (err) {
+      console.log("error" + err);
+      //console.log("Unable to remove player: " + err.errors[0].errorType);
+      //console.log(err.errors[0].message);
+      //error = err.errors[0].message;
     }
-
-    res.statusCode = 200
-    res.json({ 
-        success: error ? false : true,
-        error: error
-    })
-}
+  } else {
+    error = "Please fill out all the fields.";
+  }
+  console.log(error);
+  //console.log(data.data.getGame);
+  res.statusCode = 200;
+  res.json({
+    success: error ? false : true,
+    error: error,
+  });
+};
