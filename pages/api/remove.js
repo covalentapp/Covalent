@@ -52,7 +52,10 @@ export default async (req, res) => {
         data.data.getGame &&
         data.data.getGame.players.items.length > req.query.player
       ) {
-        let playerId = data.data.getGame.players.items[req.query.player].id;
+        console.log(data.data.getGame.players);
+        let playerId =
+          data.data.getGame.players.items[1 + parseInt(req.query.player)].id;
+        console.log(playerId);
         let hostId = data.data.getGame.host.id;
 
         if (req.query.host != hostId) {
@@ -101,7 +104,6 @@ export default async (req, res) => {
   } else {
     error = "Please fill out all the fields.";
   }
-  console.log(error);
   //console.log(data.data.getGame);
   res.statusCode = 200;
   res.json({
