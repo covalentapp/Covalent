@@ -11,7 +11,6 @@ export default function Avatar(props) {
     let res = await fetch(
       `${origin}/api/remove?id=${props.id}&host=${props.host}&player=${props.index}`
     );
-    console.log(props.index);
   }
   return (
     <motion.div

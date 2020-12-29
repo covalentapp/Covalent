@@ -52,11 +52,11 @@ export default async (req, res) => {
         data.data.getGame &&
         data.data.getGame.players.items.length > req.query.player
       ) {
-        console.log(data.data.getGame.players);
-        let playerId =
-          data.data.getGame.players.items[1 + parseInt(req.query.player)].id;
-        console.log(playerId);
         let hostId = data.data.getGame.host.id;
+        let playerArray = data.data.getGame.players.items.filter((player) => {
+          return player.id !== hostId;
+        });
+        let playerId = playerArray[parseInt(req.query.player)].id;
 
         if (req.query.host != hostId) {
           // host id does not match
@@ -96,7 +96,7 @@ export default async (req, res) => {
         error = "Game / player not found.";
       }
     } catch (err) {
-      console.log("error" + err);
+      console.log(err);
       //console.log("Unable to remove player: " + err.errors[0].errorType);
       //console.log(err.errors[0].message);
       //error = err.errors[0].message;

@@ -172,7 +172,9 @@ export default function Settings() {
         // Implement: only allow to check a certain number of times
         res = await fetch(origin + "/api/game?id=" + gameId);
         data = await res.json();
-        if (data.players.length != gamePlayers.length) {
+        console.log(data);
+        console.log(gamePlayers);
+        if (data.players.length >= 0) {
           data.players.forEach((player, index) => appendPlayer(player, index));
           addPlayers(playerList);
           playerList = [];

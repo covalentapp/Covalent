@@ -126,17 +126,15 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
 
       let res, data;
       let playerList = [];
-
       while (waiting) {
         // Implement: only allow to check a certain number of times
         res = await fetch(origin + "/api/game?id=" + addedGameId);
         data = await res.json();
-        if (data.players.length != gamePlayers.length) {
+        if (data.players.length >= 0) {
           data.players.forEach(appendPlayer);
           addPlayers(playerList);
           playerList = [];
-        }
-        if (data.enabled) {
+        } else if (data.enabled) {
           router.push("/submit");
           break;
         }
