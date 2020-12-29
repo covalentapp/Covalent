@@ -7,7 +7,11 @@ const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" :
 class Connect extends Component {
     constructor(props) {
         super(props);
-        this.state = { value: "" };
+        this.state = { 
+            value: "",
+            submitting: false,
+            valid: false,
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,24 +22,30 @@ class Connect extends Component {
         let emailInputBox = document.getElementsByClassName(styles.emailInput)[0];
         if (emailInputBox.value == "" || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,3}))$/.test(emailInputBox.value)) {
             emailInputBox.style.boxShadow = "none";
+            this.state.valid = true;
         } else {
             emailInputBox.style.boxShadow = "0px 0px 11px -2px rgba(255,0,0,0.9)";
+            this.state.valid = false;
         }
     }
 
     
     async handleSubmit(event) {
         event.preventDefault();
-        await fetch(origin + '/api/email?email=' + this.state.value)
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "Thank you for subscribing!";
-                    setTimeout(() => {
-                        document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "";
-                    }, 3000);
-                }
-            });
+        if(this.state.valid) {
+            this.state.submitting = true;
+            document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "SUBMITTING...";
+            await fetch(origin + '/api/email?email=' + this.state.value)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "Thank you for subscribing!";
+                        setTimeout(() => {
+                            document.getElementsByClassName(styles.emailValidation)[0].innerHTML = "";
+                        }, 3000);
+                    }
+                });
+        }
     }
 
     render() {
@@ -63,12 +73,21 @@ class Connect extends Component {
                             onChange={this.handleChange}
                         />
                     </label>
-                    <button className={styles.emailSubmit} type="submit">
-                        <FontAwesomeIcon
-                            icon="arrow-circle-right"
-                            className={styles.submitIcon}
-                        />
-                    </button>
+                    {this.state.submitting ? 
+                        <button className={styles.emailSubmit}>
+                            <FontAwesomeIcon
+                                icon="arrow-circle-right"
+                                className={styles.submitIcon}
+                            />
+                        </button>
+                    :
+                        <button className={styles.emailSubmit} type="submit">
+                            <FontAwesomeIcon
+                                icon="arrow-circle-right"
+                                className={styles.submitIcon}
+                            />
+                        </button>
+                    }
                 </form>
                 <p className={styles.emailValidation}>
                 </p>
