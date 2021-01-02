@@ -78,7 +78,7 @@ export default async (req, res) => {
         // Create a list of player names to return
         data.data.getGame.players.items.forEach((player) => {
           if (player.id != data.data.getGame.host.id) {
-            players.push(player.name);
+            players.push(player);
           }
         });
       } else {

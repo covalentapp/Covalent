@@ -124,6 +124,10 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
         playerList.push(<Avatar key={index} name={player} />);
       }
 
+      function redirectPlayer() {
+        window.location.replace(origin);
+      }
+
       let res, data;
       let playerList = [];
       while (waiting) {
@@ -131,13 +135,15 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
         res = await fetch(origin + "/api/game?id=" + addedGameId);
         data = await res.json();
         if (data.players.length >= 0) {
-          data.players.forEach(appendPlayer);
+          data.players.forEach((player, i) => appendPlayer(player.name, i));
           addPlayers(playerList);
           playerList = [];
         } else if (data.enabled) {
           router.push("/submit");
           break;
         }
+        let playerStatus = data.players.some((player) => player.id === addedId);
+        if (!playerStatus) redirectPlayer();
         if (!ready) setReady(true);
         await delay(1000);
       }
