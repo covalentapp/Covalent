@@ -9,7 +9,6 @@ import ErrorGameNotFound from "../../components/ErrorGameNotFound";
 import ErrorFullGame from "../../components/ErrorFullGame";
 import ErrorWaiting from "../../components/ErrorWaiting";
 import Avatar from "../../components/Avatar";
-import game from "../api/game";
 import RedirectModal from "../../components/RedirectModal";
 
 const origin =
