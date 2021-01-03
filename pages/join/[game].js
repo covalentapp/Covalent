@@ -13,8 +13,8 @@ import game from "../api/game";
 
 const origin =
   process.env.NODE_ENV == "production"
-    ? "https://covalent.app"
-    : "http://localhost:3000";
+    ? "https://covalent.app/menu"
+    : "http://localhost:3000/menu";
 
 export default function JoinGame({ error, gameCheck, gameFull }) {
   const [playerName, setName] = useState("");
