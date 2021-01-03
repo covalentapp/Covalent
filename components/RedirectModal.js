@@ -7,7 +7,6 @@ class RedirectModal extends Component {
             <div className={styles.RedirectModal}>
                 <div className={styles.displayBlock}>
                 <h2 className={styles.displayText}>Sorry, you've been removed from the game.</h2>
-                <button onClick="() => {}"></button>
                 </div>
             </div>
         );
