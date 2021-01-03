@@ -10,6 +10,7 @@ import ErrorFullGame from "../../components/ErrorFullGame";
 import ErrorWaiting from "../../components/ErrorWaiting";
 import Avatar from "../../components/Avatar";
 import game from "../api/game";
+import RedirectModal from "../../components/RedirectModal";
 
 const origin =
   process.env.NODE_ENV == "production"
@@ -29,6 +30,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
   const [gamePlayers, addPlayers] = useState([]);
   const [ready, setReady] = useState(false);
   const [full, setFull] = useState(gameFull);
+  const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
 
@@ -125,6 +127,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
       }
 
       function redirectPlayer() {
+        setShowModal(true);
         window.location.replace(origin);
       }
 
@@ -262,7 +265,11 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
           </div>
         </div>
       )}
-
+     {(chrome && firefox) && showModal && ready && (
+        <div>
+            <RedirectModal link={"/menu"} />
+        </div>
+     )}
       {full && (
         <div>
           <ErrorFullGame link={"/menu"} />
