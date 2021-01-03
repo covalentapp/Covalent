@@ -127,7 +127,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
 
       function redirectPlayer() {
         setShowModal(true);
-        window.location.replace(origin);
+        window.location.replace(origin + "/menu");
       }
 
       let res, data;
@@ -264,7 +264,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
           </div>
         </div>
       )}
-     {(chrome && firefox) && showModal && ready && (
+     {showModal && ready && (
         <div>
             <RedirectModal link={"/menu"} />
         </div>
