@@ -14,8 +14,8 @@ import RedirectModal from "../../components/RedirectModal";
 
 const origin =
   process.env.NODE_ENV == "production"
-    ? "https://covalent.app/menu"
-    : "http://localhost:3000/menu";
+    ? "https://covalent.app"
+    : "http://localhost:3000";
 
 export default function JoinGame({ error, gameCheck, gameFull }) {
   const [playerName, setName] = useState("");
