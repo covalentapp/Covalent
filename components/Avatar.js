@@ -7,10 +7,17 @@ import { motion } from "framer-motion";
 @Catherine*/
 
 export default function Avatar(props) {
-  async function deletePlayer() {
-    let res = await fetch(
-      `${origin}/api/remove?id=${props.id}&host=${props.host}&player=${props.index}`
-    );
+  function DeleteButton(props) {
+    if (props.deletePlayer) {
+      return (
+        <button
+          onClick={() => props.deletePlayer(props.id, props.host, props.index)}
+        >
+          delete player
+        </button>
+      );
+    }
+    return null;
   }
   return (
     <motion.div
@@ -27,7 +34,12 @@ export default function Avatar(props) {
       <div className={styles.icon}>
         <Jdenticon value={props.name} />
       </div>
-      <button onClick={deletePlayer}>delete player</button>
+      <DeleteButton
+        deletePlayer={props.deletePlayer}
+        index={props.index}
+        id={props.id}
+        host={props.host}
+      />
       <h2 className={styles.name}>{props.name}</h2>
     </motion.div>
   );

@@ -159,9 +159,19 @@ export default function Settings() {
     }
 
     async function searchPlayers() {
+      async function deletePlayer(id, host, index) {
+        fetch(`${origin}/api/remove?id=${id}&host=${host}&player=${index}`);
+      }
+
       function appendPlayer(player, index) {
         playerList.push(
-          <Avatar index={index} id={gameId} host={hostId} name={player} />
+          <Avatar
+            index={index}
+            id={gameId}
+            host={hostId}
+            name={player}
+            deletePlayer={deletePlayer}
+          />
         );
       }
 
