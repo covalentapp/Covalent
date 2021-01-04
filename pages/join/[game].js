@@ -164,7 +164,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <title>Covalent | Join Game</title>
                 <meta property="og:title" content="Covalent | Join Game" />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://covalent.app/join/[game]" />
+                <meta property="og:url" content="https://covalent.app/join" />
                 <meta property="og:image" content="https://covalent.app/images/logo192.png" />
                 <meta property="og:image:type" content="image/png" />
                 <meta property="og:image:width" content="192" />
