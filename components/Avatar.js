@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../styles/Avatar.module.css";
 import Jdenticon from "react-jdenticon";
 import { motion } from "framer-motion";
+import { faBorderNone } from "@fortawesome/free-solid-svg-icons";
 
 /*This file is for the Avatar component for Covalent
 @Catherine*/
@@ -11,9 +12,12 @@ export default function Avatar(props) {
     if (props.deletePlayer) {
       return (
         <button
-          onClick={() => props.deletePlayer(props.id, props.host, props.index)}
+          className={styles.delete}
+          onClick={() => {
+            props.deletePlayer(props.id, props.host, props.index);
+          }}
         >
-          delete player
+          x
         </button>
       );
     }
