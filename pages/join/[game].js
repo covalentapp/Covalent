@@ -162,6 +162,14 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="icon" href="/favicon.ico" />
                 <title>Covalent | Join Game</title>
+                <meta property="og:title" content="Covalent | Join Game" />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://covalent.app/join" />
+                <meta property="og:image" content="https://covalent.app/images/logo192.png" />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="192" />
+                <meta property="og:image:height" content="192" />
+                <meta property="og:image:alt" content="Covalent logo" />
             </Head>
             <style jsx global>{`
                 body {

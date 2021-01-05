@@ -12,6 +12,31 @@ Returns:
 - Top tricksters (tricksters)
 - Number of players in game (numPlayers)
 - Number of players that are finished guessing (numPlayersDone)
+- All the fact sets as a list of objects, sorted alphabetically by player name (factSets)
+    example:
+    [
+        {
+            "facts": [
+                {
+                    "name": "truth 1",
+                    "valid": true
+                },
+                {
+                    "name": "truth 2",
+                    "valid": true
+                },
+                {
+                    "name": "this is the lie",
+                    "valid": false
+                }
+            ],
+            "player": {
+                "id": "...",
+                "name": "Player 1"
+            }
+        },
+        ...
+    ]
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -23,7 +48,7 @@ import { getGame } from "../../src/graphql/custom_queries/resultsQueries";
 
 export default async (req, res) => {
 
-    let error = null, waiting = false, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
+    let error = null, waiting = false, factsResponse = null, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
 
     if (req.query.id) {
 
@@ -111,7 +136,22 @@ export default async (req, res) => {
                             return (a.streak < b.streak) ? 1 : -1;
                         })
 
-                    
+                        factsResponse = gameData.data.getGame.facts.items.map(factset =>
+                            ({
+                                // Each object in factset.facts should have "name" and "valid" fields.
+                                facts: factset.facts,
+                                // Player should have "id" and "name" fields.
+                                player: factset.player
+                            })
+                        );
+                        // Sort fact sets alphabetically by player name.
+                        factsResponse.sort((a, b) => {
+                            let nameA = a.player.name.toUpperCase();
+                            let nameB = b.player.name.toUpperCase();
+                            if (nameA < nameB) return -1;
+                            if (nameA > nameB) return 1;
+                            return 0;
+                        })
                     } else {
                         error = "Waiting for other players to finish";
                         waiting = true;
@@ -134,6 +174,7 @@ export default async (req, res) => {
 
     res.statusCode = 200
     res.json({ 
+        factSets: factsResponse,
         guessers: guessers,
         tricksters: tricksters,
         numPlayers: numPlayers,
