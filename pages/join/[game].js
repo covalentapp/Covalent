@@ -134,18 +134,20 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
       let playerList = [];
       while (waiting) {
         // Implement: only allow to check a certain number of times
-        res = await fetch(origin + "/api/game?id=" + addedGameId);
+        res = await fetch(
+          `${origin}/api/game?id=${addedGameId}&player=${addedId}`
+        );
         data = await res.json();
+        console.log(data);
         if (data.players.length >= 0) {
-          data.players.forEach((player, i) => appendPlayer(player.name, i));
+          data.players.forEach((player, i) => appendPlayer(player, i));
           addPlayers(playerList);
           playerList = [];
         } else if (data.enabled) {
           router.push("/submit");
           break;
         }
-        let playerStatus = data.players.some((player) => player.id === addedId);
-        if (!playerStatus) redirectPlayer();
+        if (!data.isPlayerInGame) redirectPlayer();
         if (!ready) setReady(true);
         await delay(1000);
       }
@@ -264,11 +266,11 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
           </div>
         </div>
       )}
-     {showModal && ready && (
+      {showModal && ready && (
         <div>
-            <RedirectModal link={"/menu"} />
+          <RedirectModal link={"/menu"} />
         </div>
-     )}
+      )}
       {full && (
         <div>
           <ErrorFullGame link={"/menu"} />

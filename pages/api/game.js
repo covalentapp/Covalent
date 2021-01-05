@@ -7,6 +7,7 @@ Gets a game with a code or ID.
 Requires one:
 - Game ID (id)
 - Game code (code)
+- Player ID (player)
 
 Returns:
 - Description (name)
@@ -41,6 +42,7 @@ export default async (req, res) => {
     ready = false,
     code = null,
     players = [],
+    playerStatus = false,
     data;
 
   try {
@@ -78,9 +80,14 @@ export default async (req, res) => {
         // Create a list of player names to return
         data.data.getGame.players.items.forEach((player) => {
           if (player.id != data.data.getGame.host.id) {
-            players.push(player);
+            players.push(player.name);
           }
         });
+
+        //set player status to true if the player is still in game
+        playerStatus = data.data.getGame.players.items.some(
+          (player) => player.id === req.query.player
+        );
       } else {
         error = "Game not found.";
       }
@@ -101,6 +108,7 @@ export default async (req, res) => {
     ready: !error && data.data.getGame ? ready : null,
     host: !error && data.data.getGame ? data.data.getGame.host.name : null,
     players: !error && data.data.getGame ? players : null,
+    isPlayerInGame: !error && data.data.getGame ? playerStatus : null,
     playerNum: !error && data.data.getGame ? data.data.getGame.playerNum : null,
     full:
       !error && data.data.getGame

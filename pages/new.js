@@ -183,9 +183,7 @@ export default function Settings() {
         res = await fetch(origin + "/api/game?id=" + gameId);
         data = await res.json();
         if (data.players.length >= 0) {
-          data.players.forEach((player, index) =>
-            appendPlayer(player.name, index)
-          );
+          data.players.forEach((player, index) => appendPlayer(player, index));
           addPlayers(playerList);
           playerList = [];
         } else if (data.enabled) {
