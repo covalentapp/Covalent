@@ -7,6 +7,7 @@ Gets a game with a code or ID.
 Requires one:
 - Game ID (id)
 - Game code (code)
+Optional:
 - Player ID (player)
 
 Returns:
@@ -17,6 +18,9 @@ Returns:
 - Players' names (players)
 - Max player count (playerNum)
 - Number of players that have submitted their facts (numPlayersReady)
+- Whether optional specified player is in game (isPlayerInGame)
+- Game full (full)
+- Number of seconds per turn (seconds)
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -84,10 +88,13 @@ export default async (req, res) => {
           }
         });
 
-        //set player status to true if the player is still in game
-        playerStatus = data.data.getGame.players.items.some(
-          (player) => player.id === req.query.player
-        );
+        // If player is specified
+        if (req.query.player) {
+          //set player status to true if the player is still in game
+          playerStatus = data.data.getGame.players.items.some(
+            (player) => player.id === req.query.player
+          );
+        }
       } else {
         error = "Game not found.";
       }
