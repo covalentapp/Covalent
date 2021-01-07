@@ -55,7 +55,8 @@ export default async (req, res) => {
             if (data.data.getGame) {
                 if (data.data.getPlayer) {
                     // If the player doesn't have a set of facts, add the facts
-                    if (!data.data.getPlayer.facts) {
+                    let factsAlreadySubmitted = data.data.getGame.facts.items.some((factset) => factset.player.id === req.query.playerId);
+                    if (!factsAlreadySubmitted) {
                         data = await API.graphql(graphqlOperation(
                             createFacts,
                             {
