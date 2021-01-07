@@ -218,6 +218,7 @@ export default function Settings() {
         router.push("/submit");
       }
     }
+  }, [started]);
 
     return (
         <div className={styles.settingsBackground}>
