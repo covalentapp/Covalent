@@ -13,6 +13,7 @@ export default function Avatar(props) {
       return (
         <button
           className={styles.delete}
+          id={props.index}
           onClick={() => {
             props.deletePlayer(props.id, props.host, props.index);
           }}

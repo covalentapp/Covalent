@@ -159,10 +159,6 @@ export default function Settings() {
     }
 
     async function searchPlayers() {
-      async function deletePlayer(id, host, index) {
-        fetch(`${origin}/api/remove?id=${id}&host=${host}&player=${index}`);
-      }
-
       function appendPlayer(player, index) {
         playerList.push(
           <Avatar
@@ -178,18 +174,28 @@ export default function Settings() {
       let res, data;
       let playerList = [];
 
-      while (searching) {
-        // Implement: only allow to check a certain number of times
+      async function getPlayers() {
         res = await fetch(origin + "/api/game?id=" + gameId);
         data = await res.json();
         if (data.players.length >= 0) {
           data.players.forEach((player, index) => appendPlayer(player, index));
           addPlayers(playerList);
           playerList = [];
-        } else if (data.enabled) {
-          break;
         }
-        await delay(1000);
+      }
+
+      async function deletePlayer(id, host, index) {
+        let element = document.getElementById(index);
+        element.style.display = "none";
+        await fetch(
+          `${origin}/api/remove?id=${id}&host=${host}&player=${index}`
+        );
+      }
+
+      while (searching) {
+        // Implement: only allow to check a certain number of times
+        await getPlayers();
+        await delay(1500);
       }
     }
   }, [searching]);
@@ -220,165 +226,158 @@ export default function Settings() {
     }
   }, [started]);
 
-    return (
-        <div className={styles.settingsBackground}>
-            <style jsx global>{`
-                body {
-                    text-align: center;
-                    width: 100%;
-                    overflow: hidden;
-                }
-            `}</style>
-            <Head>
-                <meta charSet="utf-8" />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <meta name="theme-color" content="#000000" />
-                <meta
-                    name="description"
-                    content="Remote team-building made super simple"
-                />
-                <link rel="apple-touch-icon" href="/images/logo192.png" />
-                <link rel="manifest" href="/manifest.json" />
-                <link rel="icon" href="/favicon.ico" />
-                <title>Covalent | New Game</title>
-                <meta property="og:title" content="Covalent | New Game" />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://covalent.app/new" />
-                <meta property="og:image" content="https://covalent.app/images/logo192.png" />
-                <meta property="og:image:type" content="image/png" />
-                <meta property="og:image:width" content="192" />
-                <meta property="og:image:height" content="192" />
-                <meta property="og:image:alt" content="Covalent logo" />
-            </Head>
-            {(!chrome && !firefox) || mobile ? (
-                <div>
-                    <Error noLink={true} text="Covalent currently only supports Google Chrome or Mozilla Firefox on a computer." />
-                </div>
-            ) : (
-                <div>
-                    <motion.div
-                        initial="initial"
-                        animate={small ? "enter" : "exit"}
-                        exit="exit"
-                        variants={{
-                            initial: {
-                                opacity: 0,
-                                display: "none",
-                            },
-                            enter: {
-                                opacity: 1,
-                                display: "block",
-                                transition: {
-                                    duration: 0.1,
-                                    ease: "linear",
-                                },
-                            },
-                            exit: {
-                                opacity: 0,
-                                display: "none",
-                                transition: {
-                                    duration: 0.1,
-                                    ease: "linear",
-                                },
-                            },
-                        }}
-                    >
-                        <div className={styles.overlay} />
-                        <div className={styles.errorMsg}>
-                            <Error noLink={true} text="Please enlarge your browser to continue enjoying Covalent." />
-                        </div>
-                    </motion.div>
-                    <header>
-                        <div className={styles.logo}>
-                            <img
-                                src="/images/logo.svg"
-                                className={styles.logoImg}
-                                alt="Covalent Logo"
-                            ></img>
-                            <div>COVALENT</div>
-                        </div>
-                        <h1>HOST A GAME OF 2 TRUTHS AND A LIE!</h1>
-                        <div className={styles.button}>
-                            <button
-                                className={styles.exit}
-                                onClick={(e) => changePage(e, "/menu")}
-                            >
-                                Exit
-                            </button>
-                        </div>
-                    </header>
-                    <div className={styles.body}>
-                        <div className={styles.top}>
-                            <h1>Instructions</h1>
-                            <p>
-                                <i>
-                                    In 2 Truths and a Lie, you say (or in this
-                                    case, type) 3 statements about yourself, 2
-                                    of which should be truths and 1 of which
-                                    should be a lie. However, other players do
-                                    not know which statement is a lie! Their
-                                    objective is to guess which one is the lie,
-                                    and your objective is to make them choose
-                                    the wrong statement as the lie, so make the
-                                    truths as interesting as possible!
-                                </i>
-                            </p>
-                            <p>
-                                As the host, write instructions for your
-                                teammates and choose the settings for your game
-                                below:
-                            </p>
-                        </div>
-                        <div className={styles.settingsForm} id="settings-form">
-                            <b>
-                                <label htmlFor="rounds">Your Name: </label>
-                            </b>
-                            <input
-                                className={styles.long}
-                                type="text"
-                                placeholder="John Doe"
-                                onChange={(event) =>
-                                    setName(event.target.value)
-                                }
-                                readOnly={enabled}
-                            />
-                            <b>
-                                <label htmlFor="time">
-                                    Time Limit (30-300s):{" "}
-                                </label>
-                            </b>
-                            <input
-                                className={styles.settingsInput}
-                                type="number"
-                                min="30"
-                                max="300"
-                                step="30"
-                                defaultValue="30"
-                                onChange={(event) =>
-                                    setTime(event.target.value)
-                                }
-                                readOnly={enabled}
-                            />
-                            <b>
-                                <label htmlFor="players">
-                                    Player Count (1-50):{" "}
-                                </label>
-                            </b>
-                            <input
-                                className={styles.settingsInput}
-                                type="number"
-                                min="1"
-                                max="50"
-                                defaultValue="2"
-                                onChange={(event) =>
-                                    setPlayers(event.target.value)
-                                }
-                                readOnly={enabled}
-                            />
-                            {/*<b>
+  return (
+    <div className={styles.settingsBackground}>
+      <style jsx global>{`
+        body {
+          text-align: center;
+          width: 100%;
+          overflow: hidden;
+        }
+      `}</style>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta
+          name="description"
+          content="Remote team-building made super simple"
+        />
+        <link rel="apple-touch-icon" href="/images/logo192.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
+        <title>Covalent | New Game</title>
+        <meta property="og:title" content="Covalent | New Game" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://covalent.app/new" />
+        <meta
+          property="og:image"
+          content="https://covalent.app/images/logo192.png"
+        />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="192" />
+        <meta property="og:image:height" content="192" />
+        <meta property="og:image:alt" content="Covalent logo" />
+      </Head>
+      {(!chrome && !firefox) || mobile ? (
+        <div>
+          <Error
+            noLink={true}
+            text="Covalent currently only supports Google Chrome or Mozilla Firefox on a computer."
+          />
+        </div>
+      ) : (
+        <div>
+          <motion.div
+            initial="initial"
+            animate={small ? "enter" : "exit"}
+            exit="exit"
+            variants={{
+              initial: {
+                opacity: 0,
+                display: "none",
+              },
+              enter: {
+                opacity: 1,
+                display: "block",
+                transition: {
+                  duration: 0.1,
+                  ease: "linear",
+                },
+              },
+              exit: {
+                opacity: 0,
+                display: "none",
+                transition: {
+                  duration: 0.1,
+                  ease: "linear",
+                },
+              },
+            }}
+          >
+            <div className={styles.overlay} />
+            <div className={styles.errorMsg}>
+              <Error
+                noLink={true}
+                text="Please enlarge your browser to continue enjoying Covalent."
+              />
+            </div>
+          </motion.div>
+          <header>
+            <div className={styles.logo}>
+              <img
+                src="/images/logo.svg"
+                className={styles.logoImg}
+                alt="Covalent Logo"
+              ></img>
+              <div>COVALENT</div>
+            </div>
+            <h1>HOST A GAME OF 2 TRUTHS AND A LIE!</h1>
+            <div className={styles.button}>
+              <button
+                className={styles.exit}
+                onClick={(e) => changePage(e, "/menu")}
+              >
+                Exit
+              </button>
+            </div>
+          </header>
+          <div className={styles.body}>
+            <div className={styles.top}>
+              <h1>Instructions</h1>
+              <p>
+                <i>
+                  In 2 Truths and a Lie, you say (or in this case, type) 3
+                  statements about yourself, 2 of which should be truths and 1
+                  of which should be a lie. However, other players do not know
+                  which statement is a lie! Their objective is to guess which
+                  one is the lie, and your objective is to make them choose the
+                  wrong statement as the lie, so make the truths as interesting
+                  as possible!
+                </i>
+              </p>
+              <p>
+                As the host, write instructions for your teammates and choose
+                the settings for your game below:
+              </p>
+            </div>
+            <div className={styles.settingsForm} id="settings-form">
+              <b>
+                <label htmlFor="rounds">Your Name: </label>
+              </b>
+              <input
+                className={styles.long}
+                type="text"
+                placeholder="John Doe"
+                onChange={(event) => setName(event.target.value)}
+                readOnly={enabled}
+              />
+              <b>
+                <label htmlFor="time">Time Limit (30-300s): </label>
+              </b>
+              <input
+                className={styles.settingsInput}
+                type="number"
+                min="30"
+                max="300"
+                step="30"
+                defaultValue="30"
+                onChange={(event) => setTime(event.target.value)}
+                readOnly={enabled}
+              />
+              <b>
+                <label htmlFor="players">Player Count (1-50): </label>
+              </b>
+              <input
+                className={styles.settingsInput}
+                type="number"
+                min="1"
+                max="50"
+                defaultValue="2"
+                onChange={(event) => setPlayers(event.target.value)}
+                readOnly={enabled}
+              />
+              {/*<b>
                         <label htmlFor="players">Number of Rounds (1-10): </label>
                     </b>
                     <input
