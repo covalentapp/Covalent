@@ -34,9 +34,7 @@ export default function Settings() {
   const [firefox, setFirefox] = useState(false);
   const [chrome, setChrome] = useState(true);
   const [small, setSmall] = useState(false);
-  const [deletedPlayer, setDelete] = useState(() => {
-    return -1;
-  });
+  const [deletedPlayer, setDelete] = useState(-1);
 
   const router = useRouter();
 
