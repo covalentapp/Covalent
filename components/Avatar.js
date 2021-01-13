@@ -9,11 +9,11 @@ import { faBorderNone } from "@fortawesome/free-solid-svg-icons";
 
 export default function Avatar(props) {
   function DeleteButton(props) {
-    if (props.deletePlayer) {
+    if (props.deletePlayer && props.deleteIndex != props.index) {
       return (
         <button
           className={styles.delete}
-          id={props.index}
+          id={"delete-" + props.index}
           onClick={() => {
             props.deletePlayer(props.id, props.host, props.index);
           }}
@@ -21,9 +21,11 @@ export default function Avatar(props) {
           x
         </button>
       );
+    } else {
+      return null;
     }
-    return null;
   }
+
   return (
     <motion.div
       className={styles.Avatar}
@@ -44,6 +46,7 @@ export default function Avatar(props) {
         index={props.index}
         id={props.id}
         host={props.host}
+        deleteIndex={props.deleteIndex}
       />
       <h2 className={styles.name}>{props.name}</h2>
     </motion.div>

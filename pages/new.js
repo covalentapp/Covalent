@@ -34,6 +34,9 @@ export default function Settings() {
   const [firefox, setFirefox] = useState(false);
   const [chrome, setChrome] = useState(true);
   const [small, setSmall] = useState(false);
+  const [deletedPlayer, setDelete] = useState(() => {
+    return -1;
+  });
 
   const router = useRouter();
 
@@ -152,6 +155,9 @@ export default function Settings() {
   /*
     SEARCH FOR PLAYERS
     */
+  useEffect(() => {
+    console.log("the index of the deleted player is: " + deletedPlayer);
+  }, [deletedPlayer]);
 
   useEffect(() => {
     if (searching) {
@@ -167,6 +173,7 @@ export default function Settings() {
             host={hostId}
             name={player}
             deletePlayer={deletePlayer}
+            deleteIndex={deletedPlayer}
           />
         );
       }
@@ -174,28 +181,24 @@ export default function Settings() {
       let res, data;
       let playerList = [];
 
-      async function getPlayers() {
+      let deletePlayer = (id, host, index) => {
+        setDelete(index);
+        fetch(`${origin}/api/remove?id=${id}&host=${host}&player=${index}`);
+      };
+
+      while (searching) {
+        // Implement: only allow to check a certain number of times
         res = await fetch(origin + "/api/game?id=" + gameId);
         data = await res.json();
         if (data.players.length >= 0) {
           data.players.forEach((player, index) => appendPlayer(player, index));
           addPlayers(playerList);
           playerList = [];
+        } else if (data.enabled) {
+          break;
         }
-      }
-
-      async function deletePlayer(id, host, index) {
-        let element = document.getElementById(index);
-        element.style.display = "none";
-        await fetch(
-          `${origin}/api/remove?id=${id}&host=${host}&player=${index}`
-        );
-      }
-
-      while (searching) {
-        // Implement: only allow to check a certain number of times
-        await getPlayers();
-        await delay(1500);
+        console.log(deletedPlayer);
+        await delay(1000);
       }
     }
   }, [searching]);
