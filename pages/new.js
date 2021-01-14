@@ -34,7 +34,7 @@ export default function Settings() {
   const [firefox, setFirefox] = useState(false);
   const [chrome, setChrome] = useState(true);
   const [small, setSmall] = useState(false);
-  const [deletedPlayer, setDelete] = useState(-1);
+  // const [deletedPlayer, setDelete] = useState(-1);
 
   const router = useRouter();
 
@@ -153,14 +153,18 @@ export default function Settings() {
   /*
     SEARCH FOR PLAYERS
     */
-  useEffect(() => {
+  /*  useEffect(() => {
     console.log("the index of the deleted player is: " + deletedPlayer);
-  }, [deletedPlayer]);
+  }, [deletedPlayer]); */
 
   useEffect(() => {
     if (searching) {
       searchPlayers();
     }
+
+    let res, data;
+    let playerList = [];
+    let deletedPlayer = -1;
 
     async function searchPlayers() {
       function appendPlayer(player, index) {
@@ -171,18 +175,20 @@ export default function Settings() {
             host={hostId}
             name={player}
             deletePlayer={deletePlayer}
-            deleteIndex={deletedPlayer}
           />
         );
       }
 
-      let res, data;
-      let playerList = [];
-
-      let deletePlayer = (id, host, index) => {
-        setDelete(index);
-        fetch(`${origin}/api/remove?id=${id}&host=${host}&player=${index}`);
-      };
+      async function deletePlayer(id, host, index) {
+        if (deletedPlayer === -1) {
+          // created deletedPlayer variable to make sure that client can't remove more than one player at a time
+          deletedPlayer = index;
+          await fetch(
+            `${origin}/api/remove?id=${id}&host=${host}&player=${index}`
+          );
+          deletedPlayer = -1;
+        }
+      }
 
       while (searching) {
         // Implement: only allow to check a certain number of times
