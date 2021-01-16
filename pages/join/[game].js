@@ -1,43 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../../styles/Join.module.css';
-import Head from 'next/head';
-import { useRouter } from 'next/router'
-import { setCookie } from 'nookies'
-import SimpleButton from '../../components/SimpleButton';
-import Error from '../../components/Error';
-import ErrorGameNotFound from '../../components/ErrorGameNotFound';
-import ErrorFullGame from '../../components/ErrorFullGame';
-import ErrorWaiting from '../../components/ErrorWaiting';
+import React, { useState, useEffect } from "react";
+import styles from "../../styles/Join.module.css";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { setCookie } from "nookies";
+import SimpleButton from "../../components/SimpleButton";
+import Error from "../../components/Error";
+import ErrorGameNotFound from "../../components/ErrorGameNotFound";
+import ErrorFullGame from "../../components/ErrorFullGame";
+import ErrorWaiting from "../../components/ErrorWaiting";
 import Avatar from "../../components/Avatar";
-import game from '../api/game';
+import RedirectModal from "../../components/RedirectModal";
 
-const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
+const origin =
+  process.env.NODE_ENV == "production"
+    ? "https://covalent.app"
+    : "http://localhost:3000";
 
 export default function JoinGame({ error, gameCheck, gameFull }) {
+  const [playerName, setName] = useState("");
+  const [badName, nameError] = useState(false);
+  const [joined, setJoin] = useState(false);
+  const [addedId, playerId] = useState(null);
+  const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
+  const [waiting, gameLoading] = useState(null);
+  const [mobile, setMobile] = useState(false);
+  const [firefox, setFirefox] = useState(false);
+  const [chrome, setChrome] = useState(true);
+  const [gamePlayers, addPlayers] = useState([]);
+  const [ready, setReady] = useState(false);
+  const [full, setFull] = useState(gameFull);
+  const [showModal, setShowModal] = useState(false);
 
-    const [playerName, setName] = useState('');
-    const [badName, nameError] = useState(false);
-    const [joined, setJoin] = useState(false);
-    const [addedId, playerId] = useState(null); 
-    const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
-    const [waiting, gameLoading] = useState(null);
-    const [mobile, setMobile] = useState(false);
-    const [firefox, setFirefox] = useState(false);
-    const [chrome, setChrome] = useState(true);
-    const [gamePlayers, addPlayers] = useState([]);
-    const [ready, setReady] = useState(false);
-    const [full, setFull] = useState(gameFull);
+  const router = useRouter();
 
-    const router = useRouter();
+  // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
 
-    // Implement: if the IDs are in local storage & game ID matches local ID, load the player into the existing game
+  // Also: maybe implement framer motion for the new player avatars to make it look nicer
 
-    // Also: maybe implement framer motion for the new player avatars to make it look nicer
-
-    //checks chrome, firefox, or mobile
-    useEffect(() => {
-        //really long regex function to check mobile devices, use if nothing else works
-        /*(function (a) {
+  //checks chrome, firefox, or mobile
+  useEffect(() => {
+    //really long regex function to check mobile devices, use if nothing else works
+    /*(function (a) {
             setMobile(
                 /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
                     a
@@ -48,104 +51,111 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
             );
         })(navigator.userAgent || navigator.vendor || window.opera);*/
 
-        setMobile(navigator.userAgent.indexOf("Mobi") > -1);
-        setFirefox(navigator.userAgent.indexOf("Firefox") > -1);
-        setChrome(navigator.userAgent.indexOf("Chrome") > -1);
-    }, [mobile, firefox, chrome]);
+    setMobile(navigator.userAgent.indexOf("Mobi") > -1);
+    setFirefox(navigator.userAgent.indexOf("Firefox") > -1);
+    setChrome(navigator.userAgent.indexOf("Chrome") > -1);
+  }, [mobile, firefox, chrome]);
 
-    /* 
+  /* 
     Puts IDs into local storage
     */
 
-    useEffect(() => {
-        if (addedId && addedGameId) {
-            setCookie(null, 'gameID', addedGameId, {
-                maxAge: 24 * 60 * 60,
-                path: '/',
-            });
-            setCookie(null, 'playerID', addedId, {
-                maxAge: 24 * 60 * 60,
-                path: '/',
-            });
-        }
-    }, [addedId, addedGameId]);
+  useEffect(() => {
+    if (addedId && addedGameId) {
+      setCookie(null, "gameID", addedGameId, {
+        maxAge: 24 * 60 * 60,
+        path: "/",
+      });
+      setCookie(null, "playerID", addedId, {
+        maxAge: 24 * 60 * 60,
+        path: "/",
+      });
+    }
+  }, [addedId, addedGameId]);
 
-    /*
+  /*
     Updates when player name is set and submitted
     */
 
-    useEffect(() => {
-        if (joined) {
-            joinGame();
-        }
+  useEffect(() => {
+    if (joined) {
+      joinGame();
+    }
 
-        async function joinGame() {
-            let res, data;
-            res = await fetch(origin + '/api/join?playerName=' + playerName + '&code=' + gameCheck.code);
-            data = await res.json();
-            if (data.playerID) {
-                playerId(data.playerID); 
-                gameLoading(true);
-            } else {
-                setFull(true);
-            }
-        }
-    }, [joined]);
+    async function joinGame() {
+      let res, data;
+      res = await fetch(
+        origin +
+          "/api/join?playerName=" +
+          playerName +
+          "&code=" +
+          gameCheck.code
+      );
+      data = await res.json();
+      if (data.playerID) {
+        playerId(data.playerID);
+        gameLoading(true);
+      } else {
+        setFull(true);
+      }
+    }
+  }, [joined]);
 
-    /*
+  /*
     Checks if game has started
     */
 
-    useEffect(() => {
-        if (waiting) {
-            checkGame();
-        }
+  useEffect(() => {
+    if (waiting) {
+      checkGame();
+    }
 
-        async function checkGame () {
-            /* 
+    async function checkGame() {
+      /* 
             Slow down succeeding API calls to check for new players
 
             https://www.pentarem.com/blog/how-to-use-settimeout-with-async-await-in-javascript/
             */
 
-            function delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
+      function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
 
-            function appendPlayer(player, index) {
-                playerList.push(<Avatar key={index} name={player} />);
-            }
+      function appendPlayer(player, index) {
+        playerList.push(<Avatar key={index} name={player} />);
+      }
 
-            let res, data;
-            let playerList = [];
-
-            while (waiting) {
-                // Implement: only allow to check a certain number of times
-                res = await fetch(origin + '/api/game?id=' + addedGameId);
-                data = await res.json();
-                if (data.players.length > gamePlayers.length) {
-                    data.players.forEach(appendPlayer);
-                    addPlayers(playerList);
-                    playerList = [];
-                }
-                if (data.enabled) {
-                    router.push("/submit");
-                    break;
-                }
-                if(!ready)
-                    setReady(true);
-                await delay(1000);
-            }
+      let res, data;
+      let playerList = [];
+      while (waiting && !showModal) {
+        // Implement: only allow to check a certain number of times
+        res = await fetch(
+          `${origin}/api/game?id=${addedGameId}&player=${addedId}`
+        );
+        data = await res.json();
+        console.log(data);
+        if (data.players.length >= 0) {
+          data.players.forEach((player, i) => appendPlayer(player, i));
+          addPlayers(playerList);
+          playerList = [];
+        } else if (data.enabled) {
+          router.push("/submit");
+          break;
         }
-    }, [waiting]);
+        if (!data.isPlayerInGame) setShowModal(true);
+        if (!ready) setReady(true);
+        await delay(1000);
+      }
+    }
+  }, [waiting]);
 
-    /*nameError disappears after 3 seconds*/
-    useEffect(() => {
-        if (badName) {
-            setTimeout(() => {
-                nameError(false);
-            }, 3000);
-        }
+  /*nameError disappears after 3 seconds*/
+  useEffect(() => {
+    if (badName) {
+      setTimeout(() => {
+        nameError(false);
+      }, 3000);
+    }
     }, [badName]);
     
     return (
@@ -178,115 +188,134 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
                     overflow: hidden;
                 }
             `}</style>
-            
-            {error && 
-                <Error text={"An internal error occurred. We're sorry for the inconvenience."} />
-            }
 
-            {((!chrome && !firefox) || mobile) && (
-                <div>
-                    <Error noLink={true} text="Covalent currently only supports Google Chrome or Mozilla Firefox on a computer." />
-                </div>
-            )}
+      {error && (
+        <Error
+          text={
+            "An internal error occurred. We're sorry for the inconvenience."
+          }
+        />
+      )}
 
-            {!gameCheck && !error && 
-                
-                <div>
-                    <ErrorGameNotFound link={"/menu"} />
-                </div>
-            }
-
-            {(chrome || firefox) && !ready && !error && !full && gameCheck &&
-                <div className={styles.joinContainer}>
-                    <div className={styles.join}>
-                        <h2>Joining {gameCheck.host}'s game</h2>
-                        <i className={styles.instructions}>Instructions from host: {gameCheck.name}</i>    
-                        <input 
-                            type="text" 
-                            className={styles.name} 
-                            placeholder="ENTER YOUR NAME" 
-                            onChange={event => setName(event.target.value)} 
-                            onKeyPress={event => {
-                                if(event.key === 'Enter') {
-                                    if(playerName)
-                                        setJoin(true);
-                                    else
-                                        nameError(true);
-                                }
-                            }}
-                        />
-                        {!joined ? <SimpleButton name="join game" type="join" onClick={() => {
-                            if (playerName)
-                                setJoin(true);
-                            else
-                                nameError(true);
-                        }}/> :
-                            <SimpleButton name="joining..." type="join" />
-                        }   
-                    </div>
-                    {badName && <p>Please enter a valid name.</p>}   
-                </div>
-            }
-
-            {ready && !full &&
-                <div className={styles.joinedOuter}>
-                    <div className={styles.joinedContainer}>
-                        <div className={styles.waiting}>
-                            <ErrorWaiting text={`Waiting on ${gameCheck.host} to start the game.`} />
-                        </div>
-                        <div className={styles.joined}>
-                            <hr className={styles.line} />
-                            <h1>Joined: {gamePlayers.length}/{gameCheck.playerNum}</h1>
-
-                            <div id="players" className={styles.center}>
-                                {gamePlayers}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            {full &&
-                <div>
-                    <ErrorFullGame link={"/menu"} />
-                </div>
-            }
-        
+      {((!chrome && !firefox) || mobile) && (
+        <div>
+          <Error
+            noLink={true}
+            text="Covalent currently only supports Google Chrome or Mozilla Firefox on a computer."
+          />
         </div>
-    );
+      )}
+
+      {!gameCheck && !error && (
+        <div>
+          <ErrorGameNotFound link={"/menu"} />
+        </div>
+      )}
+
+      {(chrome || firefox) && !ready && !error && !full && gameCheck && (
+        <div className={styles.joinContainer}>
+          <div className={styles.join}>
+            <h2>Joining {gameCheck.host}'s game</h2>
+            <i className={styles.instructions}>
+              Instructions from host: {gameCheck.name}
+            </i>
+            <input
+              type="text"
+              className={styles.name}
+              placeholder="ENTER YOUR NAME"
+              onChange={(event) => setName(event.target.value)}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  if (playerName) setJoin(true);
+                  else nameError(true);
+                }
+              }}
+            />
+            {!joined ? (
+              <SimpleButton
+                name="join game"
+                type="join"
+                onClick={() => {
+                  if (playerName) setJoin(true);
+                  else nameError(true);
+                }}
+              />
+            ) : (
+              <SimpleButton name="joining..." type="join" />
+            )}
+          </div>
+          {badName && <p>Please enter a valid name.</p>}
+        </div>
+      )}
+
+      {ready && !full && (
+        <div className={styles.joinedOuter}>
+          <div className={styles.joinedContainer}>
+            <div className={styles.waiting}>
+              <ErrorWaiting
+                text={`Waiting on ${gameCheck.host} to start the game.`}
+              />
+            </div>
+            <div className={styles.joined}>
+              <hr className={styles.line} />
+              <h1>
+                Joined: {gamePlayers.length}/{gameCheck.playerNum}
+              </h1>
+
+              <div id="players" className={styles.center}>
+                {gamePlayers}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showModal && ready && (
+        <div>
+          <RedirectModal link={"/menu"} />
+        </div>
+      )}
+      {full && (
+        <div>
+          <ErrorFullGame link={"/menu"} />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export async function getServerSideProps({ params }) {
-    let res, data, error = null;
-    let gameCheck = {};
-    let gameFull = false;
-    let lowerCaseCode = params.game.toLowerCase();
-    try {
-        res = await fetch(origin + '/api/game?code=' + lowerCaseCode);
-        data = await res.json();
-        // Game doesn't exist
-        if (!data.id) {
-            gameCheck = null;
-        // Check if game is already full / enabled
-        } else if (data.full || data.enabled) {
-            gameFull = true;
-        } else {
-            gameCheck.code = lowerCaseCode;
-            gameCheck.host = data.host;
-            gameCheck.name = data.name;
-            gameCheck.id = data.id;
-            gameCheck.playerNum = data.playerNum;
-        }
-    } catch (err) {
-        error = true;
-        console.log(err);
+  let res,
+    data,
+    error = null;
+  let gameCheck = {};
+  let gameFull = false;
+  let lowerCaseCode = params.game.toLowerCase();
+  try {
+    res = await fetch(origin + "/api/game?code=" + lowerCaseCode);
+    data = await res.json();
+    // Game doesn't exist
+    if (!data.id) {
+      gameCheck = null;
+      // Check if game is already full / enabled
+    } else if (data.full || data.enabled) {
+      gameFull = true;
+    } else {
+      gameCheck.code = lowerCaseCode;
+      gameCheck.host = data.host;
+      gameCheck.name = data.name;
+      gameCheck.id = data.id;
+      gameCheck.playerNum = data.playerNum;
     }
+  } catch (err) {
+    error = true;
+    console.log(err);
+  }
 
-    return {
-        props: {
-            error,
-            gameCheck,
-            gameFull
-        },
-    }
+  return {
+    props: {
+      error,
+      gameCheck,
+      gameFull,
+    },
+  };
 }
