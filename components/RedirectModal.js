@@ -7,13 +7,13 @@ class RedirectModal extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        window.location = "https://covalent.app/";
+        window.location = "https://covalent.app/menu";
     }
     render() {
         return (
             <div>
                 <div className={styles.modal}>
-                    <div className={styles.modal-content}>
+                    <div className={styles.modalContent}>
                         <p>
                             Sorry, you've been removed from the game. Please
                             contact the host to rejoin.

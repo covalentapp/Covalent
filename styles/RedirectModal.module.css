@@ -12,7 +12,7 @@
     background-color: rgba(0,0,0,0.4); 
   }
   
-  .modal-content {
+  .modalContent {
     font-family: "Roboto", "sans-serif";
     text-align: center;
     background-color: #fefefe;
@@ -20,6 +20,7 @@
     padding: 20px;
     border: 1px solid rgb(42, 211, 223);
     width: 40%; 
+    border-radius: 20px;
   }
   
 

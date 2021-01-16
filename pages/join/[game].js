@@ -125,14 +125,9 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
         playerList.push(<Avatar key={index} name={player} />);
       }
 
-      function redirectPlayer() {
-        setShowModal(true);
-        window.location.replace(origin + "/menu");
-      }
-
       let res, data;
       let playerList = [];
-      while (waiting) {
+      while (waiting && !showModal) {
         // Implement: only allow to check a certain number of times
         res = await fetch(
           `${origin}/api/game?id=${addedGameId}&player=${addedId}`
@@ -147,7 +142,7 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
           router.push("/submit");
           break;
         }
-        if (!data.isPlayerInGame) redirectPlayer();
+        if (!data.isPlayerInGame) setShowModal(true);
         if (!ready) setReady(true);
         await delay(1000);
       }
