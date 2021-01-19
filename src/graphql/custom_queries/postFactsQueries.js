@@ -53,6 +53,7 @@ export const getPrevious = /* GraphQL */ `
       facts {
         facts
         correct
+        chosen
       }
     }
   }

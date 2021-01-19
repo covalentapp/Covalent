@@ -15,6 +15,7 @@ export const getGame = /* GraphQL */ `
         items {
           id
           facts {
+            id
             name
             valid
           }
@@ -30,6 +31,7 @@ export const getGame = /* GraphQL */ `
           facts {
             facts
             correct
+            chosen
           }
           player {
             id

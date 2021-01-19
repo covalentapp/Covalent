@@ -106,6 +106,7 @@ export default function Game({ cookies, error, time }) {
                         facts: data.facts,
                         name: name,
                         correct: data.correct,
+                        chosenId: data.chosen,
                     };
                     setResults(data.facts);
                     if (data.correct) {
