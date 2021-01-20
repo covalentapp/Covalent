@@ -201,7 +201,6 @@ export default function Settings() {
         } else if (data.enabled) {
           break;
         }
-        console.log(deletedPlayer);
         await delay(1000);
       }
     }
