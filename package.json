@@ -14,7 +14,7 @@
     "airtable": "^0.10.1",
     "aws-amplify": "3.3.1",
     "aws-sdk": "^2.761.0",
-    "framer": "^1.2.9",
+    "framer": "^1.2.14",
     "framer-motion": "^2.6.13",
     "mixpanel-browser": "^2.40.0",
     "next": "9.5.5",
