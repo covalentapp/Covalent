@@ -92,7 +92,7 @@ export default async (req, res) => {
                                             }
                                         ));
 
-                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected});
+                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected, chosen: req.query.factId});
 
                                         await API.graphql(graphqlOperation(
                                             updatePrevious,
