@@ -21,29 +21,29 @@ Returns:
             "facts": [
                 {
                     "name": "truth 1",
-                    "valid": true
+                    "valid": true,
                     "guessed": true
                 },
                 {
                     "name": "truth 2",
-                    "valid": true
+                    "valid": true,
                     "guessed": false
                 },
                 {
                     "name": "this is the lie",
-                    "valid": false
+                    "valid": false,
                     "guessed": false
                 }
             ],
             "player": {
                 "id": "...",
-                "name": "Player 1",
+                "name": "Player 1"
             }
         },
         ...
     ]
 - Current player's own facts (ownFacts)
-    "ownFacts": [
+    [
         {
             "name": "truth 1",
             "valid": true
@@ -73,7 +73,7 @@ export default async (req, res) => {
     if (!req.query.id || !req.query.playerId) {
         error = "Game ID or Player ID missing.";
         res.statusCode = 200
-        res.json({ 
+        res.json({
             error: error
         })
     }
@@ -163,46 +163,32 @@ export default async (req, res) => {
                             return (a.streak < b.streak) ? 1 : -1;
                         })
 
-                        // loops through each factset to separate ownFacts and factsResponse
+                        // Loops through each factset to separate ownFacts and factsResponse
                         gameData.data.getGame.facts.items.forEach(factset => {
-                            let newFacts = null;
-
-                            // separates out the player's own fact set and pushes to ownFacts
-                            if (factset.player.id == req.query.playerId) {
+                            // Separates out the player's own fact set and pushes to ownFacts
+                            if (factset.player.id === req.query.playerId) {
                                 ownFacts = factset.facts.map(fact => ({
                                     name: fact.name,
                                     valid: fact.valid,
-                                }));        
-                            } else {
-                                // pushes other fact sets to factResponse (at bottom of else)
-
-                                // This adds in "guessed" field and gets rid of "id" field.
-                                newFacts = factset.facts.map(fact => ({
-                                    name: fact.name,
-                                    valid: fact.valid,
-                                    guessed: false,
                                 }));
-
-                                // Find the previous object that corresponds to this player's guess on this fact set
-                                    // (matching fact set ID and player ID)
-                                // Then from the previous object, get the id of the guessed fact (called chosen)
-                                // Then for each fact in this set, if fact ID == chosen, set guessed = true, otherwise set guessed = false
-                                // gameData.data.getGame.previous.items[i].facts[j].facts is the fact set ID of the previous object
-                                // gameData.data.getGame.previous.items[i].facts[j].chosen is the id of the chosen fact
-                                // factset.facts[j].id is the id of the individual fact
-                                
-                                let i, len = gameData.data.getGame.previous.items.length;
-                                for (i = 0; i < len; i++) {
-                                    let previous = gameData.data.getGame.previous.items[i];
-                                    // If this previous object matches the player and the factset
-                                    if (previous.player.id == req.query.playerId && previous.facts[0].facts == factset.id) {
-                                        factset.facts.forEach(fact => {
-                                            // If this fact was the chosen fact, guessed is true, otherwise false
-                                            fact.guessed = (fact.id == previous.facts[0].chosen);
-                                        });
-                                        break;
+                            } else {
+                                // Pushes other fact sets to factsResponse (at bottom of else)
+                                // Get the previous object holding this player's guesses.
+                                let previous = gameData.data.getGame.previous.items.find(prev => prev.player.id === req.query.playerId);
+                                let chosenFactId = null;
+                                if (previous !== undefined) {
+                                    // Find this fact set inside the previous and get the id of the guessed fact.
+                                    let fs = previous.facts.find(f => f.facts === factset.id);
+                                    if (fs !== undefined) {
+                                        chosenFactId = fs.chosen;
                                     }
                                 }
+                                // Mark the chosen fact as guessed (and get rid of "id" field).
+                                let newFacts = factset.facts.map(fact => ({
+                                    name: fact.name,
+                                    valid: fact.valid,
+                                    guessed: fact.id === chosenFactId,
+                                }));
 
                                 factsResponse.push({
                                     // Each object in factset.facts should have "name", "valid", and "guessed" fields.
@@ -216,7 +202,6 @@ export default async (req, res) => {
                         error = "Waiting for other players to finish";
                         waiting = true;
                     }
-                    
                 } else {
                     error = "This game hasn't started yet.";
                 }
