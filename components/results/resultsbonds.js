@@ -37,7 +37,7 @@ import styles from "../../styles/ResultsBonds.module.css";
     },
 ];*/
 
-export default function ResultsBonds({ list }) {
+export default function ResultsBonds({ list, ownFacts, ownName }) {
     return (
         <ul className={styles.ResultsBody}>
             <span className={styles.bondText}>
@@ -52,32 +52,36 @@ export default function ResultsBonds({ list }) {
                             {item.player.name}
                         </div>
                         <div className={styles.flexBox}>
-                            <div className={styles.bondTruth}>
+                            <div className={styles.bondTruth} style={{fontWeight: item.facts[0].guessed ? 'bold' : 'normal'}}>
                                 {item.facts[0].name}
                             </div>
-                            <div className={styles.bondTruth}>
+                            <div className={styles.bondTruth} style={{fontWeight: item.facts[1].guessed ? 'bold' : 'normal'}}>
                                 {item.facts[1].name}
                             </div>
-                            <div className={styles.bondLie}>
+                            <div className={styles.bondLie} style={{fontWeight: item.facts[2].guessed ? 'bold' : 'normal'}}>
                                 {item.facts[2].name}
                             </div>
                         </div>
-
-                        {/* need to add the connections array from game.js to backend */
-                        /*<li key={item.player.id}>
-                            <div className={styles.bondDivider}></div>
-                            <div className={styles.bondName}>
-                                <FontAwesomeIcon icon={item.icon} className={styles.bondIcon} />
-                                {item.name}
-                            </div>
-                            <div className={styles.flexBox}>
-                                <div className={styles.bondTruth}>{item.truth1}</div>
-                                <div className={styles.bondTruth}>{item.truth2}</div>
-                                <div className={styles.bondLie}>{item.lie}</div>
-                            </div>
-                        </li>*/}
                     </li>
                 ))}
+                <h>Your 2 Truths and a Lie</h>
+                <li className={styles.bond}>
+                    <div className={styles.bondDivider}></div>
+                    <div className={styles.bondName}>
+                        {ownName}
+                    </div>
+                    <div className={styles.flexBox}>
+                        <div className={styles.bondTruth}>
+                            {ownFacts[0].name}
+                        </div>
+                        <div className={styles.bondTruth}>
+                            {ownFacts[1].name}
+                        </div>
+                        <div className={styles.bondLie}>
+                            {ownFacts[2].name}
+                        </div>
+                    </div>
+                </li>
             </div>
         </ul>
     );

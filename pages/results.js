@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Results ({ cookies, error, tricksters, guessers, waiting, list }) {
+export default function Results ({ cookies, error, tricksters, guessers, waiting, list, ownFacts, ownName }) {
 
     const router = useRouter();
     const [numReady, setNumRdy] = useState(0);
@@ -178,7 +178,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                         </div>
                         <hr />
                         {bonds ?
-                            <ResultsBonds list={list} />
+                            <ResultsBonds list={list} ownFacts={ownFacts} ownName={ownName}/>
                         :
                             <ResultsMain tricksters={tricksters} guessers={guessers} />
                         }
@@ -202,15 +202,17 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
-    let res, data, error = null, waiting = null, tricksters = null, guessers = null, list = null;
+    let res, data, error = null, waiting = null, tricksters = null, guessers = null, list = null, ownFacts = null, ownName = null;
 
-    if (cookies.gameID) {
-        res = await fetch(origin + '/api/results?id=' + cookies.gameID);
+    if (cookies.gameID && cookies.playerID) {
+        res = await fetch(origin + '/api/results?id=' + cookies.gameID + '&playerId=' + cookies.playerID);
         data = await res.json();
         tricksters = data.tricksters;
         guessers = data.guessers;
         waiting = data.waiting;
         list = data.factSets;
+        ownFacts = data.ownFacts;
+        ownName = data.ownName;
     } else {
         error = "You're not currently in a game."
     }
@@ -223,6 +225,8 @@ export async function getServerSideProps(ctx) {
             tricksters,
             guessers,
             list,
+            ownFacts,
+            ownName,
         }
     }
 }

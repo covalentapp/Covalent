@@ -201,7 +201,6 @@ export default function Settings() {
         } else if (data.enabled) {
           break;
         }
-        console.log(deletedPlayer);
         await delay(1000);
       }
     }
@@ -442,7 +441,7 @@ export default function Settings() {
                   type="copy"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      "https://covalent.app/join/" + code
+                      origin + "/join/" + code
                     );
                     setCopied(true);
                   }}
