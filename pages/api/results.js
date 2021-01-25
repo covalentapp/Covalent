@@ -42,7 +42,7 @@ Returns:
         },
         ...
     ]
-- Player name (ownName)
+- COMMENTED OUT: Player name (ownName)
 - Current player's own facts (ownFacts)
     [
         {
@@ -69,7 +69,7 @@ import { getGame } from "../../src/graphql/custom_queries/resultsQueries";
 
 export default async (req, res) => {
 
-    let error = null, waiting = false, factsResponse = [], ownName = null, ownFacts = null, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
+    let error = null, waiting = false, factsResponse = [], /* ownName = null, */ ownFacts = null, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
 
     if (!req.query.id || !req.query.playerId) {
         error = "Game ID or Player ID missing.";
@@ -168,7 +168,7 @@ export default async (req, res) => {
                         gameData.data.getGame.facts.items.forEach(factset => {
                             // Separates out the player's own fact set and pushes to ownFacts
                             if (factset.player.id === req.query.playerId) {
-                                ownName = factset.player.name;
+                                // ownName = factset.player.name;
                                 ownFacts = factset.facts.map(fact => ({
                                     name: fact.name,
                                     valid: fact.valid,
@@ -219,7 +219,7 @@ export default async (req, res) => {
 
     res.statusCode = 200
     res.json({ 
-        ownName: ownName,
+        // ownName: ownName,
         ownFacts: ownFacts,
         factSets: factsResponse,
         guessers: guessers,

@@ -37,7 +37,7 @@ import styles from "../../styles/ResultsBonds.module.css";
     },
 ];*/
 
-export default function ResultsBonds({ list, ownFacts, ownName }) {
+export default function ResultsBonds({ list, ownFacts }) {
     return (
         <ul className={styles.ResultsBody}>
             <span className={styles.bondText}>
@@ -64,11 +64,10 @@ export default function ResultsBonds({ list, ownFacts, ownName }) {
                         </div>
                     </li>
                 ))}
-                <h>Your 2 Truths and a Lie</h>
-                <li className={styles.bond}>
-                    <div className={styles.bondDivider}></div>
+                <hr />
+                <li className={styles.ownBond}>
                     <div className={styles.bondName}>
-                        {ownName}
+                    Your 2 Truths and a Lie
                     </div>
                     <div className={styles.flexBox}>
                         <div className={styles.bondTruth}>

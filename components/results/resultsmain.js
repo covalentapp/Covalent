@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../../styles/Results.module.css";
-import SimpleButton from "../SimpleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 

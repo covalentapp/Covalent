@@ -178,19 +178,28 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                         </div>
                         <hr />
                         {bonds ?
-                            <ResultsBonds list={list} ownFacts={ownFacts} ownName={ownName}/>
+                            <ResultsBonds list={list} ownFacts={ownFacts}/>
                         :
                             <ResultsMain tricksters={tricksters} guessers={guessers} />
                         }
                         <hr />
                         <div className={styles.exit}>
                             <div>THANKS FOR PLAYING!</div>
-                            <SimpleButton
-                                name="EXIT TO MENU"
-                                type="host"
-                                style={{ padding: "0 1.5vw" }}
-                                onClick={() => router.push("/menu")}
-                            ></SimpleButton>
+                            <div className={styles.exitButtons}>
+                                <SimpleButton
+                                    name="EXIT TO MENU"
+                                    type="host"
+                                    style={{ padding: "0 1.5vw" }}
+                                    onClick={() => router.push("/menu")}
+                                ></SimpleButton>
+                                <SimpleButton
+                                    name="FEEDBACK"
+                                    type="purple"
+                                    style={{ padding: "0 1.5vw" }}
+                                    onClick={() => { 
+                                        window.open("https://form.typeform.com/to/kFozUj4m"); }}
+                                ></SimpleButton>
+                            </div>
                         </div>
                     </div>
                 </div>
