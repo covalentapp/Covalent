@@ -7,9 +7,15 @@ import Features from "../components/landing/Features";
 import LandingGames from "../components/landing/LandingGames";
 import Contact from "../components/landing/Contact";
 import Footer from "../components/landing/Footer";
+
+/* MIXPANEL: Landing Page Visits */
+
 var mixpanel = require("mixpanel-browser");
 mixpanel.init("92c1e92aad6c8ad0239edbd97ceac712");
-mixpanel.track("Site Visit");
+
+if (process.env.NODE_ENV == "production") {
+  mixpanel.track("Site Visit");
+}
 
 export default function Home() {
   return (
