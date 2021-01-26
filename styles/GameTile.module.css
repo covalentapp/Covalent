@@ -1,0 +1,47 @@
+.cardTile {
+    width: 8vw;
+    border-radius: 0.75rem;
+    margin: 1vw;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .cardTileText {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  
+    text-align: center;
+    justify-content: center;
+    vertical-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.6rem;
+  }
+
+  .cardTileQ {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  
+    text-align: center;
+    justify-content: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.75rem;
+  }
+  .cardTileA {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  
+    text-align: center;
+    justify-content: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1rem;
+  }
