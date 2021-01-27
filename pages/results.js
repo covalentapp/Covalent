@@ -172,7 +172,7 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                             </div>
                             <div className={styles.screenSwitch}>
                                 <button className={styles.screenSwitchButton} onClick={() => {setBonds(!bonds)}}>
-                                    {bonds ? 'Results' : 'All Bonds'}
+                                    {bonds ? 'Switch to Results' : 'Switch to All Bonds'}
                                 </button>
                             </div>
                         </div>
