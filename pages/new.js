@@ -7,6 +7,7 @@ import Avatar from "../components/Avatar";
 import styles from "../styles/Settings.module.css";
 import Error from "../components/Error";
 import { motion } from "framer-motion";
+var mixpanel = require("mixpanel-browser");
 
 /*This file is for the Settings component for Covalent
 @Catherine*/
@@ -226,6 +227,10 @@ export default function Settings() {
         setStart(false);
         setError("There are no players in this game!");
       } else {
+        mixpanel.init("92c1e92aad6c8ad0239edbd97ceac712"); // MIXPANEL: Games Started
+        if (process.env.NODE_ENV == "production") {
+          mixpanel.track("Games Started");
+        }
         await delay(1000);
         router.push("/submit");
       }

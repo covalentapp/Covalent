@@ -1,0 +1,57 @@
+.box {
+    width: 18em;
+    border-radius: 1em;
+    font-size: 16px;
+}
+
+@media (max-width: 1280px) {
+    .box {
+        font-size: 12px;
+    }
+}
+
+.boxText {
+    padding: 1em;
+    text-align: center;
+}
+
+.boxText h3 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1em;
+    line-height: 50%;
+    letter-spacing: 0.05em;
+}
+
+.boxText h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2.5em;
+    line-height: 50%;
+    letter-spacing: 0.05em;
+}
+
+.boxText h2 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2em;
+    line-height: 50%;
+    letter-spacing: 0.05em;
+}
+
+.boxText p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.5em;
+    line-height: 50%;
+    letter-spacing: 0.05em;
+}
+
+.divider {
+    margin: 0.5em;
+    border-top: 2px solid black;
+}

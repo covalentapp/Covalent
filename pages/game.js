@@ -256,7 +256,15 @@ export default function Game({ cookies, error, time }) {
                                 className={styles.scoreIcon}
                             />
                         </div>
+                        <div className={styles.gameSideHeader}>
+                            <div className={styles.prevText}>
+                                <p>PREVIOUS BONDS</p>
+                            </div>
+                            <div className={styles.gameSideBondDivider}></div>
+                        </div>
+                        <div className={styles.gameSidePrevious}>
                         <PreviousBonds connections={connections} />
+                        </div>
                     </div>
                 </div>
             )}

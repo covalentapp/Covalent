@@ -105,6 +105,29 @@
     background: #ffffff;
 }
 
+.gameSideHeader {
+    width: 42%;
+    margin-top: 1em;
+    padding: 0 2.5em;
+}
+
+.prevText {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1vmin);
+    letter-spacing: .3em;
+    text-indent: .3em;
+    color: #888888;
+    text-align: center;
+}
+
+.gameSideBondDivider {
+    width: 100%;
+    margin: 1em 0;
+    border-top: 2px solid #e1e1e1;
+}
+
 .scoreBox {
     margin-top: 2vmin;
     height: 6vmin;
