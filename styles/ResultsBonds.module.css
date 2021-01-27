@@ -7,6 +7,7 @@
     align-self: center;
     text-align: center;
     align-items: center;
+    margin-bottom: 0;
 }
 
 .ResultsBody .ResultsBonds {
@@ -22,6 +23,17 @@
     overflow-x: hidden;*//*for inner scrollbar*/
 }
 
+.ResultsBody h1 {
+    padding-top: 1vh;
+    margin: 0;
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(4px + 2vmin);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 .ResultsBody p {
     font-family: Roboto Slab;
     font-style: normal;
@@ -30,6 +42,10 @@
     letter-spacing: 0.05em;
     color: #5A4FCF;
     line-height: 0;
+}
+
+.ResultsBonds hr {
+    width: 100%;
 }
 
 .bondText {
@@ -43,6 +59,14 @@
     flex-direction: column;
     align-items: center;
     padding-top: 2vh;
+    width: 100%;
+    height: 100%;
+}
+
+.ownBond {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     height: 100%;
 }

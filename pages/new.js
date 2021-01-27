@@ -446,7 +446,7 @@ export default function Settings() {
                   type="copy"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      "https://covalent.app/join/" + code
+                      origin + "/join/" + code
                     );
                     setCopied(true);
                   }}

@@ -6,6 +6,7 @@ Gets the results of a game.
 
 Requires:
 - Game ID (id)
+- Player ID (playerId)
 
 Returns:
 - Top guessers (guessers)
@@ -13,21 +14,25 @@ Returns:
 - Number of players in game (numPlayers)
 - Number of players that are finished guessing (numPlayersDone)
 - All the fact sets as a list of objects, sorted alphabetically by player name (factSets)
+    Note: excludes the requesting player's own fact set
     example:
     [
         {
             "facts": [
                 {
                     "name": "truth 1",
-                    "valid": true
+                    "valid": true,
+                    "guessed": true
                 },
                 {
                     "name": "truth 2",
-                    "valid": true
+                    "valid": true,
+                    "guessed": false
                 },
                 {
                     "name": "this is the lie",
-                    "valid": false
+                    "valid": false,
+                    "guessed": false
                 }
             ],
             "player": {
@@ -37,6 +42,22 @@ Returns:
         },
         ...
     ]
+- COMMENTED OUT: Player name (ownName)
+- Current player's own facts (ownFacts)
+    [
+        {
+            "name": "truth 1",
+            "valid": true
+        },
+        {
+            "name": "truth 2",
+            "valid": true
+        },
+        {
+            "name": "this is the lie",
+            "valid": false
+        }
+    ],
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -48,9 +69,16 @@ import { getGame } from "../../src/graphql/custom_queries/resultsQueries";
 
 export default async (req, res) => {
 
-    let error = null, waiting = false, factsResponse = null, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
+    let error = null, waiting = false, factsResponse = [], /* ownName = null, */ ownFacts = null, gameData, guessers = [], tricksters = [], numPlayers = 0, numPlayersDone = 0;
 
-    if (req.query.id) {
+    if (!req.query.id || !req.query.playerId) {
+        error = "Game ID or Player ID missing.";
+        res.statusCode = 200
+        res.json({
+            error: error
+        })
+    }
+    else {
 
         try {
             gameData = await API.graphql(graphqlOperation(
@@ -136,27 +164,46 @@ export default async (req, res) => {
                             return (a.streak < b.streak) ? 1 : -1;
                         })
 
-                        factsResponse = gameData.data.getGame.facts.items.map(factset =>
-                            ({
-                                // Each object in factset.facts should have "name" and "valid" fields.
-                                facts: factset.facts,
-                                // Player should have "id" and "name" fields.
-                                player: factset.player
-                            })
-                        );
-                        // Sort fact sets alphabetically by player name.
-                        factsResponse.sort((a, b) => {
-                            let nameA = a.player.name.toUpperCase();
-                            let nameB = b.player.name.toUpperCase();
-                            if (nameA < nameB) return -1;
-                            if (nameA > nameB) return 1;
-                            return 0;
-                        })
+                        // Loops through each factset to separate ownFacts and factsResponse
+                        gameData.data.getGame.facts.items.forEach(factset => {
+                            // Separates out the player's own fact set and pushes to ownFacts
+                            if (factset.player.id === req.query.playerId) {
+                                // ownName = factset.player.name;
+                                ownFacts = factset.facts.map(fact => ({
+                                    name: fact.name,
+                                    valid: fact.valid,
+                                }));
+                            } else {
+                                // Pushes other fact sets to factsResponse (at bottom of else)
+                                // Get the previous object holding this player's guesses.
+                                let previous = gameData.data.getGame.previous.items.find(prev => prev.player.id === req.query.playerId);
+                                let chosenFactId = null;
+                                if (previous !== undefined) {
+                                    // Find this fact set inside the previous and get the id of the guessed fact.
+                                    let fs = previous.facts.find(f => f.facts === factset.id);
+                                    if (fs !== undefined) {
+                                        chosenFactId = fs.chosen;
+                                    }
+                                }
+                                // Mark the chosen fact as guessed (and get rid of "id" field).
+                                let newFacts = factset.facts.map(fact => ({
+                                    name: fact.name,
+                                    valid: fact.valid,
+                                    guessed: chosenFactId != -1 ? (fact.id == chosenFactId) : false,
+                                }));
+
+                                factsResponse.push({
+                                    // Each object in factset.facts should have "name", "valid", and "guessed" fields.
+                                    facts: newFacts,
+                                    // Player should have "id" and "name" fields.
+                                    player: factset.player,
+                                });
+                            }
+                        });
                     } else {
                         error = "Waiting for other players to finish";
                         waiting = true;
                     }
-                    
                 } else {
                     error = "This game hasn't started yet.";
                 }
@@ -168,12 +215,12 @@ export default async (req, res) => {
             console.log(err);
             error = err;
         }
-    } else {
-        error = "No game id provided.";
     }
 
     res.statusCode = 200
     res.json({ 
+        // ownName: ownName,
+        ownFacts: ownFacts,
         factSets: factsResponse,
         guessers: guessers,
         tricksters: tricksters,

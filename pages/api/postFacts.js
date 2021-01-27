@@ -92,7 +92,7 @@ export default async (req, res) => {
                                             }
                                         ));
 
-                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected});
+                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected, chosen: req.query.factId ? req.query.factId : -1,});
 
                                         await API.graphql(graphqlOperation(
                                             updatePrevious,
@@ -116,7 +116,8 @@ export default async (req, res) => {
                                             facts: 
                                                 [{
                                                     facts: req.query.factsId,
-                                                    correct: !selected
+                                                    correct: !selected,
+                                                    chosen: req.query.factId ? req.query.factId : -1, //added chosen
                                                 }],
                                             ttl: Math.floor(new Date().getTime() / 1000) + 86400
                                         }
@@ -142,6 +143,7 @@ export default async (req, res) => {
                         res.json({ 
                             facts: (!error) ? facts.data.getFacts.facts : null,
                             correct: (!error) ? !selected : null,
+                            chosen: (!error) ? req.query.factId : null, //add chosen
                             error: error
                         })
                 }  else {

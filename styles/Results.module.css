@@ -75,14 +75,14 @@
     line-height: 10px; /*temporary*/
 }
 
-/*@media all and (max-width: 1000px) {
+@media all and (max-width: 1000px) {
     .Results {
-        /* Widen container 
+        /* Widen container */
         left: 15%;
         right: 15%;
         width: 70%;
     }
-}*/
+}
 /*messing with styling ResultsBonds atm*/
 
 .ResultsBody {
@@ -286,7 +286,14 @@
     align-self: center;
 }
 
-.exit div {
+.Results .exit .exitButtons {
+    width: calc(120px + 50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.exit>div {
     padding: 1vh 0 3vh;
 }
 

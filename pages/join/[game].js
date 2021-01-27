@@ -133,12 +133,11 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
           `${origin}/api/game?id=${addedGameId}&player=${addedId}`
         );
         data = await res.json();
-        console.log(data);
         if (data.players.length >= 0) {
           data.players.forEach((player, i) => appendPlayer(player, i));
           addPlayers(playerList);
           playerList = [];
-        } 
+        }
         if (data.enabled) {
           router.push("/submit");
           break;
