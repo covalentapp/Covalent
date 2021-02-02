@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "../../styles/SidebarTeam.module.css";
+import styles from "../../styles/25questions/SidebarTeam.module.css";
 
 // SAMPLE USAGE:
 // import React from "react";

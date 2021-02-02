@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "../../styles/GameTile.module.css";
+import styles from "../../styles/25questions/GameTile.module.css";
 
 //Props that must be passed in:
 //  - Item Prop:
