@@ -221,7 +221,7 @@ export async function getServerSideProps(ctx) {
         waiting = data.waiting;
         list = data.factSets;
         ownFacts = data.ownFacts;
-        ownName = data.ownName;
+        ownName = data.ownName ?? '';
     } else {
         error = "You're not currently in a game."
     }

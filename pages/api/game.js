@@ -21,6 +21,7 @@ Returns:
 - Whether optional specified player is in game (isPlayerInGame)
 - Game full (full)
 - Number of seconds per turn (seconds)
+- Whether player has already submitted their facts (playerSubmittedFacts)
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -47,6 +48,7 @@ export default async (req, res) => {
     code = null,
     players = [],
     playerStatus = false,
+    playerSubmittedFacts = null,
     data;
 
   try {
@@ -94,6 +96,10 @@ export default async (req, res) => {
           playerStatus = data.data.getGame.players.items.some(
             (player) => player.id === req.query.player
           );
+          // Check if player has submitted their facts already
+          playerSubmittedFacts = data.data.getGame.facts.items.some(
+            (factset) => factset.player.id === req.query.player
+          )
         }
       } else {
         error = "Game not found.";
@@ -125,6 +131,7 @@ export default async (req, res) => {
       !error && data.data.getGame ? data.data.getGame.playerSeconds : null,
     numPlayersReady:
       !error && data.data.getGame ? data.data.getGame.facts.items.length : null,
+    playerSubmittedFacts: !error ? playerSubmittedFacts : null,
     error: error,
   });
 };
