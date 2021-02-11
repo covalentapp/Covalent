@@ -12,26 +12,16 @@ class CardGameBoard extends Component {
         return (
             <div className={styles.all}>
                 <div className={styles.board}>
-                    <div classname={styles.childOne}>
                         <h2>category 1</h2>
                         {totalCards}
-                    </div>
-                    <div classname={styles.childTwo}>
                         <h2>category 2</h2>
                         {totalCards}
-                    </div>
-                    <div classname={styles.childThree}>
                         <h2>category 3</h2>
                         {totalCards}
-                    </div>
-                    <div classname={styles.childFour}>
                         <h2>category 4</h2>
                         {totalCards}
-                    </div>
-                    <div classname={styles.childFive}>
                         <h2>category 5</h2>
                         {totalCards}
-                    </div>
                 </div>
             </div>
         );
@@ -46,6 +36,21 @@ export default CardGameBoard;
 //     return (
 //         <div className={styles.Custom404}>
 //            <CardGameBoard />
+//         </div>
+
+//     )
+// }
+
+
+// export default function Custom404() {
+//     return (
+//         <div className={styles.Custom404}>
+//             {/* <GameTile teamColor="skyblue" price="50" selected={true} answered={false}/>
+//             <GameTile teamColor="skyblue" price="50" selected={false} 
+//                     answered={true} question="Who manages the Twitter?"
+//                     response="Nouf"/>
+//             <GameTile teamColor="skyblue" price="50" /> */}
+//             <CardGameBoard />
 //         </div>
 
 //     )

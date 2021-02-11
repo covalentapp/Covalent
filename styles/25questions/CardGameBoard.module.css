@@ -5,4 +5,11 @@
 .board {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 5%;
+    grid-template-rows: repeat(6, 1fr);
+    grid-auto-flow: column;
+}
+
+.board h2{
+    margin: 0;
 }

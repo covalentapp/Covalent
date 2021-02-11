@@ -1,10 +1,13 @@
 .cardTile {
-    width: 8vw;
+    /* width: 9vw;
+    height: 6vw; */
     border-radius: 0.75rem;
-    margin: 1vw;
+    /* margin: 1vw; */
     display: flex;
     text-align: center;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   
   .cardTileText {
@@ -14,12 +17,13 @@
   
     text-align: center;
     justify-content: center;
-    vertical-align: center;
+    align-items: center;
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 1.6rem;
   }
+
 
   .cardTileQ {
     margin: 0;
@@ -27,7 +31,7 @@
     display: flex;
   
     text-align: center;
-    justify-content: center;
+    /* justify-content: center; */
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -39,7 +43,7 @@
     display: flex;
   
     text-align: center;
-    justify-content: center;
+    /* justify-content: center; */
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;

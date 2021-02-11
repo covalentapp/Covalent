@@ -23,10 +23,10 @@ class GameTile extends Component {
         return (
             this.props.answered ? 
             (<div className={styles.cardTile} style={{ backgroundColor: cardColor }}>
-                <div className={styles.cardTileQA}>
+                {/* <div className={styles.cardTileQA}> */}
                 <p className={styles.cardTileQ} >{this.props.question}</p>
                 <p className={styles.cardTileA}>{this.props.response}</p>
-                </div>
+                {/* </div> */}
             </div>)
             :
             (<div className={styles.cardTile} style={{ backgroundColor: cardColor }}>
