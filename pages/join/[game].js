@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/Join.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { setCookie } from "nookies";
+import { setCookie, parseCookies } from "nookies";
 import SimpleButton from "../../components/SimpleButton";
 import Error from "../../components/Error";
 import ErrorGameNotFound from "../../components/ErrorGameNotFound";
@@ -16,18 +16,18 @@ const origin =
     ? "https://covalent.app"
     : "http://localhost:3000";
 
-export default function JoinGame({ error, gameCheck, gameFull }) {
+export default function JoinGame({ error, gameCheck, gameFull, existingPlayer }) {
   const [playerName, setName] = useState("");
   const [badName, nameError] = useState(false);
   const [joined, setJoin] = useState(false);
-  const [addedId, playerId] = useState(null);
+  const [addedId, playerId] = useState(existingPlayer);
   const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
-  const [waiting, gameLoading] = useState(null);
+  const [waiting, gameLoading] = useState(existingPlayer ? true : false);
   const [mobile, setMobile] = useState(false);
   const [firefox, setFirefox] = useState(false);
   const [chrome, setChrome] = useState(true);
   const [gamePlayers, addPlayers] = useState([]);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(existingPlayer ? true : false);
   const [full, setFull] = useState(gameFull);
   const [showModal, setShowModal] = useState(false);
 
@@ -283,21 +283,29 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
   );
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(ctx) {
+
+  const cookies = parseCookies(ctx)
   let res,
     data,
     error = null;
   let gameCheck = {};
   let gameFull = false;
-  let lowerCaseCode = params.game.toLowerCase();
+  let existingPlayer = null;
+  let lowerCaseCode = ctx.params.game.toLowerCase();
+
   try {
-    res = await fetch(origin + "/api/game?code=" + lowerCaseCode);
+    if (cookies.playerID) {
+      res = await fetch(origin + "/api/game?code=" + lowerCaseCode + "&player=" + cookies.playerID);
+    } else {
+      res = await fetch(origin + "/api/game?code=" + lowerCaseCode);
+    }
     data = await res.json();
     // Game doesn't exist
     if (!data.id) {
       gameCheck = null;
       // Check if game is already full / enabled
-    } else if (data.full || data.enabled) {
+    } else if ((data.full || data.enabled) && !data.isPlayerInGame) {
       gameFull = true;
     } else {
       gameCheck.code = lowerCaseCode;
@@ -305,6 +313,9 @@ export async function getServerSideProps({ params }) {
       gameCheck.name = data.name;
       gameCheck.id = data.id;
       gameCheck.playerNum = data.playerNum;
+      if (data.isPlayerInGame) {
+        existingPlayer = cookies.playerID;
+      }
     }
   } catch (err) {
     error = true;
@@ -316,6 +327,7 @@ export async function getServerSideProps({ params }) {
       error,
       gameCheck,
       gameFull,
+      existingPlayer
     },
   };
 }

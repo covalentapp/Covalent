@@ -14,15 +14,15 @@ import { motion } from "framer-motion";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Submit ({ cookies, error, instructions, time }) {
+export default function Submit ({ cookies, error, instructions, time, alreadySubmitted }) {
 
     const [video, setVideo] = useState(null);
     const [truth1, setFirstTruth] = useState(null);
     const [truth2, setSecondTruth] = useState(null);
     const [lie, setLie] = useState(null);
-    const [submitted, setSubmit] = useState(false);
+    const [submitted, setSubmit] = useState(alreadySubmitted);
     const [enabled, setEnabled] = useState(false);
-    const [ready, setRdy] = useState(false);
+    const [ready, setRdy] = useState(alreadySubmitted);
     const [badSubmit, setBad] = useState(false);
     const [message, setMsg] = useState('');
     const [numReady, setNumRdy] = useState(0);
@@ -79,7 +79,7 @@ export default function Submit ({ cookies, error, instructions, time }) {
 
     useEffect(() => {
         if (submitted) {
-            if (video && truth1 && truth2 && lie) {
+            if ((video && truth1 && truth2 && lie) || alreadySubmitted) {
                 setBad(false);
                 setEnabled(true);
                 addFacts();
@@ -90,17 +90,27 @@ export default function Submit ({ cookies, error, instructions, time }) {
 
             async function addFacts() {
                 let res, data;
+                if (!alreadySubmitted) {
+                    res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie);
+                    data = await res.json();
 
-                res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie);
-                data = await res.json();
+                    if (!data.error && data.submit) {
+                        res = await fetch(data.video, {
+                            method: 'PUT',
+                            body: video
+                        });
+                        refresh();
+                    } else {
+                        console.log(data.error);
+                        // Implement: SHOW DATA.ERROR
+                        setEnabled(false);
+                        setSubmit(false);
+                    }
+                } else {
+                    refresh();
+                }
 
-                if (!data.error && data.submit) {
-
-                    res = await fetch(data.video, {
-                        method: 'PUT',
-                        body: video
-                    });
-
+                async function refresh() {
                     while (submitted) {
                         res = await fetch(origin + '/api/game?id=' + cookies.gameID)
                         data = await res.json();
@@ -117,12 +127,6 @@ export default function Submit ({ cookies, error, instructions, time }) {
                             setRdy(true);
                         await delay(2000);
                     }
-
-                } else {
-                    console.log(data.error);
-                    // Implement: SHOW DATA.ERROR
-                    setEnabled(false);
-                    setSubmit(false);
                 }
             }
         }
@@ -269,12 +273,16 @@ export default function Submit ({ cookies, error, instructions, time }) {
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
-    let error = null, instructions = null, time = null;
+    let error = null, instructions = null, time = null, alreadySubmitted = false;
 
     if (cookies.gameID) {
         let res, data;
         try {
-            res = await fetch(origin + '/api/game?id=' + cookies.gameID);
+            if (cookies.playerID) {
+                res = await fetch(origin + '/api/game?id=' + cookies.gameID + "&player=" + cookies.playerID);
+            } else {
+                res = await fetch(origin + '/api/game?id=' + cookies.gameID);
+            }
             data = await res.json();
         } catch (err) {
             console.log(err);
@@ -287,6 +295,7 @@ export async function getServerSideProps(ctx) {
         } else {
             instructions = data.name;
             time = data.seconds;
+            alreadySubmitted = data.playerSubmittedFacts;
         }
 
     }
@@ -296,7 +305,8 @@ export async function getServerSideProps(ctx) {
             cookies, 
             error, 
             instructions,
-            time
+            time,
+            alreadySubmitted
         } 
     }
 }
