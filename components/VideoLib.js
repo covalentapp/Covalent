@@ -3,6 +3,7 @@ import VideoRecorder from "react-video-recorder";
 import LoadingView from "./VideoRecorder/loading-view.js";
 import UnsupportedView from "./VideoRecorder/unsupported-view.js";
 import ErrorView from "./VideoRecorder/error-view.js";
+import Actions from "./VideoRecorder/actions.js";
 import styles from "../styles/Video.module.css";
 
 /*
@@ -22,6 +23,7 @@ class GameVideoRecorder extends Component {
           renderLoadingView={() => <LoadingView />}
           renderUnsupportedView={() => <UnsupportedView />}
           renderErrorView={() => <ErrorView />}
+          renderActions={Actions}
           showReplayControls={true}
         />
       </div>
