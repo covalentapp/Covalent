@@ -21,7 +21,7 @@ export default function Settings() {
   const [code, setCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [time, setTime] = useState(30);
-  const [players, setPlayers] = useState(2);
+  const [players, setPlayers] = useState(4);
   const [instructions, setInstructions] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
@@ -93,7 +93,7 @@ export default function Settings() {
   //checks window size
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth < 858 || window.innerHeight < 630) setSmall(true);
+      if (window.innerWidth < 858 || window.innerHeight < 680) setSmall(true);
       else setSmall(false);
     }
 
@@ -133,7 +133,7 @@ export default function Settings() {
           "&name=" +
           instructions +
           "&playerNum=" +
-          players +
+          (players - 1) +
           "&playerSec=" +
           time
       )
@@ -225,7 +225,7 @@ export default function Settings() {
       data = await res.json();
       if (!data.enabled) {
         setStart(false);
-        setError("There are no players in this game!");
+        setError("There are no other players in this game!");
       } else {
         mixpanel.init("92c1e92aad6c8ad0239edbd97ceac712"); // MIXPANEL: Games Started
         if (process.env.NODE_ENV == "production") {
@@ -377,14 +377,14 @@ export default function Settings() {
                 readOnly={enabled}
               />
               <b>
-                <label htmlFor="players">Player Count (1-50): </label>
+                <label htmlFor="players">Total Players (2-50): </label>
               </b>
               <input
                 className={styles.settingsInput}
                 type="number"
-                min="1"
+                min="2"
                 max="50"
-                defaultValue="2"
+                defaultValue="4"
                 onChange={(event) => setPlayers(event.target.value)}
                 readOnly={enabled}
               />
@@ -464,7 +464,7 @@ export default function Settings() {
                       instructions == "" ||
                       name == "" ||
                       players > 50 ||
-                      players < 1 ||
+                      players < 2 ||
                       time > 300 ||
                       time < 30
                     ) {
@@ -493,10 +493,16 @@ export default function Settings() {
               <div className={styles.joined}>
                 <hr className={styles.line} />
                 <h1>
-                  Joined: {gamePlayers.length}/{players}
+                  Joined: {gamePlayers.length + 1}/{players}
                 </h1>
 
                 <div id="players" className={styles.center}>
+                  <Avatar
+                    id={gameId}
+                    host={hostId}
+                    name={name}
+                    isHost={true}
+                  />
                   {gamePlayers}
                 </div>
               </div>

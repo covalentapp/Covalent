@@ -22,6 +22,8 @@ export default function JoinGame({ error, gameCheck, gameFull, existingPlayer })
   const [joined, setJoin] = useState(false);
   const [addedId, playerId] = useState(existingPlayer);
   const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
+  const [hostId, setHostId] = useState('');
+  const [hostName, setHost] = useState('');
   const [waiting, gameLoading] = useState(existingPlayer ? true : false);
   const [mobile, setMobile] = useState(false);
   const [firefox, setFirefox] = useState(false);
@@ -133,6 +135,8 @@ export default function JoinGame({ error, gameCheck, gameFull, existingPlayer })
           `${origin}/api/game?id=${addedGameId}&player=${addedId}`
         );
         data = await res.json();
+        setHost(data.host);
+        setHostId(data.hostID);
         if (data.players.length >= 0) {
           data.players.forEach((player, i) => appendPlayer(player, i));
           addPlayers(playerList);
@@ -259,10 +263,16 @@ export default function JoinGame({ error, gameCheck, gameFull, existingPlayer })
             <div className={styles.joined}>
               <hr className={styles.line} />
               <h1>
-                Joined: {gamePlayers.length}/{gameCheck.playerNum}
+                Joined: {gamePlayers.length + 1}/{gameCheck.playerNum + 1}
               </h1>
 
               <div id="players" className={styles.center}>
+              <Avatar
+                  id={addedGameId}
+                  host={hostId}
+                  name={hostName}
+                  isHost={true}
+                />
                 {gamePlayers}
               </div>
             </div>

@@ -15,6 +15,7 @@ Returns:
 - Game enabled (enabled)
 - Game ready (ready)
 - Host's name (host)
+- Host's ID (hostID)
 - Players' names (players)
 - Max player count (playerNum)
 - Number of players that have submitted their facts (numPlayersReady)
@@ -120,6 +121,7 @@ export default async (req, res) => {
     enabled: !error && data.data.getGame ? data.data.getGame.enabled : null,
     ready: !error && data.data.getGame ? ready : null,
     host: !error && data.data.getGame ? data.data.getGame.host.name : null,
+    hostID: !error && data.data.getGame ? data.data.getGame.host.id : null,
     players: !error && data.data.getGame ? players : null,
     isPlayerInGame: !error && data.data.getGame ? playerStatus : null,
     playerNum: !error && data.data.getGame ? data.data.getGame.playerNum : null,

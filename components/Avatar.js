@@ -47,6 +47,7 @@ export default function Avatar(props) {
         host={props.host}
       />
       <h2 className={styles.name}>{props.name}</h2>
+      {props.isHost && <h2 className={styles.name} style={{ textDecoration: 'none' }}>HOST</h2>}
     </motion.div>
   );
 }
