@@ -211,13 +211,8 @@ background-color: #E1E1E1;
     flex-wrap: nowrap;
 }
 
-.center:empty{
-    display: block;
+.joined .text {
     text-align: center;
-}
-
-.center:empty:before{
-    content: "Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!";
     font-family: Roboto Condensed;
     font-style: normal;
     font-weight: normal;

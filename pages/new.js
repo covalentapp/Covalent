@@ -495,7 +495,10 @@ export default function Settings() {
                 <h1>
                   Joined: {gamePlayers.length + 1}/{players}
                 </h1>
-
+                {gamePlayers.length === 0 && 
+                <div className={styles.text}>
+                  Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!
+                </div>}
                 <div id="players" className={styles.center}>
                   <Avatar
                     id={gameId}
