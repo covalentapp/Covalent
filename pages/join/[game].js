@@ -10,6 +10,7 @@ import ErrorFullGame from "../../components/ErrorFullGame";
 import ErrorWaiting from "../../components/ErrorWaiting";
 import Avatar from "../../components/Avatar";
 import RedirectModal from "../../components/RedirectModal";
+var mixpanel = require("mixpanel-browser");
 
 const origin =
   process.env.NODE_ENV == "production"
@@ -236,7 +237,14 @@ export default function JoinGame({ error, gameCheck, gameFull, existingPlayer })
                 name="join game"
                 type="join"
                 onClick={() => {
-                  if (playerName) setJoin(true);
+                  if (playerName) 
+                  { 
+                    setJoin(true); 
+                    mixpanel.init("92c1e92aad6c8ad0239edbd97ceac712"); // MIXPANEL: Joined Players
+                    if (process.env.NODE_ENV == "production") {
+                      mixpanel.track("Joined Players");
+                    }
+                  }
                   else nameError(true);
                 }}
               />
