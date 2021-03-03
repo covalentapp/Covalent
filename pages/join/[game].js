@@ -21,7 +21,20 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
   const [joined, setJoin] = useState(false);
   const [addedId, playerId] = useState(null);
   const [addedGameId, gameId] = useState(gameCheck ? gameCheck.id : null);
+<<<<<<< HEAD
   const [waiting, gameLoading] = useState(null);
+=======
+  const [hostId, setHostId] = useState('');
+  const [hostName, setHost] = useState('');
+  const [waiting, gameLoading] = useState(existingPlayer ? true : false);
+  const [mobile, setMobile] = useState(false);
+  const [firefox, setFirefox] = useState(false);
+  const [chrome, setChrome] = useState(true);
+  const [gamePlayers, addPlayers] = useState([]);
+  const [ready, setReady] = useState(existingPlayer ? true : false);
+  const [full, setFull] = useState(gameFull);
+  const [showModal, setShowModal] = useState(false);
+>>>>>>> 3c4062e7d0c3d8fa74f99c7cdcd504d168629d77
 
   const router = useRouter();
 
@@ -99,6 +112,16 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
         // Implement: only allow to check a certain number of times
         res = await fetch(origin + "/api/game?id=" + addedGameId);
         data = await res.json();
+<<<<<<< HEAD
+=======
+        setHost(data.host);
+        setHostId(data.hostID);
+        if (data.players.length >= 0) {
+          data.players.forEach((player, i) => appendPlayer(player, i));
+          addPlayers(playerList);
+          playerList = [];
+        }
+>>>>>>> 3c4062e7d0c3d8fa74f99c7cdcd504d168629d77
         if (data.enabled) {
           router.push("/submit");
           break;
@@ -166,11 +189,44 @@ export default function JoinGame({ error, gameCheck, gameFull }) {
         </div>
       )}
 
+<<<<<<< HEAD
       {joined && !gameFull && (
         <div className={styles.join}>
           <ErrorWaiting
             text={`Waiting on ${gameCheck.host} to start the game.`}
           />
+=======
+      {ready && !full && (
+        <div className={styles.joinedOuter}>
+          <div className={styles.joinedContainer}>
+            <div className={styles.waiting}>
+              <ErrorWaiting
+                text={`Waiting on ${gameCheck.host} to start the game.`}
+              />
+            </div>
+            <div className={styles.joined}>
+              <hr className={styles.line} />
+              <h1>
+                Joined: {gamePlayers.length + 1}/{gameCheck.playerNum + 1}
+              </h1>
+
+              <div id="players" className={styles.center}>
+              <Avatar
+                  id={addedGameId}
+                  host={hostId}
+                  name={hostName}
+                  isHost={true}
+                />
+                {gamePlayers}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showModal && ready && (
+        <div>
+          <RedirectModal link={"/menu"} />
+>>>>>>> 3c4062e7d0c3d8fa74f99c7cdcd504d168629d77
         </div>
       )}
 

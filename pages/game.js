@@ -263,7 +263,7 @@ export default function Game({ cookies, error, time }) {
                             <div className={styles.gameSideBondDivider}></div>
                         </div>
                         <div className={styles.gameSidePrevious}>
-                        <PreviousBonds connections={connections} />
+                            <PreviousBonds connections={connections} />
                         </div>
                     </div>
                 </div>
