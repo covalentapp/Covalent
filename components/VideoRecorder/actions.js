@@ -17,6 +17,10 @@ const ActionsWrapper = styled.div`
   justify-content: center;
   padding-top: 20px;
   padding-bottom: 40px;
+  pointer-events: none;
+  div > * {
+    pointer-events: auto;
+  }
 `
 
 const Actions = ({

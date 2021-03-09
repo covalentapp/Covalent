@@ -34,7 +34,7 @@ const InstructionsWrapper = styled.div`
   flex-direction: column;
   align-items: center;  
   background-color: rgba(0, 0, 0, 0.4);
-  padding: 5px;
+  padding: 5px 8px;
   margin-bottom: 10px;
 `
 
