@@ -21,7 +21,22 @@ class CardGameBoard extends Component {
                         <h2>category 4</h2>
                         {totalCards}
                         <h2>category 5</h2>
-                        {totalCards}
+                        {/* {totalCards} */}
+                        <GameTile teamColor="skyblue" price="50" selected={false} 
+                    answered={true} question="Who manages the Twitter?"
+                    response="Nouf"/>
+                    <GameTile teamColor="skyblue" price="50" selected={false} 
+                    answered={true} question="Who manages the Twitter?"
+                    response="Nouf"/>
+                    <GameTile teamColor="skyblue" price="50" selected={false} 
+                    answered={true} question="Who manages the Twitter?"
+                    response="Nouf"/>
+                    <GameTile teamColor="skyblue" price="50" selected={false} 
+                    answered={true} question="Who manages the Twitter?"
+                    response="Nouf"/>
+                    <GameTile teamColor="skyblue" price="50" selected={false} 
+                    answered={true} question="Who manages the Twitter?"
+                    response="Nouf"/>
                 </div>
             </div>
         );
