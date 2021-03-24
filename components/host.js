@@ -14,6 +14,7 @@ class HostMenu extends Component {
     }
 
     changePage = (e, destination) => {
+        e.preventDefault();
         this.setState({ isOpen: false }); // triggers the exit animation
         setTimeout(() => {
             this.props.close();
@@ -161,7 +162,7 @@ class HostMenu extends Component {
                                                     <div
                                                         className={styles.title}
                                                     >
-                                                        Two Truths And A Lie
+                                                        2 Truths And A Lie
                                                     </div>
                                                     <button
                                                         className={styles.link}
@@ -175,7 +176,7 @@ class HostMenu extends Component {
                                                     </button>
                                                 </div>
                                                 <div className={styles.text}>
-                                                    Two Truths and a Lie is a
+                                                    2 Truths and a Lie is a
                                                     quick and easy way to get to
                                                     know a little about your
                                                     teammates! In the hot seat,

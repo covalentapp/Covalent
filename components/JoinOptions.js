@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import styles from '../styles/JoinOptions.module.css';
 
-//eventually replace the press to start button with just the join button
-//when we do that, leave this class as a separate component as it still takes in the input to share with backend
-
 class JoinOptions extends Component {
     constructor(props) {
         super(props);

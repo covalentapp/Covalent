@@ -4,19 +4,16 @@ import styles from "../styles/PreviousBonds.module.css";
 
 const PreviousBonds = ({ connections }) => (
     <ul className={styles.bondUl}>
-        <div className={styles.prevText}>
-            <p>PREVIOUS BONDS</p>
-        </div>
-        {connections.map(item => (
+        {connections.map((item, index) => (
             <li key={item.id}>
-                <div className={styles.bondDivider}></div>
+                {index != 0 && <div className={styles.bondDivider}></div>}
                 <div className={styles.bondName}>
                     <FontAwesomeIcon icon={item.correct ? 'check-circle' : 'times-circle'} className={styles.bondIcon} />
                     {item.name}
                 </div>
-                <div className={styles[item.facts[0].valid ? 'bondTruth' : 'bondLie']}>{item.facts[0].name}</div>
-                <div className={styles[item.facts[1].valid ? 'bondTruth' : 'bondLie']}>{item.facts[1].name}</div>
-                <div className={styles[item.facts[2].valid ? 'bondTruth' : 'bondLie']}>{item.facts[2].name}</div>
+                <div className={styles[item.facts[0].valid ? 'bondTruth' : 'bondLie']} style={{ fontWeight: item.facts[0].id == item.chosenId ? "bold" : "normal" }}>{item.facts[0].name}</div>
+                <div className={styles[item.facts[1].valid ? 'bondTruth' : 'bondLie']} style={{ fontWeight: item.facts[1].id == item.chosenId ? "bold" : "normal" }}>{item.facts[1].name}</div>
+                <div className={styles[item.facts[2].valid ? 'bondTruth' : 'bondLie']} style={{ fontWeight: item.facts[2].id == item.chosenId ? "bold" : "normal" }}>{item.facts[2].name}</div>
             </li>
         ))}
     </ul>

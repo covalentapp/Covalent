@@ -1,3 +1,64 @@
+.ResultsContainer {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background-image: linear-gradient(#80ffdb, #48bfe3);
+    overflow-y: auto;
+}
+
+.waitingOuter {
+    display: flex;
+    align-self: center;
+    transform: translate(0, 55%);
+    width: 100%;
+    height: 50%;
+}
+
+.waitingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    width: 100%;
+    height: 100%;
+}
+
+.waitingContainer .waiting {
+    width: 100%;
+}
+
+.waitingBar .progressBarBorder {
+    margin-top: 5%;
+    position: relative;
+    height: 4.5vh;
+    min-height: 18px;
+    background: #E1E1E1;
+    border-radius: 9999px;
+    width: calc(150px + 30vw);
+}
+
+.waitingBar .progressBar {
+    width: 0px;
+    height: 100%;
+    background: linear-gradient(to right,#80ffdb, #48bfe3);
+    border-radius: 9999px;
+}
+
+.waitingBar .progressBarBorder span {
+    position: absolute;
+    top: calc(1px + 0.45vh);
+    right: 0.69vw;
+    justify-self: flex-end;
+
+    line-height: 3vh;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(6px + 1.5vmin);
+}
+
 .Results {
     position: absolute;
     left: 25%;
@@ -6,7 +67,8 @@
     box-shadow: 0px 0px 40px 10px rgba(0, 0, 0, 0.15);
     --menu-width: 50%;
     width: var(--menu-width);
-    height: 100%;
+    height: auto;
+    min-height: 100%;
 }
 
 .Results p {
@@ -21,6 +83,7 @@
         width: 70%;
     }
 }
+/*messing with styling ResultsBonds atm*/
 
 .ResultsBody {
     position: relative;
@@ -35,22 +98,32 @@
     margin-bottom: 1vh;
 }
 
-.ResultsBody hr {
+.Results hr {
     background-color: #e1e1e1;
     border: 0;
     width: 80%;
     height: 0.5vh;
 }
 
-.ResultsBody .logoImg {
+.Results .logoImg {
     height: 8vmin;
     min-height: 32px;
 }
 
-.ResultsBody .header {
+.Results .header {
     display: flex;
     flex-direction: row;
-    padding-top: 2.5vh;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    padding-left: 10%;
+    padding-top: 4vh;
+    padding-bottom: 2.5vh;
+}
+
+.header .logo {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .header .logoText {
@@ -59,6 +132,35 @@
     align-items: flex-start;
     justify-content: center;
     padding-left: 1vmin;
+}
+
+.header .screenSwitch {
+    justify-self: flex-end;
+}
+
+.screenSwitch .screenSwitchButton {
+    border: 0;
+    background-color: transparent;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(4px + 2vmin);
+    letter-spacing: 0.1em;
+    text-indent: 0.1em;
+
+    color: #6930C3;
+    
+    cursor: pointer;
+    outline: 0 !important;
+}
+
+.screenSwitch .screenSwitchButton:hover {
+    color: #9293DD;
+}
+
+.screenSwitch .screenSwitchButton:active {
+    color: #b9bae9;
 }
 
 .header p1 {
@@ -128,19 +230,47 @@
 }
 
 .ResultsBody .progressBarBorder {
+    position: relative;
     height: 3vh;
+    min-height: 12px;
     background: #E1E1E1;
     border-radius: 9999px;
     width: calc(240px + 10vw);
 }
 
 .ResultsBody .progressBar {
+    /*display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;*/
     height: 100%;
     background: #FF8680;
     border-radius: 9999px;
 }
 
-.ResultsBody .exit {
+/*.ResultsBody .progressBar p {
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(2px + 1.5vmin);
+}*/
+
+.ResultsBody .progressBarBorder span {
+    position: absolute;
+    top: 0;
+    right: 0.4vw;
+    justify-self: flex-end;
+
+    line-height: 3vh;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(2px + 1.5vmin);
+}
+
+.Results .exit {
     padding-top: 2vh;
     font-family: Roboto Slab;
     font-style: normal;
@@ -156,7 +286,14 @@
     align-self: center;
 }
 
-.exit div {
+.Results .exit .exitButtons {
+    width: calc(120px + 50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.exit>div {
     padding: 1vh 0 3vh;
 }
 
@@ -170,7 +307,7 @@
     .ResultsBody h1 {
         font-size: 20px;
     }
-    .ResultsBody .exit {
+    .Results .exit {
         font-size: 20px;
     }
     .header .logoText {
@@ -182,5 +319,9 @@
     }
     .trickstersContainer .tricksterIcon {
         width: 12px;
+    }
+    .ResultsBody .progressBarBorder span {
+        font-size: 8px;
+        line-height: 12px;
     }
 }

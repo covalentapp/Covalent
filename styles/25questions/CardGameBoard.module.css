@@ -1,0 +1,17 @@
+.all{
+    display: flex;
+    justify-content: center;
+    max-width: 100vw;
+}
+.board {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) ;
+    gap: 5%;
+    grid-template-rows: repeat(6, 1fr);
+    grid-auto-flow: column;
+}
+
+.board h2{
+    margin: 0;
+    font-size: 2vw;
+}

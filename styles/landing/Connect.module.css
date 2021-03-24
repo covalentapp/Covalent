@@ -32,8 +32,10 @@
 }
 
 .emailValidation {
+    text-align: center;
+    line-height: 0;
     font-size: calc(3px + 1.5vmin);
-    width: calc(150px + 15vw);
+    width: calc(170px + 8vw);
     color: rgb(5, 112, 5);
 }
 

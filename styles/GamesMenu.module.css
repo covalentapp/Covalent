@@ -65,6 +65,7 @@
     color: #6930C3;
     
     cursor: pointer;
+    outline: 0 !important;
 }
 
 .gamesMenu header button:hover {

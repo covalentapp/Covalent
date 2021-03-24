@@ -22,8 +22,8 @@ import config from "../../src/aws-exports.js";
 
 Amplify.configure({ ...config, ssr: true });
 
-import { createGame, createPlayer, updatePlayer } from "../../src/graphql/mutations";
-import { gameByCode } from "../../src/graphql/queries";
+import { createGame, createPlayer, updatePlayer } from "../../src/graphql/custom_mutations";
+import { gameByCode } from "../../src/graphql/custom_queries/newQueries";
 
 export default async (req, res) => {
     let error = null, code = null, data, playerData, gameData;
@@ -37,7 +37,8 @@ export default async (req, res) => {
                 createPlayer,
                 {
                     input: {
-                        name: req.query.host
+                        name: req.query.host,
+                        ttl: Math.floor(new Date().getTime() / 1000) + 86400
                     }
                 }
             ));
@@ -65,7 +66,8 @@ export default async (req, res) => {
                         playerNum: req.query.playerNum,
                         playerSeconds: req.query.playerSec,
                         enabled: false,
-                        code: code
+                        code: code,
+                        ttl: Math.floor(new Date().getTime() / 1000) + 86400
                     }
                 }
             ));

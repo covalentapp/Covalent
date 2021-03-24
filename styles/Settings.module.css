@@ -2,6 +2,27 @@
     --radius: calc(4px + 0.2vmin);
 }
 
+.settingsBackground .overlay {
+    position: absolute;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+}
+
+.settingsBackground .errorMsg {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    width: 90%;
+    height: 90%;
+    z-index: 9999;
+    border-radius: 20px;
+    background: white;
+}
+
 .settingsBackground input, .settingsBackground textarea, .settingsBackground button {
     outline: 0 !important;
 }
@@ -179,22 +200,19 @@ background-color: #E1E1E1;
 
 .center{
     padding-top: calc(2px + 0.5vh);
+    padding-bottom: calc(12px + 1vh);
     width: 100%;
     display:flex; 
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
+    overflow-y: hidden;
     overflow-x: auto;
     flex-wrap: nowrap;
 }
 
-.center:empty{
-    display: block;
+.joined .text {
     text-align: center;
-}
-
-.center:empty:before{
-    content: "Give your players the game code. Once everyone shows up here and you're ready to start the game, press start!";
     font-family: Roboto Condensed;
     font-style: normal;
     font-weight: normal;

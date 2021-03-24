@@ -11,7 +11,7 @@
 }
 
 .landing {
-    background: #56cfe1;
+    background: #7edcf9;
     font-family: 'Roboto', sans-serif; 
     letter-spacing: 0.05em; 
     display: flex;
@@ -30,7 +30,7 @@
 }
 
 .column h4{
-    color: rgb(97, 94, 94); 
+    color: #5A4FCF; 
 }
 
 .column hr{

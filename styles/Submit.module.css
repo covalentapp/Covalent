@@ -41,6 +41,7 @@
     font-weight: bold;
     font-size: calc(6px + 1vmin);
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
     color: #5A4FCF;
 }
 
@@ -50,6 +51,7 @@
     font-weight: bold;
     font-size: calc(3px + 1vmin);
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
     color: #000000;
 }
 
@@ -64,6 +66,7 @@
     line-height: 110%;
     text-align: center;
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
 }
 
 .centerText p2 {
@@ -72,6 +75,7 @@
     line-height: 110%;
     text-align: center;
     letter-spacing: 0.05em;
+    text-indent: 0.05em;
 }
 
 /* ===== MAIN ===== */
@@ -93,14 +97,60 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
+    text-align: center;
     font-size: calc(6px + 1.5vmin);
     line-height: 60%;
     letter-spacing: .1em;
     text-indent: .1em;
 }
 
+.gameMain img {
+    width: 20vmin;
+    height: 20vmin;
+    min-width: 80px;
+    min-height: 80px;
+}
+
 .videoImg {
     height: 50vmin;
+}
+
+.gameMain .submittedLoading {
+    margin-top: 12%;
+}
+
+.submitBar {
+    margin-top: 2%;
+}
+
+.submitBar .progressBarBorder {
+    position: relative;
+    height: 4.5vh;
+    min-height: 18px;
+    background: #E1E1E1;
+    border-radius: 9999px;
+    width: calc(150px + 30vw);
+}
+
+.submitBar .progressBar {
+    width: 0px;
+    height: 100%;
+    background: linear-gradient(to right,#80ffdb, #48bfe3);
+    border-radius: 9999px;
+}
+
+.submitBar .progressBarBorder span {
+    position: absolute;
+    top: calc(1px + 0.45vh);
+    right: 0.69vw;
+    justify-self: flex-end;
+
+    line-height: 3vh;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    font-size: calc(6px + 1.5vmin);
 }
 
 /* ===== SIDE ===== */
@@ -136,4 +186,29 @@
     font-size: calc(6px + 1vmin);
     letter-spacing: .05em;
     text-indent: .05em;
+}
+
+@media all and (max-width: 400px), (max-height: 400px) {
+    .gameSide p, .gameLogo p1 {
+        font-size: 10px;
+    }
+    .gameSide h1 {
+        font-size: 15px;
+    }
+    .submitBar .progressBarBorder span {
+        font-size: 12px;
+        top: 2.8px;
+    }
+    .gameMain p {
+        font-size: 12px;
+    }
+    .centerText p2 {
+        font-size: 16px;
+    }
+    .centerText p1 {
+        font-size: 6px;
+    }
+    .gameLogo p2 {
+        font-size: 7px;
+    }
 }

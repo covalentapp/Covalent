@@ -24,20 +24,20 @@ export default function Custom404() {
                     />
                     <link rel="manifest" href="/manifest.json" />
                     <link rel="icon" href="/favicon.ico" />
-                    <title>Covalent</title>
+                    <title>Covalent | Page Not Found</title>
                 </Head>
                 <style jsx global>{`
                     img {
-                        width: 180px;
+                        width: 25vmin;
                         height: auto;
                         position: absolute;
-                        top: 87%;
+                        top: 90%;
                         left: 50%;
                         right: -50%;
                         transform: translate(-50%, -50%);
                     }
                 `}</style>
-                <img src="/images/logo-wordmark.svg" alt="Partial Logo"/>
+                <img src="/images/logo-wordmark.png" alt="Partial Logo"/>
                  <div className={styles.errorBlock}>
                      <h2 className={styles.errorNumber}>Error 404</h2>
                      <h2 className={styles.errorText}>Covalent couldn't find that bond.</h2>
@@ -46,5 +46,6 @@ export default function Custom404() {
                      </span>
                  </div>
         </div>
+
     )
 }

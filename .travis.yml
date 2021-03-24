@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 15
+branches:
+   only:
+      - develop
+before_install:
+  - git clone https://areksds:$GITHUB_KEY@github.com/covalentapp/aws-exports.js.git
+  - mv aws-exports.js/aws-exports.js src/
+  - rm -rf aws-exports.js
+script: npm run build
+notifications:
+  slack: covalentdev:KtC2MkLd9cpLrYELmuZDvOq4

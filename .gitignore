@@ -34,7 +34,7 @@ yarn-error.log*
 .vercel
 
 # amplify
-/src/aws-exports.js
+aws-exports.js
 
 # serverless
 .serverless

@@ -1,0 +1,121 @@
+.statements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.statements div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.statements p {
+    margin: 1rem 0;
+    font-family: Roboto;
+    font-weight: normal;
+    font-size: 1.5rem;
+    letter-spacing: .05rem;
+    text-indent: .05rem;
+}
+
+.statements h6 {
+    margin: 0 0 2.5rem;
+    font-family: Roboto;
+    font-weight: normal;
+    font-size: 2.5rem;
+    letter-spacing: .05rem;
+    text-indent: .05rem;
+}
+
+.top { /* spacing above Submit button */
+    margin-bottom: 3.5rem;
+}
+
+.statementButton {
+    margin: .5rem 0;
+    width: 60rem;
+    height: 3.5rem;
+    border: 0;
+    border-radius: 3.5rem;
+    cursor: pointer;
+    outline: 0 !important;
+
+    font-family: Roboto Condensed;
+    font-weight: normal;
+    font-size: 1.5rem;
+    letter-spacing: .05rem;
+    text-indent: .05rem;
+}
+
+/* .icon {
+    height: 2vmin;
+    padding-top: 0.25vmin;
+} */
+
+.statementButton:hover {
+    background-color: #80FFDB;
+}
+
+.statementButton:active {
+    background-color: #58ffd0;
+}
+
+.selected {
+    background-color: #58ffd0;
+    font-weight: bold;
+}
+
+.selected:hover {
+    background-color: #80FFDB;
+}
+
+/* .resultsButton {
+    display: flex;
+    justify-content: space-between;
+    outline: 0 !important;
+    margin: .8vmin 0;
+    width: 72vmin;
+    height: 4.5vmin;
+    border: 0;
+    border-radius: 5vmin;
+    font-family: Roboto;
+    font-size: calc(6px + 1.5vmin);
+    text-align: left;
+    padding-left: 2vmin;
+    padding-right: 2vmin;
+    padding-top: 1vmin;
+}
+
+.correct {
+    font-weight: bold;
+    background-color: #80FFDB;
+}
+
+.wrong {
+    background-color: #FF8680;
+} */
+
+.submitButton {
+    width: 14rem;
+    height: 4rem;
+    border: 0;
+    border-radius: 5vmin;
+    background: #48BFE3;
+    cursor: pointer;
+    outline: 0 !important;
+
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 1.8rem;
+    letter-spacing: .1em;
+    text-indent: .1em;
+}
+
+.submitButton:hover {
+    background: #7edcf9;
+}
+
+.submitButton:active {
+    background: #b2e8f9;
+}

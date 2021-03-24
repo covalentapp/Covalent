@@ -20,12 +20,12 @@ import awsConfig from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { getGame, getPlayer, getFacts, getPrevious, getTimer } from "../../src/graphql/queries";
-import { updatePrevious, updatePlayer, createPrevious } from "../../src/graphql/mutations";
+import { getGameAndPlayer, getFacts, getPrevious } from "../../src/graphql/custom_queries/postFactsQueries";
+import { updatePrevious, updatePlayer, createPrevious } from "../../src/graphql/custom_mutations";
 
 export default async (req, res) => {
 
-    let error = null, gameData, playerData;
+    let error = null, data;
 
     if (!req.query.gameId || !req.query.playerId) {
         error = "Not all fields are filled.";
@@ -34,37 +34,31 @@ export default async (req, res) => {
             error: error
         })
     } else {
-        gameData = await API.graphql(graphqlOperation(
-            getGame,
+        data = await API.graphql(graphqlOperation(
+            getGameAndPlayer,
             {
-                id: req.query.gameId
+                gameId: req.query.gameId,
+                playerId: req.query.playerId
             }
         ));
         // game exists
-        if (gameData.data.getGame) {
+        if (data.data.getGame) {
 
             // all players have posted their facts
-            if (gameData.data.getGame.facts.items.length >= gameData.data.getGame.players.items.length) {
-
-                playerData = await API.graphql(graphqlOperation(
-                    getPlayer,
-                    {
-                        id: req.query.playerId
-                    }
-                ));
+            if (data.data.getGame.facts.items.length >= data.data.getGame.players.items.length) {
                 
                 // player exists
-                if (playerData.data.getPlayer) {
+                if (data.data.getPlayer) {
 
-                        let facts, selected, timer, factsPrevious;
+                        let facts, selected, factsPrevious;
 
                         if (!req.query.factsId) {
                             error = "Not all fields are filled.";
-                        } else if (!playerData.data.getPlayer.timer) {
+                        } else if (!data.data.getPlayer.timer) {
                             error = "Not currently playing."
                         } else {
 
-                            // Validate facts, check timer
+                            // Validate facts
                             // Add to previous (or make previous if it doesn't exist)
 
                             facts = await API.graphql(graphqlOperation(
@@ -73,17 +67,10 @@ export default async (req, res) => {
                                     id: req.query.factsId
                                 }
                             ));
-
-                            timer = await API.graphql(graphqlOperation(
-                                getTimer,
-                                {
-                                    id: playerData.data.getPlayer.timer.id
-                                }
-                            ));
                             
                             // if no answer submitted or time is over, it sets selected to "true".
                             // "true" because a truth is the wrong answer in this case 
-                            if (!req.query.factId || ((Math.ceil((new Date().getTime())/1000) - timer.time) > (gameData.data.getGame.playerSeconds))) {
+                            if (!req.query.factId || ((Math.ceil((new Date().getTime())/1000) - data.data.getPlayer.timer.time) > (data.data.getGame.playerSeconds))) {
                                 selected = true;
                             } else {
                                 selected = facts.data.getFacts.facts.filter(fact => {
@@ -93,25 +80,25 @@ export default async (req, res) => {
 
                             // IMPLEMENT: check and make sure fact set isn't your's
 
-                            if (playerData.data.getPlayer.previous) {
+                            if (data.data.getPlayer.previous) {
                                  // Facts already exist in previous
-                                if (!(playerData.data.getPlayer.previous.facts.filter(fact => {
+                                if (!(data.data.getPlayer.previous.facts.filter(fact => {
                                     return fact.facts == req.query.factsId;
                                     }).length > 0)) {
                                         factsPrevious = await API.graphql(graphqlOperation(
                                             getPrevious,
                                             {
-                                                id: playerData.data.getPlayer.previous.id
+                                                id: data.data.getPlayer.previous.id
                                             }
                                         ));
 
-                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected});
+                                        factsPrevious.data.getPrevious.facts.push({facts: req.query.factsId, correct: !selected, chosen: req.query.factId ? req.query.factId : -1,});
 
                                         await API.graphql(graphqlOperation(
                                             updatePrevious,
                                             {
                                                 input: {
-                                                    id: playerData.data.getPlayer.previous.id,
+                                                    id: data.data.getPlayer.previous.id,
                                                     facts: factsPrevious.data.getPrevious.facts
                                                 }
                                             }
@@ -129,8 +116,10 @@ export default async (req, res) => {
                                             facts: 
                                                 [{
                                                     facts: req.query.factsId,
-                                                    correct: !selected
-                                                }]
+                                                    correct: !selected,
+                                                    chosen: req.query.factId ? req.query.factId : -1, //added chosen
+                                                }],
+                                            ttl: Math.floor(new Date().getTime() / 1000) + 86400
                                         }
                                     }
                                 ));
@@ -154,6 +143,7 @@ export default async (req, res) => {
                         res.json({ 
                             facts: (!error) ? facts.data.getFacts.facts : null,
                             correct: (!error) ? !selected : null,
+                            chosen: (!error) ? req.query.factId : null, //add chosen
                             error: error
                         })
                 }  else {

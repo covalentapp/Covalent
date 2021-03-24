@@ -1,0 +1,135 @@
+.ResultsBody {
+    /*height: 51vh;*//*for inner scrollbar*/
+    padding: 0 0 1vh;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.ResultsBody .ResultsBonds {
+    height: 100%;
+    width: 80%;
+    
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    text-align: center;
+    /*overflow-y: auto;
+    overflow-x: hidden;*//*for inner scrollbar*/
+}
+
+.ResultsBody h1 {
+    padding-top: 1vh;
+    margin: 0;
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(4px + 2vmin);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.ResultsBody p {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 2vmin);
+    letter-spacing: 0.05em;
+    color: #5A4FCF;
+    line-height: 0;
+}
+
+.ResultsBonds hr {
+    width: 100%;
+}
+
+.bondText {
+    background: white;
+    width: 100%;
+    z-index: 9999;
+}
+
+.bond {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2vh;
+    width: 100%;
+    height: 100%;
+}
+
+.ownBond {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.bondDivider:not(div) {
+    width: 80%;
+    border-top: 2px solid #e1e1e1;
+    margin-bottom: calc(-2px - 2vh);
+}
+
+.bondDivider:not(span) {
+    width: 100%;
+    border-top: 2px solid #e1e1e1;
+}
+
+.bondName {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 1vh;
+    margin: .25em;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: calc(6px + 1.5vmin);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /*margin-left: calc(40vw - 100%); for inner scrollbar*/
+}
+
+/*.bondIcon {
+    height: calc(6px + 1.5vmin);
+    padding-right: .25em;
+}*/
+
+.bondTruth {
+    margin-top: .5em;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1vmin);
+    letter-spacing: 0.05em;
+}
+
+.bondLie {
+    margin-top: .5em;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(4px + 1vmin);
+    letter-spacing: 0.05em;
+    color: #FF5249;
+}
+
+.flexBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    /*margin-left: calc(40vw - 100%); for inner scrollbar*/
+}
+
+@media all and (max-height: 400px), (max-width: 400px) {
+
+}

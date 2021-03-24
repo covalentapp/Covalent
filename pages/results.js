@@ -1,20 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from 'next/router'
 import { parseCookies } from "nookies";
 import styles from "../styles/Results.module.css";
-import SimpleButton from "../components/SimpleButton";
 import Error from "../components/Error";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-//need to add: interactions w/ backend, icons based on order, stylizing (especially changing line-heights), formatting
-//issues: if viewport height is too small, it'll overflow and things will get hidden
+import ErrorWaiting from "../components/ErrorWaiting";
+import SimpleButton from "../components/SimpleButton";
+import ResultsBonds from "../components/results/resultsbonds";
+import ResultsMain from "../components/results/resultsmain";
+import { motion } from "framer-motion";
 
 const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" : "http://localhost:3000";
 
-export default function Results ({ cookies, error, tricksters, guessers, waiting }) {
+export default function Results ({ cookies, error, tricksters, guessers, waiting, list, ownFacts, ownName }) {
 
     const router = useRouter();
+    const [numReady, setNumRdy] = useState(0);
+    const [players, setPlayers] = useState(1);
+    const [ready, setRdy] = useState(false);
+    const [bonds, setBonds] = useState(true);
     
     //test functions below
     /*
@@ -84,17 +88,23 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
             while (waiting) {
                 res = await fetch(origin + '/api/results?id=' + cookies.gameID);
                 data = await res.json();
+                setPlayers(data.numPlayers - 1);
+                if(data.numPlayersDone > numReady + 1) {
+                    setNumRdy(data.numPlayersDone - 1);
+                }
                 if (!data.waiting) {
                     router.reload();
                 }
+                if(!ready)
+                    setRdy(true);
                 await delay(2000);
             }
         }
     }, [waiting])
 
     return (
-        <div>
-            <Head>
+    <div>
+        <Head>
                 <meta charSet="utf-8" />
                 <meta
                     name="viewport"
@@ -108,172 +118,110 @@ export default function Results ({ cookies, error, tricksters, guessers, waiting
                 <link rel="apple-touch-icon" href="/images/logo192.png" />
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="icon" href="/favicon.ico" />
-                <title>Covalent</title>
+                <title>Covalent | Results</title>
             </Head>
+            <style jsx global>{`
+                body {
+                    width: 100vw;
+                    height: 100vh;
+                    overflow: hidden;
+                }
+            `}</style>
+
             {error &&
                 <Error text={error}/>
             }
-            {waiting && 
-                <Error text="Waiting on other players to finish..."/>
-            }
-
-            {!error && !waiting &&
-            <div className={styles.Results}>
-                <style jsx global>{`
-                    body {
-                        width: 100vw;
-                        height: 100vh;
-                        background-image: linear-gradient(#80ffdb, #48bfe3);
-                        overflow: hidden;
-                    }
-                `}</style>
-                <div className={styles.ResultsBody}>
-                    <div className={styles.header}>
-                        <img
-                            src="/images/logo.svg"
-                            className={styles.logoImg}
-                            alt="Covalent Logo"
-                        ></img>
-                        <div className={styles.logoText}>
-                            <p1>COVALENT</p1>
-                            <p2>2 TRUTHS &#38; A LIE</p2>
+            {waiting && ready &&
+                <div className={styles.waitingOuter}>
+                    <div className={styles.waitingContainer}>
+                        <div className={styles.waiting}>
+                            <ErrorWaiting text="Waiting on other players to finish..." />
+                        </div>
+                        <div className={styles.waitingBar}>
+                            <div className={styles.progressBarBorder}>
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{
+                                        width: numReady * 100 / players + '%',
+                                        transition: {
+                                            duration: 1,
+                                        }
+                                    }}
+                                    className={styles.progressBar}
+                                />
+                                <span>{numReady}/{players}</span>
+                            </div>
                         </div>
                     </div>
-                    <hr />
-                    <div className={styles.trickstersContainer}>
-                        <h1>TOP TRICKSTERS</h1>
-                        <span className={styles.tricksters}>
-                            <div className={styles.player} id={styles.first}>
-                                <div>
-                                <FontAwesomeIcon
-                                    icon="trophy"
-                                    className={styles.icon}
-                                />
-                                <p>{tricksters[0].name}</p>
-                                </div>
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={
-                                            {
-                                                width: tricksters[0].streak + '%'
-                                            }
-                                        }
-                                    ></div>
-                                </div>
+                </div>
+            }
+            {!error && !waiting &&
+                <div className={styles.ResultsContainer}>
+                    <div className={styles.Results}>
+                        <div className={styles.header}>
+                            <div className={styles.logo}>
+                            <img
+                                src="/images/logo.svg"
+                                className={styles.logoImg}
+                                alt="Covalent Logo"
+                            ></img>
+                            <div className={styles.logoText}>
+                                <p1>COVALENT</p1>
+                                <p2>2 TRUTHS &#38; A LIE</p2>
                             </div>
-                            <div
-                                className={styles.player}
-                                id={styles.second}
-                            >
-                                <div>
-                                <FontAwesomeIcon
-                                    icon="medal"
-                                    className={styles.icon}
-                                />
-                                <p>{tricksters[1].name}</p>
-                                </div>
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={{ width: tricksters[1].streak + '%' }}
-                                    ></div>
-                                </div>
                             </div>
-                            {tricksters[2] && // accounts for two person games
-                            <div className={styles.player} id={styles.third}>
-                                <div>
-                                <FontAwesomeIcon
-                                    icon="medal"
-                                    className={styles.icon}
-                                />
-                                <p>{tricksters[2].name}</p>
-                                </div>
-                                <div className={styles.progressBarBorder}>
-                                    <div
-                                        className={styles.progressBar}
-                                        style={{ width: tricksters[2].streak + '%' }}
-                                    ></div>
-                                </div>
+                            <div className={styles.screenSwitch}>
+                                <button className={styles.screenSwitchButton} onClick={() => {setBonds(!bonds)}}>
+                                    {bonds ? 'Switch to Results' : 'Switch to All Bonds'}
+                                </button>
                             </div>
-                            }
-                        </span>
-                    </div>
-                    <hr />
-                    <div className={styles.guessersContainer}>
-                        <span className={styles.guessers}>
-                            <h1>TOP GUESSERS</h1>
-                            <div className={styles.player} id={styles.first}>
-                                <div>
-                                    <FontAwesomeIcon
-                                        icon="trophy"
-                                        className={styles.icon}
-                                    />
-                                    <p>{guessers[0].name} // {guessers[0].streak}</p>
-                                    <FontAwesomeIcon
-                                        icon="check-circle"
-                                        className={styles.icon}
-                                    />
-                                </div>
+                        </div>
+                        <hr />
+                        {bonds ?
+                            <ResultsBonds list={list} ownFacts={ownFacts}/>
+                        :
+                            <ResultsMain tricksters={tricksters} guessers={guessers} />
+                        }
+                        <hr />
+                        <div className={styles.exit}>
+                            <div>THANKS FOR PLAYING!</div>
+                            <div className={styles.exitButtons}>
+                                <SimpleButton
+                                    name="EXIT TO MENU"
+                                    type="host"
+                                    style={{ padding: "0 1.5vw" }}
+                                    onClick={() => router.push("/menu")}
+                                ></SimpleButton>
+                                <SimpleButton
+                                    name="FEEDBACK"
+                                    type="purple"
+                                    style={{ padding: "0 1.5vw" }}
+                                    onClick={() => { 
+                                        window.open("https://form.typeform.com/to/kFozUj4m"); }}
+                                ></SimpleButton>
                             </div>
-                            <div className={styles.player} id={styles.second}>
-                                <div>
-                                    <FontAwesomeIcon
-                                        icon="trophy"
-                                        className={styles.icon}
-                                    />
-                                    <p>{guessers[1].name} // {guessers[1].streak}</p>
-                                    <FontAwesomeIcon
-                                        icon="check-circle"
-                                        className={styles.icon}
-                                    />
-                                </div>
-                            </div>
-                            {guessers[2] &&
-                            <div className={styles.player} id={styles.third}>
-                                <div>
-                                    <FontAwesomeIcon
-                                        icon="trophy"
-                                        className={styles.icon}
-                                    />
-                                    <p>{guessers[2].name} // {guessers[2].streak}</p>
-                                    <FontAwesomeIcon
-                                        icon="check-circle"
-                                        className={styles.icon}
-                                    />
-                                </div>
-                            </div>
-                            }       
-                        </span>
-                    </div>
-                    <hr />
-                    <div className={styles.exit}>
-                        <div>THANKS FOR PLAYING!</div>
-                        <SimpleButton
-                            name="EXIT TO MENU"
-                            type="host"
-                            style={{ padding: "0 1.5vw" }}
-                            onClick={() => router.push("/menu")}
-                        ></SimpleButton>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
-        </div>
+    </div>
     );
 }
 
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx)
 
-    let res, data, error = null, waiting = null, tricksters = null, guessers = null;
+    let res, data, error = null, waiting = null, tricksters = null, guessers = null, list = null, ownFacts = null, ownName = null;
 
-    if (cookies.gameID) {
-        res = await fetch(origin + '/api/results?id=' + cookies.gameID);
+    if (cookies.gameID && cookies.playerID) {
+        res = await fetch(origin + '/api/results?id=' + cookies.gameID + '&playerId=' + cookies.playerID);
         data = await res.json();
         tricksters = data.tricksters;
         guessers = data.guessers;
         waiting = data.waiting;
+        list = data.factSets;
+        ownFacts = data.ownFacts;
+        ownName = data.ownName ?? '';
     } else {
         error = "You're not currently in a game."
     }
@@ -284,7 +232,10 @@ export async function getServerSideProps(ctx) {
             error,
             waiting,
             tricksters,
-            guessers
+            guessers,
+            list,
+            ownFacts,
+            ownName,
         }
     }
 }

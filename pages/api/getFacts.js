@@ -15,19 +15,19 @@ Returns:
 */
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import awsConfig from "../../src/aws-exports.js";
+import awsConfig, { s3exports } from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { getGame, getPlayer, getFacts } from "../../src/graphql/queries";
-import { updatePlayer, createTimer, updateTimer } from "../../src/graphql/mutations";
+import { getGame, getPlayer, getFacts } from "../../src/graphql/custom_queries/getFactsQueries";
+import { updatePlayer, createTimer, updateTimer } from "../../src/graphql/custom_mutations";
 
 import AWS from 'aws-sdk';
 
 AWS.config.update({
     region: 'us-east-1',
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    accessKeyId: s3exports.AWS_ACCESS_KEY_ID,
+    secretAccessKey: s3exports.SECRET_ACCESS_KEY,
     maxRetries: 3
 });
 
@@ -129,8 +129,9 @@ export default async (req, res) => {
                                         {
                                             input: {
                                                 timerPlayerId: req.query.playerId,
-                                                time: Math.ceil((new Date().getTime()/1000)) + 3
+                                                time: Math.ceil((new Date().getTime()/1000)) + 3,
                                                 // 3 is for a 3 second grace + ceiling because fetch can be slow
+                                                ttl: Math.floor(new Date().getTime() / 1000) + 86400
                                             }
                                         }
                                     ));

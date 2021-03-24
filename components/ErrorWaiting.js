@@ -5,25 +5,18 @@ import Link from "next/link";
 class ErrorWaiting extends Component {
     render () {
         return (
-            <div className={styles.ErrorNotFound}>
+            <div className={styles.ErrorWaiting}>
                 <style jsx global>{`
                     img {
-                        width: 250px;
+                        width: calc(50px + 15vmin);
                         height: auto;
-                        position: absolute;
-                        top: 35%;
-                        left: 50%;
-                        right: -50%;
-                        transform: translate(-50%, -50%);
+                        min-width: 90px;
                     }
                 `}</style>
-                <img src="/images/logo.svg" alt="Logo"/>
+                
                  <div className={styles.errorBlock}>
-                     <h3 className={styles.errorText}>Covalent is creating bonds!</h3>
-                     <h3 className={styles.errorText}>Sit tight.</h3>
-                     <span className={styles.errorLink}>
-                        <Link href={this.props.link}>or join another game.</Link>
-                     </span>
+                    <img src="/images/loading.gif" alt="Logo"/>
+                     <div className={styles.errorText}>{this.props.text}</div>
                  </div>
             </div>
         );

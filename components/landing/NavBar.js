@@ -21,6 +21,7 @@ export default function NavBar() {
     }
 
     useEffect(() => {
+        setSmall(window.innerWidth < 612);
         function handleResize() {
             if (window.innerWidth < 612) {
                 setSmall(true);

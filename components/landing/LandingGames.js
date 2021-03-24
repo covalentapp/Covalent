@@ -1,8 +1,16 @@
 import React from "react";
 import styles from "../../styles/landing/LandingGames.module.css";
 import SimpleButton from "../SimpleButton";
+import { useRouter } from "next/router";
 
 export default function LandingGames() {
+    const router = useRouter();
+
+    const changePage = (e, destination) => {
+        e.preventDefault();
+        router.push(destination);
+    };
+
     return (
         <div className={styles.landing}>
             <h1>
@@ -35,6 +43,7 @@ export default function LandingGames() {
                         <SimpleButton
                             name="Play Now"
                             type="purple"
+                            onClick={(e) => changePage(e, "/new")}
                         ></SimpleButton>
                     </td>
                     <td>
