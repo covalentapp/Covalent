@@ -92,13 +92,13 @@ export default function Submit ({ cookies, error, instructions, time, alreadySub
             async function addFacts() {
                 let res, data;
                 if (!alreadySubmitted) {
-                    res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie);
+                    res = await fetch(origin + '/api/submit?gameId=' + cookies.gameID + '&playerId=' + cookies.playerID + '&fact1=' + truth1 + '&fact2=' + truth2 + '&lie=' + lie + '&videoOn=' + videoOn);
                     data = await res.json();
 
-                    if (!data.error && data.submit) {
+                    if (!data.error && data.submit && data.video) {
                         res = await fetch(data.video, {
                             method: 'PUT',
-                            body: videoOn ? video : null,
+                            body: video,
                         });
                         refresh();
                     } else {

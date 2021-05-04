@@ -33,6 +33,7 @@ export const getPlayer = /* GraphQL */ `
           facts
         }
       }
+      avatar
       timer {
         id
       }

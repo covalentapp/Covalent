@@ -8,7 +8,7 @@ Requires:
 - Facts (fact1, fact2, lie)
 - Game ID (gameId)
 - Player ID (playerId)
-- Video (body)
+- Video (videoOn, body)
 
 Returns:
 - Submitted (submit)
@@ -20,7 +20,7 @@ import awsConfig, { s3exports } from "../../src/aws-exports.js";
 
 Amplify.configure({ ...awsConfig, ssr: true });
 
-import { createFacts } from "../../src/graphql/custom_mutations";
+import { createFacts, updatePlayer } from "../../src/graphql/custom_mutations";
 import { getGameAndPlayer } from "../../src/graphql/custom_queries/submitQueries";
 import AWS from 'aws-sdk';
 
@@ -40,7 +40,7 @@ export default async (req, res) => {
 
     try {
         // Ensures all query parts are there
-        if (!req.query.fact1 || !req.query.fact2 || !req.query.lie || !req.query.gameId || !req.query.playerId) {
+        if (!req.query.fact1 || !req.query.fact2 || !req.query.lie || !req.query.gameId || !req.query.playerId || !req.query.videoOn) {
             error = "Not all fields were filled!";
         } else {
             // Get the game and player associated with the IDs given
@@ -90,21 +90,36 @@ export default async (req, res) => {
                         Get link to upload video with on frontend
                         */
 
-                       let params = {
-                            Bucket: 'covalent-user-videos', 
-                            Key: data.data.createFacts.id + ".webm", 
-                            ContentType: 'video/webm', 
-                            ContentEncoding: 'base64'
-                        };
+                        if (req.query.videoOn) {
+                            let params = {
+                                Bucket: 'covalent-user-videos', 
+                                Key: data.data.createFacts.id + ".webm", 
+                                ContentType: 'video/webm', 
+                                ContentEncoding: 'base64'
+                            };
 
-                        await s3.getSignedUrlPromise('putObject', params)
-                        .then((url) => {
-                            link = url;
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            error = "Error creating video link.";
-                        });
+                            await s3.getSignedUrlPromise('putObject', params)
+                            .then((url) => {
+                                link = url;
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                                error = "Error creating video link.";
+                            });
+
+                            await API.graphql(graphqlOperation(
+                                updatePlayer,
+                                {
+                                    input: {
+                                        id: req.query.playerId,
+                                        avatar: 'enabled',
+                                    }
+                                }
+                            ));
+                        }
+                        else {
+                            link = null;
+                        }
                     } else {
                         error = "Facts already exist."
                     }

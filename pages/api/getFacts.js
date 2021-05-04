@@ -90,17 +90,22 @@ export default async (req, res) => {
                         // process fact set
                         if (currentFact < facts.length) {
 
-                            // retrieve video
-                            let params = {Bucket: 'covalent-user-videos', Key: facts[currentFact].id + '.webm'};
+                            // retrieve video if user has video on
+                            if (playerData.data.getPlayer.avatar) { // NOT empty string (or false, if we change the schema)
+                                let params = {Bucket: 'covalent-user-videos', Key: facts[currentFact].id + '.webm'};
 
-                           s3.getSignedUrl('getObject', params, (err, url) => {
-                               if (err) {
-                                console.log(err);
-                                error = "Error getting player's video";
-                               } else {
-                                   video = url;
-                               }
-                           })
+                                s3.getSignedUrl('getObject', params, (err, url) => {
+                                    if (err) {
+                                        console.log(err);
+                                        error = "Error getting player's video";
+                                    } else {
+                                           video = url;
+                                    }
+                                });
+                            }
+                            else {
+                                video = null;
+                            }
 
                             // get the associated fact set
                             try {
