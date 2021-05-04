@@ -200,14 +200,14 @@ export default function Submit ({ cookies, error, instructions, time, alreadySub
 
                     <div className={styles.gameMain}>
                         {!ready ? 
-                        <div>
+                        <div className={styles.gameMainTop}>
                             <div>
                                 <GameVideoRecorder isOn={videoOn} onRecordingComplete={videoBlob => {
                                     let videoFile = new File([videoBlob], "Player Video", {type: 'video/webm',});
                                     setVideo(videoFile)
                                 }}/>
                             </div>
-                            <button onClick={() => setVideoOn(!videoOn)}>VIDEO ON</button>
+                            <button className={styles.videoOnButton} onClick={() => setVideoOn(!videoOn)}>Toggle Video</button>
                             <div>
                                 <p>WRITE YOUR <strong>2 TRUTHS &#38; A LIE</strong></p>
                             </div>

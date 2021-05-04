@@ -4,6 +4,7 @@
   min-width: 500px;
   max-width: 640px;
   max-height: 480px;
+  margin-bottom: 4px; /* to be removed */
 }
 
 .loadingText {

@@ -111,6 +111,25 @@
     min-height: 80px;
 }
 
+.gameMainTop {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.videoOnButton {
+    background-color: #CCCCCC;
+    border: none;
+    color: white;
+    padding: .25rem .5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .75rem;
+    font-family: Roboto;
+    border-radius: 9999px;
+}
+
 .videoImg {
     height: 50vmin;
 }
