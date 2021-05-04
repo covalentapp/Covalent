@@ -30,3 +30,8 @@
   max-width: 640px;
   max-height: 480px;
 }
+
+.videoOff {
+    width: 640px !important;
+    height: 480px !important;
+}

@@ -17,6 +17,7 @@ const origin = (process.env.NODE_ENV == 'production') ? "https://covalent.app" :
 export default function Submit ({ cookies, error, instructions, time, alreadySubmitted }) {
 
     const [video, setVideo] = useState(null);
+    const [videoOn, setVideoOn] = useState(true);
     const [truth1, setFirstTruth] = useState(null);
     const [truth2, setSecondTruth] = useState(null);
     const [lie, setLie] = useState(null);
@@ -201,11 +202,12 @@ export default function Submit ({ cookies, error, instructions, time, alreadySub
                         {!ready ? 
                         <div>
                             <div>
-                                <GameVideoRecorder onRecordingComplete={videoBlob => {
+                                <GameVideoRecorder isOn={videoOn} onRecordingComplete={videoBlob => {
                                     let videoFile = new File([videoBlob], "Player Video", {type: 'video/webm',});
                                     setVideo(videoFile)
                                 }}/>
                             </div>
+                            <button onClick={() => setVideoOn(!videoOn)}>VIDEO ON</button>
                             <div>
                                 <p>WRITE YOUR <strong>2 TRUTHS &#38; A LIE</strong></p>
                             </div>

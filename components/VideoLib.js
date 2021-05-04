@@ -13,22 +13,32 @@ Known issues:
 */
 
 class GameVideoRecorder extends Component {
-  render() {
-    return (
-      <div className={styles.recorder}>
-        <VideoRecorder
-          isOnInitially={true}
-          timeLimit={10000}
-          onRecordingComplete={this.props.onRecordingComplete}
-          renderLoadingView={() => <LoadingView />}
-          renderUnsupportedView={() => <UnsupportedView />}
-          renderErrorView={() => <ErrorView />}
-          renderActions={Actions}
-          showReplayControls={true}
-        />
-      </div>
-    );
-  }
+    render() {
+        if (this.props.isOn === false) {
+            return (
+                <img
+                    src="/images/video-off.png"
+                    className={styles.videoOff}
+                ></img>
+            );
+        }
+        else {
+            return (
+                <div className={styles.recorder}>
+                    <VideoRecorder
+                        isOnInitially={true}
+                        timeLimit={10000}
+                        onRecordingComplete={this.props.onRecordingComplete}
+                        renderLoadingView={() => <LoadingView />}
+                        renderUnsupportedView={() => <UnsupportedView />}
+                        renderErrorView={() => <ErrorView />}
+                        renderActions={Actions}
+                        showReplayControls={true}
+                    />
+                </div>
+            );
+        }
+    }
 }
 
 class VideoPlayback extends Component {
