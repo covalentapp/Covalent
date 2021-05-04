@@ -9,6 +9,7 @@ import Selection from "../components/Selection";
 import Timer from "../components/Timer";
 import Error from "../components/Error";
 import { VideoPlayback } from "../components/VideoLib";
+import Avatar from "../components/Avatar";
 
 // This file is for the 2 Truths & A Lie game
 // @Daniel
