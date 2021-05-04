@@ -7,6 +7,8 @@ import { faBorderNone } from "@fortawesome/free-solid-svg-icons";
 /*This file is for the Avatar component for Covalent
 @Catherine*/
 
+// Only requires props.name if not using deletePlayer or if not isHost
+
 export default function Avatar(props) {
   function DeleteButton(props) {
     if (props.deletePlayer) {
@@ -40,12 +42,14 @@ export default function Avatar(props) {
       <div className={styles.icon}>
         <Jdenticon value={props.name} />
       </div>
-      <DeleteButton
-        deletePlayer={props.deletePlayer}
-        index={props.index}
-        id={props.id}
-        host={props.host}
-      />
+      {props.deletePlayer &&
+        <DeleteButton
+          deletePlayer={props.deletePlayer}
+          index={props.index}
+          id={props.id}
+          host={props.host}
+        />
+      }
       <h2 className={styles.name}>{props.name}</h2>
       {props.isHost && <h2 className={styles.name} style={{ textDecoration: 'none' }}>HOST</h2>}
     </motion.div>

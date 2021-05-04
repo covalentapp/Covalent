@@ -186,9 +186,17 @@ export default function Game({ cookies, error, time }) {
                         </div>
 
                         <div className={styles.gameMain}>
-                            <div>
-                                <VideoPlayback video={video} />
-                            </div>
+                            {video ? (
+                                <div>
+                                    <VideoPlayback video={video} />
+                                </div>
+                            ) : (
+                                <div>
+                                    <Avatar
+                                        name={name}
+                                    />
+                                </div>
+                            )}
                             {!fact1.name ? (
                                 <div>
                                     <h1>Loading...</h1>

@@ -80,7 +80,7 @@ export default function Submit ({ cookies, error, instructions, time, alreadySub
 
     useEffect(() => {
         if (submitted) {
-            if ((video && truth1 && truth2 && lie) || alreadySubmitted) {
+            if (((video || !videoOn) && truth1 && truth2 && lie) || alreadySubmitted) {
                 setBad(false);
                 setEnabled(true);
                 addFacts();
@@ -98,7 +98,7 @@ export default function Submit ({ cookies, error, instructions, time, alreadySub
                     if (!data.error && data.submit) {
                         res = await fetch(data.video, {
                             method: 'PUT',
-                            body: video
+                            body: videoOn ? video : null,
                         });
                         refresh();
                     } else {
